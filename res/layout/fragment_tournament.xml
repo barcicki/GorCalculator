@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:paddingBottom="@dimen/padding_title_vertical"
+        android:paddingLeft="@dimen/padding_title"
+        android:paddingRight="@dimen/padding_title"
+        android:paddingTop="@dimen/padding_title_vertical"
+        android:text="@string/title_tournament"
+        android:textAppearance="?android:attr/textAppearanceMediumInverse" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_box"
+        android:background="@android:color/background_light" >
+
+        <ToggleButton
+            android:id="@+id/tournamentClassC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:checked="true"
+            android:hint="x0.5"
+            android:textOff="C"
+            android:textOn="C" />
+
+        <ToggleButton
+            android:id="@+id/tournamentClassA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/tournamentClassB"
+            android:hint="x1.0"
+            android:textOff="A"
+            android:textOn="A" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/padding_title"
+            android:text="@string/tournament_class"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tournamentModifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tournamentClassA"
+            android:paddingRight="@dimen/padding_title"
+            android:text="x0.5"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ToggleButton
+            android:id="@+id/tournamentClassB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/tournamentClassC"
+            android:hint="x0.75"
+            android:textOff="B"
+            android:textOn="B" />
+
+    </RelativeLayout>
+
+</LinearLayout>

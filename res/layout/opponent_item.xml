@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.barcicki.gorcalculator.views.OpponentView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_box"
+    android:layout_marginRight="@dimen/margin_box"
+    android:layout_marginTop="@dimen/margin_box"
+    android:background="@android:color/background_light"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:inAnimation="@android:anim/fade_in"
+    android:measureAllChildren="false"
+    android:outAnimation="@android:anim/fade_out" >
+
+</com.barcicki.gorcalculator.views.OpponentView>

@@ -1,0 +1,5 @@
+<resources>
+
+    <item name="activity_player_list" type="layout">@layout/activity_player_twopane</item>
+
+</resources>

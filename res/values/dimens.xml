@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_title">10dp</dimen>
+    <dimen name="padding_title_vertical">3dp</dimen>
+    <dimen name="margin_detail">6dp</dimen>
+    <dimen name="padding_calculation">20dp</dimen>
+    <dimen name="margin_box">5dp</dimen>
+</resources>
