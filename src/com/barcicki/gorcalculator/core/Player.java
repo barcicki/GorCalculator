@@ -10,36 +10,36 @@ import android.text.TextUtils;
 public class Player extends Observable {
 
 	public static ArrayList<String> STRENGTHS = new ArrayList<String>();
-	public static int MIN_GOR = 100;
-	public static int MAX_GOR = 2900;
 
 	private String mName;
-	private String mLastName;
 	private String mClub;
 	private String mCountry;
-	private int mPin;
 	private String mStrength;
 	private int mGor;
 	
+	public Player(Player other) {
+		this.setName(other.getName());
+		this.setClub(other.getClub());
+		this.setCountry(other.getCountry());
+		this.setGrade(other.getGrade());
+		this.setGor(other.getGor());
+	}
+	
 	public Player(int gor) {
-		this.setName("Shindo");
-		this.setLastName("Hikaru");
+		this.setName("Shindo Hikaru");
 		this.setClub("HnG");
 		this.setCountry("JPN");
-		this.setPin(1);
-		this.setStrength(calculateRanking(gor));
+		this.setGrade(calculateRanking(gor));
 		this.setGor(gor);
 	}
 	
-	public Player(String name, String lastName, String club, String country,
-			int pin, String strength, int gor) {
+	public Player(String name, String club, String country,
+			String strength, int gor) {
 		super();
 		this.setName(name);
-		this.setLastName(lastName);
 		this.setClub(club);
 		this.setCountry(country);
-		this.setPin(pin);
-		this.setStrength(strength);
+		this.setGrade(strength);
 		this.setGor(gor);
 	}
 
@@ -51,30 +51,8 @@ public class Player extends Observable {
 		this.mName = name;
 	}
 
-	public String getLastName() {
-		return mLastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.mLastName = lastName;
-	}
-
-	public String getFullName() {
-		ArrayList<String> fullName = new ArrayList<String>();
-		
-		if (getName().length() > 0) {
-			fullName.add(getName());
-		}
-		
-		if (getLastName().length() > 0) {
-			fullName.add(getLastName());
-		}
-		
-		return TextUtils.join(" ", fullName);
-	}
-	
 	public String toString() {
-		return TextUtils.expandTemplate("^1 ^2 (^3)", getName(), getLastName(), getStrength())
+		return TextUtils.expandTemplate("^1 (^3)", getName(), getGrade())
 				.toString();
 	}
 
@@ -89,8 +67,7 @@ public class Player extends Observable {
 	}
 
 	public static String calculateRanking(int gor) {
-		return STRENGTHS.get((int) Math.floor(MathUtils.constrain(gor, MIN_GOR,
-				MAX_GOR) / 100.0) - 1);
+		return STRENGTHS.get((int) Math.floor(MathUtils.constrain(gor, (int) Calculator.MIN_GOR, (int) Calculator.MAX_GOR) / 100.0) - 1);
 	}
 
 	public String getClub() {
@@ -109,20 +86,11 @@ public class Player extends Observable {
 		this.mCountry = country;
 	}
 
-	public int getPin() {
-		return mPin;
-	}
-
-	public void setPin(int pin) {
-		this.mPin = pin;
-		this.setChanged();
-	}
-
-	public String getStrength() {
+	public String getGrade() {
 		return mStrength;
 	}
 
-	public void setStrength(String strength) {
+	public void setGrade(String strength) {
 		this.mStrength = strength;
 	}
 
@@ -132,7 +100,7 @@ public class Player extends Observable {
 
 	public void setGor(int gor) {
 		if (mGor != gor) {
-			this.mGor = gor;
+			this.mGor = MathUtils.constrain(gor, (int) Calculator.MIN_GOR, (int) Calculator.MAX_GOR) ;
 			this.setChanged();
 		}
 	}

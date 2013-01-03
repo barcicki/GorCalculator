@@ -41,6 +41,12 @@ public class OpponentView extends ViewSwitcher implements Observer {
 	private TextView mGorChange;
 	private HandicapDialog mDialog;
 	
+	private TextView mComplexGor;
+	private TextView mClub;
+	private TextView mCountry;
+	private TextView mGrade;
+	private TextView mName;
+	
 	private GestureDetector mGestureDetector;
 	
 	public OpponentView(Context context) {
@@ -81,14 +87,27 @@ public class OpponentView extends ViewSwitcher implements Observer {
 	
 	private void updateAssignments() {
 		
+		mGor = (EditText) mSimple.findViewById(R.id.playerGor);
+		
 		if (getCurrentView() == mSimple) {
-			mGor = (EditText) mSimple.findViewById(R.id.playerGor);
 			mHandicap = (Button) mSimple.findViewById(R.id.buttonHandicap);
 			mWin = (ToggleButton) mSimple.findViewById(R.id.toggleWin);
 			mHandicapColor = (TextView) mSimple.findViewById(R.id.handicapColor);
 			mHandicapStones = (TextView) mSimple.findViewById(R.id.handicapStones);
 			mGorChange = (TextView) mSimple.findViewById(R.id.playerGorChange);
+		} else {
+			mHandicap = (Button) mComplex.findViewById(R.id.buttonHandicap);
+			mWin = (ToggleButton) mComplex.findViewById(R.id.toggleWin);
+			mHandicapColor = (TextView) mComplex.findViewById(R.id.handicapColor);
+			mHandicapStones = (TextView) mComplex.findViewById(R.id.handicapStones);
+			mGorChange = (TextView) mComplex.findViewById(R.id.playerGorChange);
 		}
+		
+		mComplexGor = (TextView) mComplex.findViewById(R.id.playerGor);
+		mName = (TextView) mComplex.findViewById(R.id.playerName);
+		mCountry = (TextView) mComplex.findViewById(R.id.playerCountry);
+		mClub = (TextView) mComplex.findViewById(R.id.playerClub);
+		mGrade = (TextView) mComplex.findViewById(R.id.playerStrength);
 	}
 	
 	private void attachListeners() {
@@ -138,7 +157,17 @@ public class OpponentView extends ViewSwitcher implements Observer {
 	}
 	
 	public void updateAttributes() {
-		mGor.setTextKeepState( Integer.toString(mOpponent.getGor()) );
+		
+		if (getCurrentView() == mComplex) {
+			mName.setText(mOpponent.getName());
+			mClub.setText(mOpponent.getClub());
+			mCountry.setText(mOpponent.getCountry());
+			mGrade.setText(mOpponent.getGrade());
+			mComplexGor.setText( Integer.toString(mOpponent.getGor()) );
+		} else {
+			mGor.setTextKeepState( Integer.toString(mOpponent.getGor()) );
+		}
+		
 		mHandicapColor.setText( mOpponent.getColor() == Opponent.BLACK ? getContext().getString(R.string.game_color_black) : getContext().getString(R.string.game_color_white));
 		mHandicapStones.setText( Utils.getHandicapString(getContext().getResources(), mOpponent.getHandicap()));
 		mWin.setChecked( mOpponent.getResult() == Opponent.WIN );
@@ -163,6 +192,40 @@ public class OpponentView extends ViewSwitcher implements Observer {
 	@Override
 	public void update(Observable observable, Object data) {
 		updateAttributes();
+	}
+	
+	public void showSimpleView() {
+		if (getCurrentView() != mSimple) {
+			showNext();
+		}
+	}
+	
+	public void showComplexView() {
+		if (getCurrentView() != mComplex) {
+			showNext();
+		}
+	}
+	
+	@Override
+	public void showNext() {
+		super.showNext();
+		updateAssignments();
+		updateAttributes();
+	}
+
+	@Override
+	public void showPrevious() {
+		super.showPrevious();
+		updateAssignments();
+		updateAttributes();
+	}
+	
+	public Button getFindButton() {
+		return (Button) mSimple.findViewById(R.id.buttonFindPlayer);
+	}
+	
+	public Button getChangeButton() {
+		return (Button) mComplex.findViewById(R.id.buttonChangePlayer);
 	}
 	
 	@Override

@@ -24,6 +24,13 @@ public class Opponent extends Player {
 	private int color;
 	private int handicap;
 	
+	public Opponent(Player player, float result, int color, int handicap) {
+		super(player);
+		this.setResult(result);
+		this.setColor(color);
+		this.setHandicap(handicap);
+	}
+	
 	public Opponent(int gor, float result, int color, int handicap) {
 		super(gor);
 		this.setResult(result);

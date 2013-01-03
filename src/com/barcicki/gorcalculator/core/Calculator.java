@@ -11,7 +11,8 @@ public class Calculator {
 	
 	public static Map<Float, Integer> CON_MAP = new HashMap<Float, Integer>();
 	
-	public static float MAX_GOR = 2700f;
+	public static float MAX_GOR = 3000f;
+	public static float MAX_RANK_GOR = 2700f;
 	public static float MIN_GOR = 100f;
 	
 	private static float RANK_STEP = 100f;
@@ -103,13 +104,13 @@ public class Calculator {
 		
 		if (rating <= MIN_GOR) {
 			con = 116;
-		} else if (rating >= MAX_GOR) {
+		} else if (rating >= MAX_RANK_GOR) {
 			con = 10;
 		} else {
 			
 			float base = ratingBase(rating),
 				  baseCon = CON_MAP.get(base),
-				  nextCon = CON_MAP.get(Math.min(base + RANK_STEP, MAX_GOR));
+				  nextCon = CON_MAP.get(Math.min(base + RANK_STEP, MAX_RANK_GOR));
 			
 			con = baseCon + (nextCon - baseCon) * ratingProgress(rating);
 			

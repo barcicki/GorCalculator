@@ -30,13 +30,13 @@ public class CalculatorActivity extends FragmentActivity {
 
 		if (savedInstanceState == null) {
 			
-			tournament = new Tournament(new Player("Artur", "Barcicki", "POZ", "PL", 1, "10 kyu", 1600), Tournament.CATEGORY_A);
+			tournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1600), Tournament.CATEGORY_A);
 			tournament.addOpponent(new Opponent(1700, Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
 			
 		} else {
 			
 			// restore state from saved instance
-			tournament = new Tournament(new Player("Artur", "Barcicki", "POZ", "PL", 1, "10 kyu", 1483), Tournament.CATEGORY_A);
+			tournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1483), Tournament.CATEGORY_A);
 			tournament.addOpponent(new Opponent(2580, Opponent.WIN, Opponent.BLACK, Opponent.HANDICAP_9));
 		}
 		

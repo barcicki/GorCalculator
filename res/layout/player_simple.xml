@@ -11,9 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:selectAllOnFocus="true"
         android:hint="@string/hint_player_gor"
-        android:inputType="number" />
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/buttonFindPlayer"
@@ -21,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:onClick="onButtonFindClicked"
-        android:text="@string/button_find_player"
-        android:visibility="gone" />
+        android:text="@string/button_find_player" />
 
 </LinearLayout>

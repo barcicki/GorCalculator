@@ -86,12 +86,13 @@ public final class R {
         public static final int fragment_player_simple=0x7f030008;
         public static final int fragment_tournament=0x7f030009;
         public static final int handicap_dialog=0x7f03000a;
-        public static final int opponent_item=0x7f03000b;
-        public static final int opponent_simple=0x7f03000c;
-        public static final int opponent_view=0x7f03000d;
-        public static final int player_detailed=0x7f03000e;
-        public static final int player_simple=0x7f03000f;
-        public static final int player_view=0x7f030010;
+        public static final int opponent_complex=0x7f03000b;
+        public static final int opponent_item=0x7f03000c;
+        public static final int opponent_simple=0x7f03000d;
+        public static final int opponent_view=0x7f03000e;
+        public static final int player_complex=0x7f03000f;
+        public static final int player_simple=0x7f030010;
+        public static final int player_view=0x7f030011;
     }
     public static final class plurals {
         public static final int game_handicap_stones=0x7f060000;

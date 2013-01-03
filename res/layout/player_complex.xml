@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/player_complex"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <Button
+        android:id="@+id/buttonChangePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/button_change_player" />
+
+    <TextView
+        android:id="@+id/playerCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/playerStrength"
+        android:layout_alignBottom="@+id/playerStrength"
+        android:layout_alignRight="@+id/playerName"
+        android:text="PL"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/playerClub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/playerCountry"
+        android:layout_alignBottom="@+id/playerCountry"
+        android:layout_marginBottom="@dimen/padding_title"
+        android:layout_marginRight="@dimen/padding_title"
+        android:layout_toLeftOf="@+id/playerCountry"
+        android:text="POZN"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonChangePlayer"
+        android:layout_alignBottom="@+id/buttonChangePlayer"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/padding_title"
+        android:layout_toLeftOf="@+id/buttonChangePlayer"
+        android:paddingBottom="@dimen/padding_title_vertical"
+        android:paddingTop="@dimen/padding_title_vertical"
+        android:text="Artur Barcicki"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/playerStrength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/playerName"
+        android:layout_below="@+id/buttonChangePlayer"
+        android:text="6 kyu"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/playerGor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/playerCountry"
+        android:layout_alignBottom="@+id/playerCountry"
+        android:layout_alignLeft="@+id/buttonChangePlayer"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="1483"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

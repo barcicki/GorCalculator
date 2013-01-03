@@ -9,14 +9,15 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 
-import com.barcicki.gorcalculator.core.Calculator;
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.core.Opponent;
+import com.barcicki.gorcalculator.database.DatabaseHelper;
 import com.barcicki.gorcalculator.views.OpponentView;
 
 public class OpponentsFragment extends CommonFragment {
@@ -42,11 +43,21 @@ public class OpponentsFragment extends CommonFragment {
 			
 			for (Opponent op : getTournament().getOpponents()) {
 				
-				OpponentView opponentView = (OpponentView) inflater.inflate(R.layout.opponent_item, mContainer, false);
+				final OpponentView opponentView = (OpponentView) inflater.inflate(R.layout.opponent_item, mContainer, false);
 				mContainer.addView(opponentView);
 				opponentView.setOpponent(op);
 				opponentView.setOnGestureListener(new GestureListener(opponentView));
 				mOpponents.add(opponentView);
+				
+				OnClickListener swapView = new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						opponentView.showNext();
+					}
+				};
+				opponentView.getFindButton().setOnClickListener(swapView);
+				opponentView.getChangeButton().setOnClickListener(swapView);
 				
 			}
 			
@@ -58,12 +69,24 @@ public class OpponentsFragment extends CommonFragment {
 	
 	public void addNewOpponent() {
 		
-		Opponent newOpponent = new Opponent((int) Calculator.MIN_GOR, Opponent.WIN, Opponent.WHITE, Opponent.NO_HANDICAP);
-		OpponentView opponentView = (OpponentView) getActivity().getLayoutInflater().inflate(R.layout.opponent_item, mContainer, false);
+		DatabaseHelper db = new DatabaseHelper(getActivity());
+		Opponent newOpponent = new Opponent( db.getRandomPlayer() , Opponent.WIN, Opponent.WHITE, Opponent.NO_HANDICAP);
+		final OpponentView opponentView = (OpponentView) getActivity().getLayoutInflater().inflate(R.layout.opponent_item, mContainer, false);
 		mContainer.addView(opponentView);
 		
 		opponentView.setOpponent(newOpponent);
 		opponentView.setOnGestureListener(new GestureListener(opponentView));
+		
+		OnClickListener swapView = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				opponentView.showNext();
+			}
+		};
+		opponentView.getFindButton().setOnClickListener(swapView);
+		opponentView.getChangeButton().setOnClickListener(swapView);
+		
 		mOpponents.add(opponentView);
 		
 		getTournament().addOpponent(newOpponent);

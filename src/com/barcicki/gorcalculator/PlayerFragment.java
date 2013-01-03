@@ -6,6 +6,7 @@ import java.util.Observer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -42,6 +43,16 @@ public class PlayerFragment extends CommonFragment {
 			mPlayerView.setPlayer(player);
 			player.addObserver(this);
 		}
+		
+		OnClickListener swapView = new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mPlayerView.showNext();
+			}
+		};
+		mPlayerView.getFindButton().setOnClickListener(swapView);
+		mPlayerView.getChangeButton().setOnClickListener(swapView);
 				
 		return rootView;
 	}
