@@ -1,7 +1,6 @@
 package com.barcicki.gorcalculator;
 
 import java.util.Observable;
-import java.util.Observer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,32 +43,27 @@ public class PlayerFragment extends CommonFragment {
 			player.addObserver(this);
 		}
 		
+		mPlayerView.setShowButtonChange(true);
+		
 		OnClickListener swapView = new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				mPlayerView.showNext();
+				mPlayerView.setShowPlayerDetails(!mPlayerView.isShowingPlayerDetails());
 			}
 		};
 		mPlayerView.getFindButton().setOnClickListener(swapView);
 		mPlayerView.getChangeButton().setOnClickListener(swapView);
+		
+		update(getTournament(), null);
 				
 		return rootView;
 	}
 	
 	@Override
 	public void update(Observable observable, Object data) {
-		int color;
 		float previousGor = getTournament().getStartingGor(),
 			  newGor = getTournament().getFinalGor();
 		
-		if (newGor > previousGor) {
-			color = android.R.color.white;
-		} else {
-			color = android.R.color.holo_red_light;
-		}
-		
-		mPlayerGorChange.setTextColor(getResources().getColor(color));
 		mPlayerGorChange.setText( getString(R.string.title_gor_change, previousGor, newGor));
 	}
 	

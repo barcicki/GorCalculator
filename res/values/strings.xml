@@ -6,6 +6,7 @@
     <string name="title_player_list">Players</string>
     <string name="title_player">Player</string>
     <string name="title_calculator">GoR Calculator</string>
+    <string name="title_gor">New GoR</string>
     <string name="button_change_player">Change</string>
     <string name="title_tournament">Tournament</string>
     <string name="tournament_class">Class</string>

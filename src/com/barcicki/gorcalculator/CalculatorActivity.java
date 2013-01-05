@@ -1,19 +1,32 @@
 package com.barcicki.gorcalculator;
 
+import java.util.List;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
 
 import com.barcicki.gorcalculator.core.Opponent;
 import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.core.PlayersDownloader;
 import com.barcicki.gorcalculator.core.Tournament;
+import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class CalculatorActivity extends FragmentActivity {
 
-	PlayerFragment mPlayer;
-	TournamentFragment mTournament;
-	OpponentsFragment mOpponents;
+	PlayerFragment mPlayerFragment;
+	TournamentFragment mTournamentFragment;
+	OpponentsFragment mOpponentsFragment;
+	
+	Tournament mTournament;
 	
 	ScrollView mScroll;
 	
@@ -22,44 +35,47 @@ public class CalculatorActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calculator);
 
-		getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
 		
-		Tournament tournament;
-
 		if (savedInstanceState == null) {
 			
-			tournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1600), Tournament.CATEGORY_A);
-			tournament.addOpponent(new Opponent(1700, Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
+			mTournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1600), Tournament.CATEGORY_A);
+			mTournament.addOpponent(new Opponent(1700, Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
 			
 		} else {
 			
 			// restore state from saved instance
-			tournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1483), Tournament.CATEGORY_A);
-			tournament.addOpponent(new Opponent(2580, Opponent.WIN, Opponent.BLACK, Opponent.HANDICAP_9));
+			mTournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1483), Tournament.CATEGORY_A);
+			mTournament.addOpponent(new Opponent(2580, Opponent.WIN, Opponent.BLACK, Opponent.HANDICAP_9));
 		}
 		
-		mPlayer = new PlayerFragment();
-		mPlayer.setTournament(tournament);
+		mPlayerFragment = new PlayerFragment();
+		mPlayerFragment.setTournament(mTournament);
 					
-		mTournament = new TournamentFragment();
-		mTournament.setTournament(tournament);
+		mTournamentFragment = new TournamentFragment();
+		mTournamentFragment.setTournament(mTournament);
 		
-		mOpponents = new OpponentsFragment();
-		mOpponents.setTournament(tournament);
+		mOpponentsFragment = new OpponentsFragment();
+		mOpponentsFragment.setTournament(mTournament);
 		
 		getSupportFragmentManager()
 			.beginTransaction()
-			.add(R.id.container_player, mPlayer)
-			.add(R.id.container_tournament, mTournament)
-			.add(R.id.container_opponents, mOpponents)
+			.add(R.id.container_player, mPlayerFragment)
+			.add(R.id.container_tournament, mTournamentFragment)
+			.add(R.id.container_opponents, mOpponentsFragment)
 			.commit();
 		
 	}
 	
 	public void onAddNewOpponentClicked(View v) {
-		mOpponents.addNewOpponent();
+		
+		DatabaseHelper db = new DatabaseHelper(this);
+		Opponent newOpponent = new Opponent( db.getRandomPlayer() , Opponent.WIN, Opponent.WHITE, Opponent.NO_HANDICAP);
+		mOpponentsFragment.addOpponentView(newOpponent);
+		mTournament.addOpponent(newOpponent);
+		
 		mScroll.post(new Runnable() {
 			
 			@Override
@@ -68,4 +84,15 @@ public class CalculatorActivity extends FragmentActivity {
 			}
 		});
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			ProgressDialog mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			new PlayersDownloader(this, mProgressDialog).execute(PlayersDownloader.EGD_URL);
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 }

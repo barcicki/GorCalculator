@@ -21,7 +21,7 @@ public class HandicapDialog extends Dialog {
 	
 	public HandicapDialog(Context context) {
 		super(context);
-		setContentView(R.layout.handicap_dialog);
+		setContentView(R.layout.dialog_handicap);
 //		
 		mColors.add( (ToggleButton) findViewById(R.id.colorWhite));
 		mColors.add( (ToggleButton) findViewById(R.id.colorBlack));

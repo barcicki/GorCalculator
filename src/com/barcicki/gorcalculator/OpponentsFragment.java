@@ -2,7 +2,9 @@ package com.barcicki.gorcalculator;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector.OnGestureListener;
@@ -16,8 +18,9 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
+import com.barcicki.gorcalculator.core.MyParcel;
 import com.barcicki.gorcalculator.core.Opponent;
-import com.barcicki.gorcalculator.database.DatabaseHelper;
+import com.barcicki.gorcalculator.core.PlayerViewParcel;
 import com.barcicki.gorcalculator.views.OpponentView;
 
 public class OpponentsFragment extends CommonFragment {
@@ -43,53 +46,52 @@ public class OpponentsFragment extends CommonFragment {
 			
 			for (Opponent op : getTournament().getOpponents()) {
 				
-				final OpponentView opponentView = (OpponentView) inflater.inflate(R.layout.opponent_item, mContainer, false);
-				mContainer.addView(opponentView);
-				opponentView.setOpponent(op);
-				opponentView.setOnGestureListener(new GestureListener(opponentView));
-				mOpponents.add(opponentView);
-				
-				OnClickListener swapView = new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						opponentView.showNext();
-					}
-				};
-				opponentView.getFindButton().setOnClickListener(swapView);
-				opponentView.getChangeButton().setOnClickListener(swapView);
+				addOpponentView(op);
 				
 			}
 			
 			updateGorChange(getTournament().getStartingGor());
+			
+			getTournament().getPlayer().addObserver(new Observer() {
+				@Override
+				public void update(Observable observable, Object data) {
+					updateGorChange(getTournament().getStartingGor());
+				}
+			});
 		}
 		
 		return mContainer;
 	}
 	
-	public void addNewOpponent() {
+	public void addOpponentView(final Opponent newOpponent) {
 		
-		DatabaseHelper db = new DatabaseHelper(getActivity());
-		Opponent newOpponent = new Opponent( db.getRandomPlayer() , Opponent.WIN, Opponent.WHITE, Opponent.NO_HANDICAP);
 		final OpponentView opponentView = (OpponentView) getActivity().getLayoutInflater().inflate(R.layout.opponent_item, mContainer, false);
 		mContainer.addView(opponentView);
 		
 		opponentView.setOpponent(newOpponent);
+		opponentView.setShowPlayerDetails(false);
 		opponentView.setOnGestureListener(new GestureListener(opponentView));
 		
 		OnClickListener swapView = new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				opponentView.showNext();
+				
+//				PlayerViewParcel parcel = new PlayerViewParcel();
+//				parcel.setPlayerView(opponentView);				
+//				
+//				Intent intent = new Intent(getActivity(), PlayerListActivity.class);
+//				intent.putExtra(MyParcel.PARCEL, parcel);
+//				
+//				startActivityForResult(intent, PlayerListActivity.REQUEST_DEFAULT);
+				
+				opponentView.setShowPlayerDetails(true);
 			}
 		};
 		opponentView.getFindButton().setOnClickListener(swapView);
 		opponentView.getChangeButton().setOnClickListener(swapView);
 		
 		mOpponents.add(opponentView);
-		
-		getTournament().addOpponent(newOpponent);
 	}
 	
 	public void updateGorChange(float gor) {
@@ -104,6 +106,12 @@ public class OpponentsFragment extends CommonFragment {
 	public void update(Observable observable, Object data) {
 		super.update(observable, data);
 		updateGorChange(getTournament().getStartingGor());
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	private class GestureListener implements OnGestureListener {

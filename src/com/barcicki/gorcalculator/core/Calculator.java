@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.util.Log;
 
+// ([0-9]+) +([a-zA-Z- ]+) +([a-zA-Z]{3,4}) +([0-9]p|[0-7]d|[0-9]{1,2}k) +([0-9]{3,4})
 public class Calculator {
 
 	public static float EPSILON = 0.016f;
