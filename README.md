@@ -2,6 +2,11 @@
 
 This is a simple application allowing Go players to calculate how their rating may change during a tournament. It was created to provide a mobile alternative to [GoR calculator on EGD site](http://www.europeangodatabase.eu/EGD/gor_calculator.php).
 
+![ScreenShot](https://www.dropbox.com/sh/6r869ltnzq4yt23/5KL961nXNC/home_screen2.png?dl=1)
+![ScreenShot](https://www.dropbox.com/sh/6r869ltnzq4yt23/t57E934H6p/game_details.png?dl=1)
+![ScreenShot](https://www.dropbox.com/sh/6r869ltnzq4yt23/d8SFf_LIxq/home_screen3.png?dl=1)
+![ScreenShot](https://www.dropbox.com/sh/6r869ltnzq4yt23/-gS8zc_Orj/list_screen1.png?dl=1)
+
 ## Features ##
 
 *	Real-time calculation of GoR change - no need to refresh browser etc.
@@ -9,7 +14,9 @@ This is a simple application allowing Go players to calculate how their rating m
 *	Remembers the player for whom calculations are made
 *	Filter the list of players by name, country, club or/and grade
 
-## Requirements ##
+## Download & Requirements ##
+
+[GorCalculator v.0.9](https://www.dropbox.com/sh/6r869ltnzq4yt23/wAW_75aTLi/GorCalculator_v0.9.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection to downloading / updating data from EGD 
