@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.core.PlayersDownloader;
+import com.barcicki.gorcalculator.core.PlayersDownloader.PlayersDownloaderListener;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 import com.barcicki.gorcalculator.views.PlayerView;
 import com.barcicki.gorcalculator.views.StringDialog;
@@ -49,7 +50,7 @@ public class PlayerListActivity extends Activity {
 	private StringDialog mDialog;
 	
 	private DatabaseHelper mDB;
-	private int mPage = 1;
+	private int mPage = DatabaseHelper.FIRST_PAGE;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +76,10 @@ public class PlayerListActivity extends Activity {
 				public void onClick(DialogInterface dialog, int which) {
 					mDB.clearPlayers();
 					
-					new PlayersDownloader(PlayerListActivity.this).download(new Runnable() {
+					new PlayersDownloader(PlayerListActivity.this).download(new PlayersDownloaderListener() {
 						
 						@Override
-						public void run() {
+						public void onSaved(String total) {
 							getNextResults();
 						}
 					});
@@ -160,6 +161,8 @@ public class PlayerListActivity extends Activity {
 		mPlayersAdapter.addAll(mDB.getPlayers(mPage, mFilterName, mFilterClub, mFilterCountry, mFilterGrade));
 		mPlayersAdapter.notifyDataSetChanged();
 		updateFilters();
+		
+		mPage += 1;
 	}
 	
 	public void updateFilters() {
@@ -175,7 +178,7 @@ public class PlayerListActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				mFilterName = mDialog.getResult();
-				mPage = 1;
+				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				getNextResults();
@@ -190,7 +193,7 @@ public class PlayerListActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				mFilterClub = mDialog.getResult();
-				mPage = 1;
+				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				getNextResults();
@@ -205,7 +208,7 @@ public class PlayerListActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				mFilterCountry = mDialog.getResult();
-				mPage = 1;
+				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				getNextResults();
@@ -220,7 +223,7 @@ public class PlayerListActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				mFilterGrade = mDialog.getResult();
-				mPage = 1;
+				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				getNextResults();

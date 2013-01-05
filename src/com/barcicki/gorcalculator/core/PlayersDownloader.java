@@ -26,12 +26,16 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 	public final static String EGD_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.html";
 	public final static String EGD_ZIP = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.zip";
 	
+	public interface PlayersDownloaderListener {
+		public void onSaved(String total);
+	}
+	
 	Activity mActivity;
 	ProgressDialog mProgressDialog;
 	ArrayList<Player> mPlayers = new ArrayList<Player>();
 	Pattern mSimplePattern = Pattern.compile("([0-9]{8})");
 	
-	private Runnable mOnFinish;
+	private PlayersDownloaderListener mListener;
 	
 	public PlayersDownloader(Activity activity) {
 		mActivity = activity;
@@ -53,8 +57,8 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 //		mPlayers = players;
 	}
 	
-	public void download(Runnable onFinish) {
-		mOnFinish = onFinish;
+	public void download(PlayersDownloaderListener listener) {
+		mListener = listener;
 		execute(EGD_ZIP);
 	}
 	
@@ -200,8 +204,8 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 				mProgressDialog.dismiss();
 			}
 			
-			if (mOnFinish != null) {
-				mOnFinish.run();
+			if (mListener!= null) {
+				mListener.onSaved(result);
 			}
 		}
 		

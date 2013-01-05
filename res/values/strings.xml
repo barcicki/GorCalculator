@@ -33,5 +33,7 @@
     <string name="handicap_no_komi">No Komi</string>
     <string name="handicap_stones">%1$d stones</string>
     <string name="button_game_details">Details</string>
+    
+    <string name="button_update">Update</string>
 
 </resources>

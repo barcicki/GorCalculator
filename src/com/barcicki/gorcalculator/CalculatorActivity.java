@@ -1,24 +1,19 @@
 package com.barcicki.gorcalculator;
 
-import java.util.List;
-
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.barcicki.gorcalculator.core.Opponent;
 import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.core.PlayersDownloader;
+import com.barcicki.gorcalculator.core.PlayersDownloader.PlayersDownloaderListener;
 import com.barcicki.gorcalculator.core.Tournament;
-import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class CalculatorActivity extends FragmentActivity {
 
@@ -60,10 +55,35 @@ public class CalculatorActivity extends FragmentActivity {
 		
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.calculator, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		
+		switch (item.getItemId()) {
+		case R.id.update_data:
+			new PlayersDownloader(this).download(new PlayersDownloaderListener() {
+				
+				@Override
+				public void onSaved(String total) {
+					Toast.makeText(CalculatorActivity.this, "Database updated. Saved " + total + " players", Toast.LENGTH_SHORT).show();
+				}
+			});
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
 	public void onAddNewOpponentClicked(View v) {
 		
-		DatabaseHelper db = new DatabaseHelper(this);
-		Opponent newOpponent = new Opponent( db.getRandomPlayer() , Opponent.WIN, Opponent.WHITE, Opponent.NO_HANDICAP);
+		Opponent newOpponent = new Opponent( new Player(mTournament.getPlayer().getGor()) , Opponent.WIN, Opponent.WHITE, Opponent.NO_HANDICAP);
 		mOpponentsFragment.addOpponentView(newOpponent);
 		mTournament.addOpponent(newOpponent);
 		

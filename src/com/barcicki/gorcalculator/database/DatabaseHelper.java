@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String KEY_GRADE = "grade";
 	
 	public static final int LIMIT = 50;
+	public static final int FIRST_PAGE = 0;
 	
 	private static final String PLAYER_TABLE_NAME = "players";
 	private static final String PLAYER_TABLE_CREATE = 
@@ -139,9 +140,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String query;
 		
 		if (conditionsApplies) {
-			query = PLAYER_TABLE_SELECT_ALL + " WHERE " + TextUtils.join(" AND ", conditions) + " LIMIT " + LIMIT;
+			query = PLAYER_TABLE_SELECT_ALL + " WHERE " + TextUtils.join(" AND ", conditions) + " LIMIT " + LIMIT + " OFFSET " + LIMIT * page;
 		} else {
-			query = PLAYER_TABLE_SELECT_ALL + " LIMIT " + LIMIT;
+			query = PLAYER_TABLE_SELECT_ALL + " LIMIT " + LIMIT + " OFFSET " + LIMIT * page;
 		}
 		
 		Log.d("Database", query);
@@ -161,7 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public ArrayList<Player> getPlayers() {
-		return getPlayers(1);
+		return getPlayers(0);
 	}
 	
 	public ArrayList<Player> getPlayers(int page) {
