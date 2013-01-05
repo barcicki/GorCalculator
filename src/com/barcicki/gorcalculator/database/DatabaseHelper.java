@@ -15,7 +15,7 @@ import com.barcicki.gorcalculator.core.Player;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 10;
 	private static final String DATABASE_NAME = "gorcalculator";
 	
 	public static final String KEY_ID = "_id";

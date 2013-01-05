@@ -2,37 +2,78 @@
 
 This is a simple application allowing Go players to calculate how their rating may change during a tournament. It was created to provide a mobile alternative to [GoR calculator on EGD site](http://www.europeangodatabase.eu/EGD/gor_calculator.php).
 
+## Features ##
+
+*	Real-time calculation of GoR change - no need to refresh browser etc.
+* 	Easy way of getting current GoR rating from European Go Database
+*	Remembers the player for whom calculations are made
+*	Filter the list of players by name, country, club or/and grade
+
+## Requirements ##
+
+*	Android 4.0+
+* 	Internet Connection to downloading / updating data from EGD 
+
 ## Changelog ##
 
-* 	v.1.0 (2.01.2013)
+*	v.0.9 (6.01.2013) BETA
+
+	Added integration with EGD.
+	
+	Improved usability and layout.
+	
+
+* 	v.0.8 (2.01.2013)
 
 	Fully working calculator based on rating provided manually
+	
 	Basic GUI
 
 ## ToDo ##
 
-*	Integration with EGD
+*	More complex integration with EGD
 
-	Fetching ratings from European Go Database
-	Fetching additional information such as Club, Country and player's photo
+	Fetching players' photos
 	
-*	Customization
+	Allowing partial downloads, such as players from selected countries
+	
+	Allowing partial updates
+	
+*	More complex customization
 
-	Storing recent calculation in memory. Especially the player for whom the calculations are made.
+	Allowing to store few profile with different players for whom calculations are made.
+	
+	Store custom filters
+	
+	Improve filters
+	
+*	Usability improvements
+
+	Animations
+	
+	Additional features like recently added players etc.
+	
+*	Sharing 
+
+	Get social ;)
 	
 ## Usage ##
 
 1. Run the app
 
-2. Provide your GoR rating (e.g. 1500 for 6 kyu player),
+2. Find yourself in the database of EGD players. It needs to download the list for the first time (~800 KB of data). You can change / set your GoR rating by clicking the button 
 
 3. Select tournament class ([reference](http://www.europeangodatabase.eu/EGD/EGF_rating_system.php#CLASS))
 
 4. Add opponents.
 
-	For each opponent specify his GoR rating and game result. If the game involved handicap, click *Details* to provide number of handicaps and color
+	For each opponent specify his GoR rating and game result. You can get GoR of yout opponents from EGD by clicking *Find* button. If the game involved handicap, click *Details* to provide number of handicaps and color
 	
-5. After each modification, new rating is calculated. You can see the total change of your rating in the top of screen and the contribution of each game below the opponents' data.   
+5. After each modification, new rating is calculated. You can see the total change of your rating in the top of screen and the contribution of each game below the opponents' data.
+
+6. You can click Update button in top-right corner to update the list from EGD
+
+7. While on the list screen, you can click Save filter button in top-right corner to save current filter as a default one.    
 	
 ## Licence ##
 	

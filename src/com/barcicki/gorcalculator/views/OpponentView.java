@@ -49,7 +49,7 @@ public class OpponentView extends PlayerView {
 	
 	@Override
 	protected int getLayoutResource() {
-		return R.layout.opponent_view4;
+		return R.layout.opponent_view;
 	}
 	
 	private void attachListeners() {

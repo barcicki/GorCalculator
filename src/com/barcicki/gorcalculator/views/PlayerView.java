@@ -56,7 +56,7 @@ public class PlayerView extends RelativeLayout implements Observer {
 	}
 	
 	protected int getLayoutResource() {
-		return R.layout.player_view2;
+		return R.layout.player_view;
 	}
 	
 	public Player getPlayer() {
