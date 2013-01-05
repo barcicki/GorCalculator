@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.views.OpponentView;
 import com.barcicki.gorcalculator.views.PlayerView;
 
@@ -41,13 +42,11 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView = (PlayerView) rootView.findViewById(R.id.player_details);
 		mPlayerGorChange = (TextView) rootView.findViewById(R.id.playerGorChangePreview);
 		
-		if (getTournament() != null) {
-			Player player = getTournament().getPlayer();
-			mPlayerView.setPlayer(player);
-		}
 		
-		mPlayerView.setShowPlayerDetails(false);
+		Player player = getTournament().getPlayer();
+		mPlayerView.setPlayer(player);
 		mPlayerView.setShowButtonChange(true);
+		mPlayerView.setShowPlayerDetails(player.getPin() > 0);
 		
 		OnClickListener swapView = new OnClickListener() {
 			@Override
@@ -84,6 +83,8 @@ public class PlayerFragment extends CommonFragment {
 				mPlayerView.setShowButtonChange(true);
 				mPlayerView.setShowPlayerDetails(true);
 				getTournament().setPlayer(request.player);
+				
+				new Settings(getActivity()).storePlayerPIN(request.player.getPin());
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

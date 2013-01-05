@@ -20,24 +20,23 @@ import android.widget.Toast;
 
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 
-public class PlayersDownloader extends AsyncTask<String, Integer, String>{
+public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 
-	public final static String DEMO_URL = "http://192.168.1.50/listas.htm";
-	public final static String EGD_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.html";
-	public final static String EGD_ZIP = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.zip";
+	public final static String EGD_EUROPE_ZIP_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.zip";
 	
-	public interface PlayersDownloaderListener {
+	public interface PlayersUpdaterListener {
 		public void onSaved(String total);
+		public void onDownloaded(String result);
 	}
-	
+
 	Activity mActivity;
 	ProgressDialog mProgressDialog;
-	ArrayList<Player> mPlayers = new ArrayList<Player>();
 	Pattern mSimplePattern = Pattern.compile("([0-9]{8})");
 	
-	private PlayersDownloaderListener mListener;
 	
-	public PlayersDownloader(Activity activity) {
+	private PlayersUpdaterListener mListener;
+	
+	public PlayersUpdater(Activity activity) {
 		mActivity = activity;
 		mProgressDialog = new ProgressDialog(activity);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -45,21 +44,21 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 			
 			@Override
 			public void onCancel(DialogInterface dialog) {
-				PlayersDownloader.this.cancel(true);
+				PlayersUpdater.this.cancel(true);
 			}
 		});
 	}
 	
-	public PlayersDownloader(Activity activity, ProgressDialog progressDialog) {
+	public PlayersUpdater(Activity activity, ProgressDialog progressDialog) {
 //	public PlayersDownloader(Activity activity, ProgressDialog progressDialog, ArrayList<Player> players) {
 		mActivity = activity;
 		mProgressDialog = progressDialog;
 //		mPlayers = players;
 	}
 	
-	public void download(PlayersDownloaderListener listener) {
+	public void download(PlayersUpdaterListener listener) {
 		mListener = listener;
-		execute(EGD_ZIP);
+		execute(EGD_EUROPE_ZIP_URL);
 	}
 	
 	@Override
@@ -80,7 +79,7 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 			int count;
 			
 			int fileLength = (int) input.getNextEntry().getSize();
-			while ((count = input.read(data)) != -1) {
+			while ((count = input.read(data)) != -1 && !isCancelled()) {
 				total += count;
 				
 				publishProgress((int) (total * 100 / fileLength));
@@ -135,10 +134,14 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 				total += 1;
 			}
 			
+			if (mListener != null) {
+				mListener.onDownloaded(result);
+			}
+			
 			new PlayersParser(total).execute(result);
 		}
 	}
-
+	
 	private class PlayersParser extends AsyncTask<String, Integer, String> {
 
 		Pattern mPattern = Pattern.compile("([0-9]{8}) +([a-zA-Z,`._ -]+) +([A-Z]+) +([-a-zA-Z=?0-9]{1,4}) +([0-9]{1,2}k|[0-9]d|[0-9]p) +(--|[0-9]{1,2}k|[0-9]d|[0-9]p) +([0-9]{3,4})");
@@ -154,12 +157,13 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 			Matcher matcher = mPattern.matcher(params[0]);
 			Integer total = 0;
 			
-			DatabaseHelper dbHelper = new DatabaseHelper(mActivity);
-			SQLiteDatabase db = dbHelper.getWritableDatabase();
+			DatabaseHelper helper = new DatabaseHelper(mActivity);
+			SQLiteDatabase db = helper.getWritableDatabase();
 			db.beginTransaction();
 			
-			while (matcher.find()) {
-				dbHelper.insertPlayer(db, 
+			helper.clearPlayers(db);
+			while (matcher.find() &&  !PlayersUpdater.this.isCancelled()) {
+				helper.insertPlayer(db, 
 						Integer.parseInt(matcher.group(1)), 
 						matcher.group(2), 
 						matcher.group(3),
@@ -171,10 +175,21 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 				publishProgress(++total);
 			}
 			
-			db.setTransactionSuccessful();
+			if (!this.isCancelled()) {
+				db.setTransactionSuccessful();
+			} 
 			db.endTransaction();
+			db.close();
 			
 			return total.toString();
+		}
+		
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+			if (mProgressDialog != null) {
+				mProgressDialog.setProgress(values[0]);
+			}
 		}
 		
 		@Override
@@ -185,14 +200,6 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 				mProgressDialog.setIndeterminate(false);
 				mProgressDialog.setMax(mTotal);
 				mProgressDialog.show();
-			}
-		}
-		
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-			if (mProgressDialog != null) {
-				mProgressDialog.setProgress(values[0]);
 			}
 		}
 		

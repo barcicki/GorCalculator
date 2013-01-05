@@ -35,5 +35,10 @@
     <string name="button_game_details">Details</string>
     
     <string name="button_update">Update</string>
+    <string name="button_save_filter">Save Filter</string>
+    <string name="filter_name">Name</string>
+    <string name="filter_club">Club</string>
+    <string name="filter_country">Country</string>
+    <string name="filter_grade">Grade</string>
 
 </resources>

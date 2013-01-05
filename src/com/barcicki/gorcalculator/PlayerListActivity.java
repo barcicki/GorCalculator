@@ -1,6 +1,10 @@
 package com.barcicki.gorcalculator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +17,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +32,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.barcicki.gorcalculator.core.Player;
-import com.barcicki.gorcalculator.core.PlayersDownloader;
-import com.barcicki.gorcalculator.core.PlayersDownloader.PlayersDownloaderListener;
+import com.barcicki.gorcalculator.core.PlayersUpdater;
+import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
+import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 import com.barcicki.gorcalculator.views.PlayerView;
 import com.barcicki.gorcalculator.views.StringDialog;
@@ -36,15 +43,11 @@ public class PlayerListActivity extends Activity {
 	
 	public static int REQUEST_DEFAULT = 1;
 	
-//	public static String FILTER_NAME = "name";
-//	public static String FILTER_CLUB = "club";
-//	public static String FILTER_COUNTRY = "country";
-	
 	private ListView mPlayerList;
-	private String mFilterName = null;
-	private String mFilterClub = null;
-	private String mFilterCountry = null;
-	private String mFilterGrade = null;
+	private HashMap<String, String> mFilters;
+	private HashMap<String, Button> mFiltersAssignments;
+	private HashMap<String, String> mFiltersLabels;
+	
 	private PlayersAdapter mPlayersAdapter;
 	
 	private StringDialog mDialog;
@@ -62,6 +65,20 @@ public class PlayerListActivity extends Activity {
 		
 		mDB = new DatabaseHelper(this);
 		mDialog = new StringDialog(this);
+		
+		mFilters = new Settings(this).getFilters();
+		mFiltersAssignments = new HashMap<String, Button>();
+		mFiltersAssignments.put(Settings.FILTER_NAME, (Button) findViewById(R.id.buttonFilterName));
+		mFiltersAssignments.put(Settings.FILTER_COUNTRY, (Button) findViewById(R.id.buttonFilterCountry));
+		mFiltersAssignments.put(Settings.FILTER_CLUB, (Button) findViewById(R.id.buttonFilterClub));
+		mFiltersAssignments.put(Settings.FILTER_GRADE, (Button) findViewById(R.id.buttonFilterGrade));
+		
+		mFiltersLabels = new HashMap<String, String>();
+		mFiltersLabels.put(Settings.FILTER_NAME, 	getString(R.string.filter_name));
+		mFiltersLabels.put(Settings.FILTER_COUNTRY, getString(R.string.filter_country));
+		mFiltersLabels.put(Settings.FILTER_CLUB, 	getString(R.string.filter_club));
+		mFiltersLabels.put(Settings.FILTER_GRADE, 	getString(R.string.filter_grade));
+		
 		mPlayersAdapter =  new PlayersAdapter(this);
 		
 		getNextResults();
@@ -74,13 +91,17 @@ public class PlayerListActivity extends Activity {
 			builder.setPositiveButton("YES", new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					mDB.clearPlayers();
-					
-					new PlayersDownloader(PlayerListActivity.this).download(new PlayersDownloaderListener() {
+					new PlayersUpdater(PlayerListActivity.this).download(new PlayersUpdaterListener() {
 						
 						@Override
 						public void onSaved(String total) {
 							getNextResults();
+						}
+
+						@Override
+						public void onDownloaded(String result) {
+							// TODO Auto-generated method stub
+							
 						}
 					});
 					
@@ -101,11 +122,6 @@ public class PlayerListActivity extends Activity {
 		}
 		
 		mPlayerList = (ListView) findViewById(R.id.playerList);
-//		mFilterName = (Button) findViewById(R.id.playerName);
-//		mFilterCountry = (Button) findViewById(R.id.playerCountry);
-//		mFilterClub = (Button) findViewById(R.id.playerClub);
-//		mFilterRank = (Button) findViewById(R.id.playerRank);
-		
 		mPlayerList.setAdapter(mPlayersAdapter);
 		mPlayerList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -133,7 +149,6 @@ public class PlayerListActivity extends Activity {
 			}
 			
 		});
-		
 		mPlayerList.setOnScrollListener(new OnScrollListener() {
 
 			@Override
@@ -154,11 +169,17 @@ public class PlayerListActivity extends Activity {
 				}
 			}
 		});
-		
 	}
 	
 	public void getNextResults() {
-		mPlayersAdapter.addAll(mDB.getPlayers(mPage, mFilterName, mFilterClub, mFilterCountry, mFilterGrade));
+		mPlayersAdapter.addAll(
+				mDB.getPlayers(
+						mPage, 
+						mFilters.get(Settings.FILTER_NAME),
+						mFilters.get(Settings.FILTER_CLUB),
+						mFilters.get(Settings.FILTER_COUNTRY),
+						mFilters.get(Settings.FILTER_GRADE)));
+						
 		mPlayersAdapter.notifyDataSetChanged();
 		updateFilters();
 		
@@ -166,78 +187,76 @@ public class PlayerListActivity extends Activity {
 	}
 	
 	public void updateFilters() {
-		((Button) findViewById(R.id.buttonFilterName)).setText( (mFilterName != null && !mFilterName.isEmpty()) ? "Name: " + mFilterName : "Name");
-		((Button) findViewById(R.id.buttonFilterClub)).setText( (mFilterClub != null && !mFilterClub.isEmpty()) ? "Club: " + mFilterClub : "Club");
-		((Button) findViewById(R.id.buttonFilterCountry)).setText( (mFilterCountry != null && !mFilterCountry.isEmpty()) ? "Country: " + mFilterCountry : "Country");
-		((Button) findViewById(R.id.buttonFilterGrade)).setText( (mFilterGrade != null && !mFilterGrade.isEmpty()) ? "Grade: " + mFilterGrade : "Grade");
+		Iterator<Entry<String, Button>> it = mFiltersAssignments.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<String, Button> e = it.next();
+			
+			String label = mFiltersLabels.get(e.getKey());
+			String filter = mFilters.get(e.getKey());
+			
+			if (!filter.isEmpty()) {
+				label += ": " + filter;
+			}
+			
+			e.getValue().setText(label);
+		}
+	}
+	
+	public void showFilterDialog(final String key) {
+		mDialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				mFilters.put(key, mDialog.getResult());
+				mPage = DatabaseHelper.FIRST_PAGE;
+				mPlayersAdapter.clear();
+				
+				getNextResults();
+			}
+		});
+		mDialog.show(mFilters.get(key));
 	}
 	
 	public void onFilterNameClicked(View v) {
-		
-		mDialog.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				mFilterName = mDialog.getResult();
-				mPage = DatabaseHelper.FIRST_PAGE;
-				mPlayersAdapter.clear();
-				
-				getNextResults();
-			}
-		});
-		mDialog.show(mFilterName);
+		showFilterDialog(Settings.FILTER_NAME);
 	}
 	
 	public void onFilterClubClicked(View v) {
-		
-		mDialog.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				mFilterClub = mDialog.getResult();
-				mPage = DatabaseHelper.FIRST_PAGE;
-				mPlayersAdapter.clear();
-				
-				getNextResults();
-			}
-		});
-		mDialog.show(mFilterClub);
+		showFilterDialog(Settings.FILTER_CLUB);
 	}
 	
 	public void onFilterCountryClicked(View v) {
-		
-		mDialog.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				mFilterCountry = mDialog.getResult();
-				mPage = DatabaseHelper.FIRST_PAGE;
-				mPlayersAdapter.clear();
-				
-				getNextResults();
-			}
-		});
-		mDialog.show(mFilterCountry);
+		showFilterDialog(Settings.FILTER_COUNTRY);
 	}
 	
 	public void onFilterRankClicked(View v) {
-		
-		mDialog.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				mFilterGrade = mDialog.getResult();
-				mPage = DatabaseHelper.FIRST_PAGE;
-				mPlayersAdapter.clear();
-				
-				getNextResults();
-			}
-		});
-		mDialog.show(mFilterGrade);
+		showFilterDialog(Settings.FILTER_GRADE);
+	
 	}
 	
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.list, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			NavUtils.navigateUpTo(this, new Intent(this, CalculatorActivity.class));
+		
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				NavUtils.navigateUpTo(this, new Intent(this, CalculatorActivity.class));
+				return true;
+			case R.id.save_filter:
+				if (new Settings(this).storeFilters(mFilters)) {
+					Toast.makeText(this, "Filter configuration saved", Toast.LENGTH_SHORT).show();
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+		
 	}
 	
 	public class PlayersAdapter extends ArrayAdapter<Player> {

@@ -87,6 +87,7 @@ public final class R {
         public static final int player_details=0x7f0a0027;
         public static final int player_simple=0x7f0a0042;
         public static final int relativeLayout2=0x7f0a003f;
+        public static final int save_filter=0x7f0a0045;
         public static final int scroller=0x7f0a0002;
         public static final int textView2=0x7f0a002e;
         public static final int toggleWin=0x7f0a0031;
@@ -124,6 +125,7 @@ public final class R {
     }
     public static final class menu {
         public static final int calculator=0x7f090000;
+        public static final int list=0x7f090001;
     }
     public static final class plurals {
         public static final int game_handicap_stones=0x7f060000;
@@ -134,8 +136,13 @@ public final class R {
         public static final int button_change_player=0x7f050006;
         public static final int button_find_player=0x7f05000a;
         public static final int button_game_details=0x7f050017;
+        public static final int button_save_filter=0x7f050019;
         public static final int button_update=0x7f050018;
         public static final int dialog_handicap=0x7f050012;
+        public static final int filter_club=0x7f05001b;
+        public static final int filter_country=0x7f05001c;
+        public static final int filter_grade=0x7f05001d;
+        public static final int filter_name=0x7f05001a;
         public static final int game_color_black=0x7f05000e;
         public static final int game_color_white=0x7f05000f;
         public static final int game_even=0x7f05000c;

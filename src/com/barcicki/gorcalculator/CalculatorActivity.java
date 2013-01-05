@@ -11,15 +11,20 @@ import android.widget.Toast;
 
 import com.barcicki.gorcalculator.core.Opponent;
 import com.barcicki.gorcalculator.core.Player;
-import com.barcicki.gorcalculator.core.PlayersDownloader;
-import com.barcicki.gorcalculator.core.PlayersDownloader.PlayersDownloaderListener;
+import com.barcicki.gorcalculator.core.PlayersUpdater;
+import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
+import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.core.Tournament;
+import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class CalculatorActivity extends FragmentActivity {
 
 	PlayerFragment mPlayerFragment;
 	TournamentFragment mTournamentFragment;
 	OpponentsFragment mOpponentsFragment;
+	
+	DatabaseHelper mDB;
+	Settings mSettings;
 	
 	Tournament mTournament;
 	
@@ -32,9 +37,21 @@ public class CalculatorActivity extends FragmentActivity {
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		
+		mDB = new DatabaseHelper(this);
+		mSettings = new Settings(this);
+		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
 		
-		mTournament = new Tournament(new Player(1600), Tournament.CATEGORY_A);
+		int playerPIN = mSettings.getPlayerPIN();
+		Player player = null;
+		if (playerPIN > 0) {
+			player = mDB.getPlayerByPin(playerPIN);
+		}
+		if (player == null) {
+			player = new Player(1600);
+		}
+		
+		mTournament = new Tournament(player, Tournament.CATEGORY_A);
 		mTournament.addOpponent(new Opponent(1700, Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
 		
 		mPlayerFragment = new PlayerFragment();
@@ -68,11 +85,17 @@ public class CalculatorActivity extends FragmentActivity {
 		
 		switch (item.getItemId()) {
 		case R.id.update_data:
-			new PlayersDownloader(this).download(new PlayersDownloaderListener() {
+			new PlayersUpdater(this).download(new PlayersUpdaterListener() {
 				
 				@Override
 				public void onSaved(String total) {
 					Toast.makeText(CalculatorActivity.this, "Database updated. Saved " + total + " players", Toast.LENGTH_SHORT).show();
+				}
+
+				@Override
+				public void onDownloaded(String result) {
+					// TODO Auto-generated method stub
+					
 				}
 			});
 			return true;

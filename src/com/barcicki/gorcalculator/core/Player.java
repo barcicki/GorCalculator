@@ -11,6 +11,7 @@ public class Player extends Observable {
 
 	public static ArrayList<String> STRENGTHS = new ArrayList<String>();
 
+	private int mPin;
 	private String mName;
 	private String mClub;
 	private String mCountry;
@@ -26,6 +27,7 @@ public class Player extends Observable {
 	}
 	
 	public Player(int gor) {
+		this.setPin(0);
 		this.setName("Shindo Hikaru");
 		this.setClub("HnG");
 		this.setCountry("JPN");
@@ -33,14 +35,23 @@ public class Player extends Observable {
 		this.setGor(gor);
 	}
 	
-	public Player(String name, String club, String country,
+	public Player(int pin, String name, String club, String country,
 			String strength, int gor) {
 		super();
+		this.setPin(pin);
 		this.setName(name);
 		this.setClub(club);
 		this.setCountry(country);
 		this.setGrade(strength);
 		this.setGor(gor);
+	}
+	
+	public int getPin() {
+		return mPin;
+	}
+
+	public void setPin(int mPin) {
+		this.mPin = mPin;
 	}
 
 	public String getName() {

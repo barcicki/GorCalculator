@@ -42,7 +42,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		    ")";
 	private static final String PLAYER_TABLE_SELECT_ALL = 
 			"SELECT " + 
-					KEY_ID + ", " + 
+					KEY_ID + ", " +
+					KEY_PIN + ", " +
 					KEY_NAME + ", " + 
 					KEY_GRADE + ", " + 	
 					KEY_GOR + ", " + 	
@@ -104,8 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return db.insert(PLAYER_TABLE_NAME, KEY_NAME, cv);
 	}
 	
-	public void clearPlayers() {
-		SQLiteDatabase db = getWritableDatabase();
+	public void clearPlayers(SQLiteDatabase db) {
 		db.execSQL("DELETE FROM " + PLAYER_TABLE_NAME);
 	}
 	
@@ -192,11 +192,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	private Player convertToPlayer(Cursor result) {
 		return new Player(
+				result.getInt(result.getColumnIndex(KEY_PIN)),
 				result.getString(result.getColumnIndex(KEY_NAME)),
 				result.getString(result.getColumnIndex(KEY_CLUB)),
 				result.getString(result.getColumnIndex(KEY_COUNTRY)),
 				result.getString(result.getColumnIndex(KEY_GRADE)),
 				result.getInt(result.getColumnIndex(KEY_GOR)));
+	}
+
+	public Player getPlayerByPin(int playerPIN) {
+		Player player = null;
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor result = db.rawQuery(PLAYER_TABLE_SELECT_ALL + " WHERE " + KEY_PIN + " = " + playerPIN, null);
+		if (result.getCount() > 0) {
+			result.moveToFirst();
+			player = convertToPlayer(result);
+		}
+		
+		return player;
 	}
 
 }
