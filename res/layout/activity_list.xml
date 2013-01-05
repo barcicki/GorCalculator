@@ -7,32 +7,65 @@
     android:background="#FFEEEEEE"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/playerButtonFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Filter" />
-
     <ListView
         android:id="@+id/playerList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/playerButtonFilter"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-
-    </ListView>
-
-    <EditText
-        android:id="@+id/playerFilter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/playerButtonFilter"
-        android:layout_alignBottom="@+id/playerButtonFilter"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/playerButtonFilter"
-        android:ems="10" />
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/filters"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="@dimen/padding_title_vertical"
+        android:footerDividersEnabled="true"
+        android:listSelector="@android:color/darker_gray"
+        android:padding="@dimen/margin_box" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" >
+
+        <Button
+            android:id="@+id/buttonFilterName"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onFilterNameClicked"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:text="Name" />
+
+        <Button
+            android:id="@+id/buttonFilterCountry"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onFilterCountryClicked"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:text="Country" />
+
+        <Button
+            android:id="@+id/buttonFilterClub"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onFilterClubClicked"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:text="Club" />
+
+        <Button
+            android:id="@+id/buttonFilterGrade"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onFilterRankClicked"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:text="Rank" />
+    </LinearLayout>
 
 </RelativeLayout>

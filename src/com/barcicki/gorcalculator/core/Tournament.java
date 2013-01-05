@@ -38,9 +38,15 @@ public class Tournament extends Observable implements Observer {
 	}
 	
 	public void setPlayer(Player player) {
+		
+		if (mPlayer != null) {
+			mPlayer.deleteObserver(this);
+		}
+		
 		mPlayer = player;
 		player.addObserver(this);
-
+		
+		Log.d(TAG, "Player changed");
 		setChanged();
 		notifyObservers();
 	}
@@ -51,6 +57,8 @@ public class Tournament extends Observable implements Observer {
 	
 	public void setCategory(int category) {
 		mCategory = category;
+		
+		Log.d(TAG, "Category changed");
 		setChanged();
 		notifyObservers();
 	}
@@ -62,12 +70,19 @@ public class Tournament extends Observable implements Observer {
 	public void addOpponent(Opponent opponent) {
 		mOpponents.add(opponent);
 		opponent.addObserver(this);
+		opponent.getPlayer().addObserver(this);
+		
+		Log.d(TAG, "Added opponent");
 		setChanged();
 		notifyObservers();
 	}
 	
 	public void removeOpponent(Opponent opponent) {
 		if (mOpponents.remove(opponent)) {
+			opponent.deleteObserver(this);
+			opponent.getPlayer().deleteObserver(this);
+			
+			Log.d(TAG, "Removed opponent");
 			setChanged();
 			notifyObservers();
 		}
@@ -90,17 +105,19 @@ public class Tournament extends Observable implements Observer {
 	public float getGorChange(Opponent opponent) {
 		float category = CATEGORIES.get(mCategory);
 		
-		Log.d(TAG, "Player: " + mPlayer.getGor());
-		Log.d(TAG, "Opponent: " + opponent.getGor());
-		Log.d(TAG, "Win: " + opponent.getResult());
-		Log.d(TAG, "Handicap: " + opponent.getRelativeHandicap());
-		Log.d(TAG, "Category: " + category);
+//		Log.d(TAG, "Player: " + mPlayer.getGor());
+//		Log.d(TAG, "Opponent: " + opponent.getPlayer().getGor());
+//		Log.d(TAG, "Win: " + opponent.getResult());
+//		Log.d(TAG, "Handicap: " + opponent.getRelativeHandicap());
+//		Log.d(TAG, "Category: " + category);
 		
-		return Calculator.calculateRatingChange(mPlayer.getGor(), opponent.getGor(), opponent.getResult(), opponent.getRelativeHandicap(), category);		
+		return Calculator.calculateRatingChange(mPlayer.getGor(), opponent.getPlayer(). getGor(), opponent.getResult(), opponent.getRelativeHandicap(), category);		
 	}
 
 	@Override
 	public void update(Observable observable, Object data) {
+		Log.d(TAG, "A child has changed");
+		
 		setChanged();
 		notifyObservers();
 	}

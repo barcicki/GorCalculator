@@ -1,6 +1,8 @@
 package com.barcicki.gorcalculator.core;
 
-public class Opponent extends Player {
+import java.util.Observable;
+
+public class Opponent extends Observable {
 
 	final public static float WIN = 1f;
 	final public static float LOSS = 0f;
@@ -20,44 +22,59 @@ public class Opponent extends Player {
 	final public static int BLACK = 1;
 	final public static int WHITE = 0;
 	
-	private float result;
-	private int color;
-	private int handicap;
+	private float mResult;
+	private int mColor;
+	private int mHandicap;
+	
+	private Player mPlayer;
 	
 	public Opponent(Player player, float result, int color, int handicap) {
-		super(player);
+		this.setPlayer(player);
 		this.setResult(result);
 		this.setColor(color);
 		this.setHandicap(handicap);
 	}
 	
 	public Opponent(int gor, float result, int color, int handicap) {
-		super(gor);
+		this.setPlayer(new Player(gor));
 		this.setResult(result);
 		this.setColor(color);
 		this.setHandicap(handicap);
 	}
 
+	public Player getPlayer() {
+		return mPlayer;
+	}
+
+	public void setPlayer(Player player) {
+		mPlayer = player;
+		
+		setChanged();
+		notifyObservers();
+	}
+
 	public float getResult() {
-		return result;
+		return mResult;
 	}
 
 	public void setResult(float result) {
-		this.result = result;
+		this.mResult = result;
 		setChanged();
+		notifyObservers();
 	}
 
 	public int getColor() {
-		return color;
+		return mColor;
 	}
 
 	public void setColor(int color) {
-		this.color = color;
+		this.mColor = color;
 		setChanged();
+		notifyObservers();
 	}
 
 	public int getHandicap() {
-		return handicap;
+		return mHandicap;
 	}
 	
 	public int getRelativeHandicap() {
@@ -65,8 +82,9 @@ public class Opponent extends Player {
 	}
 
 	public void setHandicap(int handicap) {
-		this.handicap = handicap;
+		this.mHandicap = handicap;
 		setChanged();
+		notifyObservers();
 	}
 }
  

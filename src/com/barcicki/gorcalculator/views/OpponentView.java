@@ -1,19 +1,20 @@
 package com.barcicki.gorcalculator.views;
 
+import java.util.Observable;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.Opponent;
+import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.libs.Utils;
 
 public class OpponentView extends PlayerView {
@@ -77,11 +78,22 @@ public class OpponentView extends PlayerView {
 		mHandicapStones.setText( Utils.getHandicapString(getContext().getResources(), mOpponent.getHandicap()));
 		mWin.setChecked( mOpponent.getResult() == Opponent.WIN );
 	}
+	
+	public void updatePlayer(Player player) {
+		mOpponent.setPlayer(player);
+		setPlayer(player);
+	}
 
-	public void setOpponent(Opponent mPlayer) {
-		mOpponent = mPlayer;
+	public void setOpponent(Opponent opponent) {
+		if (mOpponent != null) {
+			mOpponent.deleteObserver(this);
+		}
+		
+		mOpponent = opponent;
 		mHandicapDialog.setOpponent(mOpponent);
-		super.setPlayer(mPlayer);
+		
+		opponent.addObserver(this);
+		super.setPlayer(opponent.getPlayer());
 	}
 	
 	public Opponent getOpponent() {
@@ -121,5 +133,5 @@ public class OpponentView extends PlayerView {
 		}
 		return super.onTouchEvent(event);
 	}
-
+	
 }

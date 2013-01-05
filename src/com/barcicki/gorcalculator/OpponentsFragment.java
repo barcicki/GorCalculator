@@ -2,8 +2,8 @@ package com.barcicki.gorcalculator;
 
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,9 +18,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
-import com.barcicki.gorcalculator.core.MyParcel;
 import com.barcicki.gorcalculator.core.Opponent;
-import com.barcicki.gorcalculator.core.PlayerViewParcel;
 import com.barcicki.gorcalculator.views.OpponentView;
 
 public class OpponentsFragment extends CommonFragment {
@@ -45,19 +43,17 @@ public class OpponentsFragment extends CommonFragment {
 		if (getTournament() != null) {
 			
 			for (Opponent op : getTournament().getOpponents()) {
-				
 				addOpponentView(op);
-				
 			}
 			
 			updateGorChange(getTournament().getStartingGor());
 			
-			getTournament().getPlayer().addObserver(new Observer() {
-				@Override
-				public void update(Observable observable, Object data) {
-					updateGorChange(getTournament().getStartingGor());
-				}
-			});
+//			getTournament().getPlayer().addObserver(new Observer() {
+//				@Override
+//				public void update(Observable observable, Object data) {
+//					updateGorChange(getTournament().getStartingGor());
+//				}
+//			});
 		}
 		
 		return mContainer;
@@ -77,15 +73,13 @@ public class OpponentsFragment extends CommonFragment {
 			@Override
 			public void onClick(View v) {
 				
-//				PlayerViewParcel parcel = new PlayerViewParcel();
-//				parcel.setPlayerView(opponentView);				
-//				
-//				Intent intent = new Intent(getActivity(), PlayerListActivity.class);
-//				intent.putExtra(MyParcel.PARCEL, parcel);
-//				
-//				startActivityForResult(intent, PlayerListActivity.REQUEST_DEFAULT);
+				int requestId = getApp().storePlayerRequest(opponentView);
 				
-				opponentView.setShowPlayerDetails(true);
+				Intent intent = new Intent(getActivity(), PlayerListActivity.class);
+				intent.putExtra(GorCalculator.REQUEST_PLAYER, requestId);
+				
+				startActivityForResult(intent, PlayerListActivity.REQUEST_DEFAULT);
+				
 			}
 		};
 		opponentView.getFindButton().setOnClickListener(swapView);
@@ -110,7 +104,21 @@ public class OpponentsFragment extends CommonFragment {
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		if (requestCode == PlayerListActivity.REQUEST_DEFAULT && resultCode == Activity.RESULT_OK) {
+			int requestId = data.getIntExtra(GorCalculator.REQUEST_PLAYER, 0);
+			
+			if (requestId > 0) {
+				GorCalculator.PlayerRequest request = getApp().getPlayerRequest(requestId);
+				
+				OpponentView ov = (OpponentView) request.playerView;
+				
+				Log.d("OpponentsFragment", "Received player: " + request.player.getName());
+				
+				ov.updatePlayer(request.player);
+				ov.setShowButtonChange(true);
+				ov.setShowPlayerDetails(true);
+			}
+		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	

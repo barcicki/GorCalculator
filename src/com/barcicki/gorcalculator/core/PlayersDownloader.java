@@ -1,41 +1,61 @@
 package com.barcicki.gorcalculator.core;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.barcicki.gorcalculator.database.DatabaseHelper;
+import java.util.zip.ZipInputStream;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
+
+import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 
 	public final static String DEMO_URL = "http://192.168.1.50/listas.htm";
 	public final static String EGD_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.html";
+	public final static String EGD_ZIP = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.zip";
 	
 	Activity mActivity;
 	ProgressDialog mProgressDialog;
 	ArrayList<Player> mPlayers = new ArrayList<Player>();
 	Pattern mSimplePattern = Pattern.compile("([0-9]{8})");
 	
+	private Runnable mOnFinish;
+	
+	public PlayersDownloader(Activity activity) {
+		mActivity = activity;
+		mProgressDialog = new ProgressDialog(activity);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		mProgressDialog.setOnCancelListener(new OnCancelListener() {
+			
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				PlayersDownloader.this.cancel(true);
+			}
+		});
+	}
+	
 	public PlayersDownloader(Activity activity, ProgressDialog progressDialog) {
 //	public PlayersDownloader(Activity activity, ProgressDialog progressDialog, ArrayList<Player> players) {
 		mActivity = activity;
 		mProgressDialog = progressDialog;
 //		mPlayers = players;
+	}
+	
+	public void download(Runnable onFinish) {
+		mOnFinish = onFinish;
+		execute(EGD_ZIP);
 	}
 	
 	@Override
@@ -48,14 +68,14 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 			URLConnection connection = url.openConnection();
 			connection.connect();
 			
-			int fileLength = connection.getContentLength();
-			
-			InputStream input = new BufferedInputStream(url.openStream());
-			OutputStream output = new ByteArrayOutputStream();
+			ZipInputStream input = new ZipInputStream(url.openStream());
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			
 			byte data[] = new byte[1024];
 			long total = 0;
 			int count;
+			
+			int fileLength = (int) input.getNextEntry().getSize();
 			while ((count = input.read(data)) != -1) {
 				total += count;
 				
@@ -64,7 +84,7 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 			}
 
 			result = output.toString();
-			
+
 			output.close();
 			input.close();
 			
@@ -132,17 +152,9 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 			
 			DatabaseHelper dbHelper = new DatabaseHelper(mActivity);
 			SQLiteDatabase db = dbHelper.getWritableDatabase();
+			db.beginTransaction();
 			
 			while (matcher.find()) {
-//				Log.d("Player", 
-//					"PIN:     " + matcher.group(1) + " \n" +
-//					"Name:    " + matcher.group(2) + " \n" +
-//					"Country: " + matcher.group(3) + " \n" +
-//					"Club:    " + matcher.group(4) + " \n" +
-//					"Grade:   " + matcher.group(5) + " \n" +
-//					"GOR:     " + matcher.group(7)
-//				); 
-				
 				dbHelper.insertPlayer(db, 
 						Integer.parseInt(matcher.group(1)), 
 						matcher.group(2), 
@@ -154,6 +166,9 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 				
 				publishProgress(++total);
 			}
+			
+			db.setTransactionSuccessful();
+			db.endTransaction();
 			
 			return total.toString();
 		}
@@ -185,7 +200,9 @@ public class PlayersDownloader extends AsyncTask<String, Integer, String>{
 				mProgressDialog.dismiss();
 			}
 			
-			Toast.makeText(mActivity, "Done: " + result + " from " + mTotal + " found" , Toast.LENGTH_LONG).show();
+			if (mOnFinish != null) {
+				mOnFinish.run();
+			}
 		}
 		
 	}

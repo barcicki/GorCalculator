@@ -1,15 +1,13 @@
 package com.barcicki.gorcalculator.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import com.barcicki.gorcalculator.libs.MathUtils;
-
 import android.text.TextUtils;
 
-public class Player extends Observable implements Serializable {
-	private static final long serialVersionUID = 6435678525352052161L;
+import com.barcicki.gorcalculator.libs.MathUtils;
+
+public class Player extends Observable {
 
 	public static ArrayList<String> STRENGTHS = new ArrayList<String>();
 

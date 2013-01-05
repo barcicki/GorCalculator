@@ -35,21 +35,12 @@ public class CalculatorActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calculator);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
 		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
 		
-		if (savedInstanceState == null) {
-			
-			mTournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1600), Tournament.CATEGORY_A);
-			mTournament.addOpponent(new Opponent(1700, Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
-			
-		} else {
-			
-			// restore state from saved instance
-			mTournament = new Tournament(new Player("Artur Barcicki", "POZ", "PL", "10 kyu", 1483), Tournament.CATEGORY_A);
-			mTournament.addOpponent(new Opponent(2580, Opponent.WIN, Opponent.BLACK, Opponent.HANDICAP_9));
-		}
+		mTournament = new Tournament(new Player(1600), Tournament.CATEGORY_A);
+		mTournament.addOpponent(new Opponent(1700, Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
 		
 		mPlayerFragment = new PlayerFragment();
 		mPlayerFragment.setTournament(mTournament);
@@ -83,16 +74,6 @@ public class CalculatorActivity extends FragmentActivity {
 				mScroll.fullScroll(ScrollView.FOCUS_DOWN);
 			}
 		});
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			ProgressDialog mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			new PlayersDownloader(this, mProgressDialog).execute(PlayersDownloader.EGD_URL);
-		}
-		return super.onOptionsItemSelected(item);
 	}
 	
 }

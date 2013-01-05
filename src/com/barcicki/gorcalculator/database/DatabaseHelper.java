@@ -7,13 +7,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.barcicki.gorcalculator.core.Calculator;
 import com.barcicki.gorcalculator.core.Player;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 8;
 	private static final String DATABASE_NAME = "gorcalculator";
 	
 	public static final String KEY_ID = "_id";
@@ -24,15 +26,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String KEY_GOR = "gor";
 	public static final String KEY_GRADE = "grade";
 	
+	public static final int LIMIT = 50;
+	
 	private static final String PLAYER_TABLE_NAME = "players";
 	private static final String PLAYER_TABLE_CREATE = 
 			"CREATE TABLE " + PLAYER_TABLE_NAME + " (" + 
 		    KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
 			KEY_PIN + " INTEGER NOT NULL, " +
-			KEY_NAME + " TEXT NOT NULL, " + 
-			KEY_CLUB+ " TEXT NOT NULL, " + 
-			KEY_COUNTRY + " TEXT NOT NULL, " + 
-			KEY_GRADE + " TEXT NOT NULL, " + 
+			KEY_NAME + " TEXT NOT NULL COLLATE NOCASE, " + 
+			KEY_CLUB+ " TEXT NOT NULL COLLATE NOCASE, " + 
+			KEY_COUNTRY + " TEXT NOT NULL COLLATE NOCASE, " + 
+			KEY_GRADE + " TEXT NOT NULL COLLATE NOCASE, " + 
 			KEY_GOR + " INTEGER NOT NULL DEFAULT 100" + 
 		    ")";
 	private static final String PLAYER_TABLE_SELECT_ALL = 
@@ -99,17 +103,78 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return db.insert(PLAYER_TABLE_NAME, KEY_NAME, cv);
 	}
 	
+	public void clearPlayers() {
+		SQLiteDatabase db = getWritableDatabase();
+		db.execSQL("DELETE FROM " + PLAYER_TABLE_NAME);
+	}
+	
+	public ArrayList<Player> getPlayers(int page, String name, String club, String country, String grade) {
+		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<String> conditions = new ArrayList<String>();
+		
+		Log.d("Database", "GetPlayers: " + TextUtils.join(" ", new String[] { name, club, country, grade }));
+		
+		boolean conditionsApplies = false;
+		
+		if (name != null) {
+			conditions.add(KEY_NAME + " LIKE '%" + name + "%'");
+			conditionsApplies = true;
+		}
+		
+		if (club != null) {
+			conditions.add(KEY_CLUB + " LIKE '%" + club + "%'");
+			conditionsApplies = true;
+		}
+		
+		if (country != null) {
+			conditions.add(KEY_COUNTRY + " LIKE '%" + country + "%'");
+			conditionsApplies = true;
+		}
+		
+		if (grade != null) {
+			conditions.add(KEY_GRADE + " LIKE '%" + grade + "%'");
+			conditionsApplies = true;
+		}
+		
+		String query;
+		
+		if (conditionsApplies) {
+			query = PLAYER_TABLE_SELECT_ALL + " WHERE " + TextUtils.join(" AND ", conditions) + " LIMIT " + LIMIT;
+		} else {
+			query = PLAYER_TABLE_SELECT_ALL + " LIMIT " + LIMIT;
+		}
+		
+		Log.d("Database", query);
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor result = db.rawQuery(query, null);
+		
+		if (result.getCount() > 0) {
+			result.moveToFirst();
+			do {
+				players.add(convertToPlayer(result));
+			} while (result.moveToNext());
+		}
+		
+		Log.d("Database", "Found: " + players.size());
+		return players;
+	}
 	
 	public ArrayList<Player> getPlayers() {
+		return getPlayers(1);
+	}
+	
+	public ArrayList<Player> getPlayers(int page) {
 		ArrayList<Player> players = new ArrayList<Player>();
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor result = db.rawQuery(PLAYER_TABLE_SELECT_ALL, null);
+		Cursor result = db.rawQuery(PLAYER_TABLE_SELECT_ALL + " LIMIT " + LIMIT, null);
 		
-		result.moveToFirst();
-		do {
-			players.add(convertToPlayer(result));
-		} while (result.moveToNext());
-		
+		if (result.getCount() > 0) {
+			result.moveToFirst();
+			do {
+				players.add(convertToPlayer(result));
+			} while (result.moveToNext());
+		}
 		return players;
 	}
 	

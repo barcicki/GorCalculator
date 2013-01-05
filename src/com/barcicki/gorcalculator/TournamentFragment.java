@@ -48,7 +48,9 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		setChecked( (ToggleButton) v);
+		
 		getTournament().setCategory( mButtons.indexOf((ToggleButton) v) );
+		getTournament().notifyObservers();
 	}
 	
 	public void setChecked(ToggleButton current) {
@@ -62,8 +64,6 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	@Override
 	public void update(Observable observable, Object data) {
 		super.update(observable, data);
-		
 		setChecked(mButtons.get( getTournament().getCategory()));
-		
 	}
 }

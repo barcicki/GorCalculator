@@ -1,6 +1,5 @@
 package com.barcicki.gorcalculator.views;
 
-import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,11 +14,8 @@ import android.widget.TextView;
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.Player;
 
-public class PlayerView extends RelativeLayout implements Observer, Serializable {
-	private static final long serialVersionUID = 1178881739963949366L;
+public class PlayerView extends RelativeLayout implements Observer {
 
-	public static String POSITION = "position";
-	
 	private Player mPlayer;
 	
 	private Button mGorButton;
@@ -74,6 +70,7 @@ public class PlayerView extends RelativeLayout implements Observer, Serializable
 		
 		mPlayer = player;
 		mPlayer.addObserver(this);
+		
 		mGorDialog.setPlayer(player);
 		
 		updateAttributes();
