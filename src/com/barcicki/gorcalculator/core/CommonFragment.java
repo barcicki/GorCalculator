@@ -12,11 +12,13 @@ public class CommonFragment extends Fragment implements Observer {
 	
 	private Tournament mTournament;
 	private GorCalculator mApp;
+	private Settings mSettings;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mApp = (GorCalculator) getActivity().getApplication();
+		mSettings = new Settings(getActivity());
 	}
 	
 	public void setTournament(Tournament tournament) {
@@ -30,6 +32,10 @@ public class CommonFragment extends Fragment implements Observer {
 	
 	public Tournament getTournament() {
 		return mTournament;
+	}
+	
+	public Settings getSettings() {
+		return mSettings;
 	}
 
 	@Override

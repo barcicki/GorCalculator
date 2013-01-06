@@ -19,6 +19,7 @@ import android.view.animation.TranslateAnimation;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.core.Opponent;
+import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.views.OpponentView;
 
 public class OpponentsFragment extends CommonFragment {
@@ -65,7 +66,7 @@ public class OpponentsFragment extends CommonFragment {
 		mContainer.addView(opponentView);
 		
 		opponentView.setOpponent(newOpponent);
-		opponentView.setShowPlayerDetails(false);
+		opponentView.setShowPlayerDetails(newOpponent.getPlayer().getPin() > 0);
 		opponentView.setOnGestureListener(new GestureListener(opponentView));
 		
 		OnClickListener swapView = new OnClickListener() {
@@ -100,6 +101,7 @@ public class OpponentsFragment extends CommonFragment {
 	public void update(Observable observable, Object data) {
 		super.update(observable, data);
 		updateGorChange(getTournament().getStartingGor());
+		getSettings().storeOpponents(getTournament().getOpponents());
 	}
 	
 	@Override
@@ -117,6 +119,7 @@ public class OpponentsFragment extends CommonFragment {
 				ov.updatePlayer(request.player);
 				ov.setShowButtonChange(true);
 				ov.setShowPlayerDetails(true);
+				
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -197,4 +200,6 @@ public class OpponentsFragment extends CommonFragment {
 		}
 		
 	}
+	
+	
 }

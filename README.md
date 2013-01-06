@@ -11,17 +11,21 @@ This is a simple application allowing Go players to calculate how their rating m
 
 *	Real-time calculation of GoR change - no need to refresh browser etc.
 * 	Easy way of getting current GoR rating from European Go Database
-*	Remembers the player for whom calculations are made
+*	Remembers the players for whom calculations are made
 *	Filter the list of players by name, country, club or/and grade
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9](https://www.dropbox.com/sh/6r869ltnzq4yt23/wAW_75aTLi/GorCalculator_v0.9.apk?dl=1)
+[GorCalculator v.0.9.1](https://www.dropbox.com/sh/6r869ltnzq4yt23/4TlrxiSMUI/GorCalculator_v0.9.1.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection to downloading / updating data from EGD 
 
 ## Changelog ##
+
+*	v.0.9.1 (7.01.2013)
+
+	Current players and opponents are automatically saved
 
 *	v.0.9 (6.01.2013) BETA
 
@@ -80,7 +84,8 @@ This is a simple application allowing Go players to calculate how their rating m
 
 6. You can click Update button in top-right corner to update the list from EGD
 
-7. While on the list screen, you can click Save filter button in top-right corner to save current filter as a default one.    
+7. While on the list screen, you can click Save filter button in top-right corner to save current filter as a default one.
+ 
 	
 ## Licence ##
 	

@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.core.Player;
-import com.barcicki.gorcalculator.core.Settings;
-import com.barcicki.gorcalculator.views.OpponentView;
 import com.barcicki.gorcalculator.views.PlayerView;
 
 public class PlayerFragment extends CommonFragment {
@@ -84,7 +82,7 @@ public class PlayerFragment extends CommonFragment {
 				mPlayerView.setShowPlayerDetails(true);
 				getTournament().setPlayer(request.player);
 				
-				new Settings(getActivity()).storePlayerPIN(request.player.getPin());
+				getSettings().storePlayer(request.player);
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

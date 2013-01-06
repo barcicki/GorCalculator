@@ -1,5 +1,9 @@
 package com.barcicki.gorcalculator;
 
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -23,7 +27,6 @@ public class CalculatorActivity extends FragmentActivity {
 	TournamentFragment mTournamentFragment;
 	OpponentsFragment mOpponentsFragment;
 	
-	DatabaseHelper mDB;
 	Settings mSettings;
 	
 	Tournament mTournament;
@@ -37,22 +40,27 @@ public class CalculatorActivity extends FragmentActivity {
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		
-		mDB = new DatabaseHelper(this);
 		mSettings = new Settings(this);
 		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
 		
-		int playerPIN = mSettings.getPlayerPIN();
-		Player player = null;
-		if (playerPIN > 0) {
-			player = mDB.getPlayerByPin(playerPIN);
-		}
+		// restore player
+		Player player = mSettings.getStoredPlayer();
 		if (player == null) {
 			player = new Player(1600);
 		}
 		
 		mTournament = new Tournament(player, Tournament.CATEGORY_A);
-		mTournament.addOpponent(new Opponent(1700, Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
+		
+		// restore opponents
+		ArrayList<Opponent> opponents = mSettings.getStoredOpponents();
+		if (opponents.size() > 0) {
+			mTournament.addOpponents(opponents);
+		} else {
+			
+			// default opponent is of the same rank
+			mTournament.addOpponent(new Opponent(player.getGor(), Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
+		}
 		
 		mPlayerFragment = new PlayerFragment();
 		mPlayerFragment.setTournament(mTournament);

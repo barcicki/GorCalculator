@@ -77,6 +77,18 @@ public class Tournament extends Observable implements Observer {
 		notifyObservers();
 	}
 	
+	public void addOpponents(ArrayList<Opponent> opponents) {
+		for (Opponent o : opponents) {
+			mOpponents.add(o);
+			o.addObserver(this);
+			o.getPlayer().addObserver(this);
+		}
+		
+		Log.d(TAG, "Opponent added");
+		setChanged();
+		notifyObservers();
+	}
+	
 	public void removeOpponent(Opponent opponent) {
 		if (mOpponents.remove(opponent)) {
 			opponent.deleteObserver(this);
