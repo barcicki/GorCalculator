@@ -1,8 +1,6 @@
 package com.barcicki.gorcalculator;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +17,6 @@ import com.barcicki.gorcalculator.core.PlayersUpdater;
 import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.core.Tournament;
-import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class CalculatorActivity extends FragmentActivity {
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipInputStream;
@@ -16,8 +15,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
+import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class PlayersUpdater extends AsyncTask<String, Integer, String>{
@@ -50,10 +49,8 @@ public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 	}
 	
 	public PlayersUpdater(Activity activity, ProgressDialog progressDialog) {
-//	public PlayersDownloader(Activity activity, ProgressDialog progressDialog, ArrayList<Player> players) {
 		mActivity = activity;
 		mProgressDialog = progressDialog;
-//		mPlayers = players;
 	}
 	
 	public void download(PlayersUpdaterListener listener) {
@@ -106,7 +103,7 @@ public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 	protected void onPreExecute() {
 		super.onPreExecute();
 		if (mProgressDialog != null) {
-			mProgressDialog.setMessage("Downloading list");
+			mProgressDialog.setMessage(mActivity.getString(R.string.update_downloading));
 			mProgressDialog.setIndeterminate(false);
 			mProgressDialog.setMax(100);
 			mProgressDialog.show();
@@ -168,11 +165,13 @@ public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 						matcher.group(2), 
 						matcher.group(3),
 						matcher.group(4),
-						matcher.group(5),
+						Player.stringGradeToInt(matcher.group(5)),
 						Integer.parseInt(matcher.group(7))
 				);
 				
-				publishProgress(++total);
+				if (++total % 50 == 0) {
+					publishProgress(total);
+				}
 			}
 			
 			if (!this.isCancelled()) {
@@ -196,7 +195,7 @@ public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 		protected void onPreExecute() {
 			super.onPreExecute();
 			if (mProgressDialog != null) {
-				mProgressDialog.setMessage("Parsing players");
+				mProgressDialog.setMessage(mActivity.getString(R.string.update_storing));
 				mProgressDialog.setIndeterminate(false);
 				mProgressDialog.setMax(mTotal);
 				mProgressDialog.show();

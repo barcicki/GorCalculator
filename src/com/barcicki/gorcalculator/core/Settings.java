@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -22,6 +23,8 @@ public class Settings {
 	public static String FILTER_CLUB = "filter_club";
 	public static String FILTER_COUNTRY = "filter_country";
 	public static String FILTER_GRADE = "filter_grade";
+	public static String FILTER_GRADE_MIN = "filter_grade_min";
+	public static String FILTER_GRADE_MAX = "filter_grade_max";
 	
 	public static String PLAYER = "player";
 	
@@ -44,32 +47,35 @@ public class Settings {
 		mDB = new DatabaseHelper(context);
 	}
 	
-	public HashMap<String,String> getFilters() {
-		HashMap<String, String> map = new HashMap<String, String>();
+	public Bundle getFilters() {
+		Bundle filters = new Bundle();
 		
-		map.put(FILTER_NAME, mPrefs.getString(FILTER_NAME, ""));
-		map.put(FILTER_CLUB, mPrefs.getString(FILTER_CLUB, ""));
-		map.put(FILTER_GRADE, mPrefs.getString(FILTER_GRADE, ""));
-		map.put(FILTER_COUNTRY, mPrefs.getString(FILTER_COUNTRY, ""));
+		filters.putString(FILTER_NAME, mPrefs.getString(FILTER_NAME, ""));
+		filters.putString(FILTER_CLUB, mPrefs.getString(FILTER_CLUB, ""));
+		filters.putInt(FILTER_GRADE_MIN, mPrefs.getInt(FILTER_GRADE_MIN, 0));
+		filters.putInt(FILTER_GRADE_MAX, mPrefs.getInt(FILTER_GRADE_MAX, Player.STRENGTHS.size() - 1));
+		filters.putString(FILTER_COUNTRY, mPrefs.getString(FILTER_COUNTRY, ""));
 		
-		return map;
+		return filters;
 	}
 	
-	public boolean storeFilters(HashMap<String, String> map) {
+	public boolean storeFilters(Bundle map) {
 		return storeFilters(
-				map.get(FILTER_NAME),
-				map.get(FILTER_COUNTRY),
-				map.get(FILTER_CLUB),
-				map.get(FILTER_GRADE)
+				map.getString(FILTER_NAME),
+				map.getString(FILTER_COUNTRY),
+				map.getString(FILTER_CLUB),
+				map.getInt(FILTER_GRADE_MIN),
+				map.getInt(FILTER_GRADE_MAX)
 		);
 	}
 	
-	public boolean storeFilters(String name, String country, String club, String grade) {
+	public boolean storeFilters(String name, String country, String club, int gradeMin, int gradeMax) {
 		return mPrefs.edit()
 				.putString(FILTER_NAME, name)
 				.putString(FILTER_COUNTRY, country)
 				.putString(FILTER_CLUB, club)
-				.putString(FILTER_GRADE, grade)
+				.putInt(FILTER_GRADE_MIN, gradeMin)
+				.putInt(FILTER_GRADE_MAX, gradeMax)
 				.commit();		
 	}
 	

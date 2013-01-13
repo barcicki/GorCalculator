@@ -23,6 +23,12 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Changelog ##
 
+*	v.0.9.2 (14.01.2013)
+
+	Added range filter for grade
+	
+	Some GUI improvements
+
 *	v.0.9.1 (7.01.2013)
 
 	Current players and opponents are automatically saved

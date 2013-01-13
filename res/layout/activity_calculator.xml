@@ -14,16 +14,26 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
     </FrameLayout>
+    
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/holo_green_dark"
+        android:layout_marginTop="@dimen/margin_box"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/container_player" />
+    
 
     <ScrollView
         android:id="@+id/scroller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_box"
         android:layout_above="@+id/buttonAddOpponent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/container_player" >
+        android:layout_below="@+id/spacer" >
 
         <LinearLayout
             android:layout_width="match_parent"

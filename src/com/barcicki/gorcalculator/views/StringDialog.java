@@ -19,7 +19,7 @@ public class StringDialog extends Dialog {
 		super(context);
 		setContentView(R.layout.dialog_string);
 		
-		setTitle("Filter");
+		setTitle(context.getString(R.string.title_filter));
 		setCancelable(true);
 		
 		mString = (EditText) findViewById(R.id.dialog_edit);

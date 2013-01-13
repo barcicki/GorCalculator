@@ -66,6 +66,7 @@ public class OpponentsFragment extends CommonFragment {
 		mContainer.addView(opponentView);
 		
 		opponentView.setOpponent(newOpponent);
+		opponentView.setShowButtonChange(true);
 		opponentView.setShowPlayerDetails(newOpponent.getPlayer().getPin() > 0);
 		opponentView.setOnGestureListener(new GestureListener(opponentView));
 		

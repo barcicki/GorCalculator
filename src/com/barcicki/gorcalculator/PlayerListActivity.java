@@ -29,6 +29,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.barcicki.gorcalculator.core.Player;
@@ -36,6 +37,7 @@ import com.barcicki.gorcalculator.core.PlayersUpdater;
 import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
+import com.barcicki.gorcalculator.views.GradeDialog;
 import com.barcicki.gorcalculator.views.PlayerView;
 import com.barcicki.gorcalculator.views.StringDialog;
 
@@ -44,13 +46,14 @@ public class PlayerListActivity extends Activity {
 	public static int REQUEST_DEFAULT = 1;
 	
 	private ListView mPlayerList;
-	private HashMap<String, String> mFilters;
+	private Bundle mFilters;
 	private HashMap<String, Button> mFiltersAssignments;
 	private HashMap<String, String> mFiltersLabels;
 	
 	private PlayersAdapter mPlayersAdapter;
 	
 	private StringDialog mDialog;
+	private GradeDialog mGradeDialog;
 	
 	private DatabaseHelper mDB;
 	private int mPage = DatabaseHelper.FIRST_PAGE;
@@ -65,6 +68,7 @@ public class PlayerListActivity extends Activity {
 		
 		mDB = new DatabaseHelper(this);
 		mDialog = new StringDialog(this);
+		mGradeDialog = new GradeDialog(this);
 		
 		mFilters = new Settings(this).getFilters();
 		mFiltersAssignments = new HashMap<String, Button>();
@@ -86,9 +90,9 @@ public class PlayerListActivity extends Activity {
 		
 		if (mPlayersAdapter.getCount() == 0) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Download EGD list?");
-			builder.setMessage("You have no records in your database. Do you want to download player list from EGD?");
-			builder.setPositiveButton("YES", new OnClickListener() {
+			builder.setTitle(getString(R.string.update_prompt));
+			builder.setMessage(getString(R.string.update_reason));
+			builder.setPositiveButton(getString(android.R.string.yes), new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					new PlayersUpdater(PlayerListActivity.this).download(new PlayersUpdaterListener() {
@@ -108,7 +112,7 @@ public class PlayerListActivity extends Activity {
 					dialog.dismiss();
 				}
 			});
-			builder.setNegativeButton("NO", new OnClickListener() {
+			builder.setNegativeButton(getString(android.R.string.no), new OnClickListener() {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -175,10 +179,11 @@ public class PlayerListActivity extends Activity {
 		mPlayersAdapter.addAll(
 				mDB.getPlayers(
 						mPage, 
-						mFilters.get(Settings.FILTER_NAME),
-						mFilters.get(Settings.FILTER_CLUB),
-						mFilters.get(Settings.FILTER_COUNTRY),
-						mFilters.get(Settings.FILTER_GRADE)));
+						mFilters.getString(Settings.FILTER_NAME),
+						mFilters.getString(Settings.FILTER_CLUB),
+						mFilters.getString(Settings.FILTER_COUNTRY),
+						mFilters.getInt(Settings.FILTER_GRADE_MIN),
+						mFilters.getInt(Settings.FILTER_GRADE_MAX)));
 						
 		mPlayersAdapter.notifyDataSetChanged();
 		updateFilters();
@@ -191,46 +196,78 @@ public class PlayerListActivity extends Activity {
 		while (it.hasNext()) {
 			Entry<String, Button> e = it.next();
 			
-			String label = mFiltersLabels.get(e.getKey());
-			String filter = mFilters.get(e.getKey());
+			String label, filter;
 			
-			if (!filter.isEmpty()) {
-				label += ": " + filter;
+			if (e.getKey().equals(Settings.FILTER_GRADE)) {
+				int min = mFilters.getInt(Settings.FILTER_GRADE_MIN),
+					max = mFilters.getInt(Settings.FILTER_GRADE_MAX);
+				
+				if (min > 0 || max < Player.STRENGTHS.size() - 1) {
+					label = Player.STRENGTHS.get(min) + " - " + Player.STRENGTHS.get(max);	
+				} else {
+					label = mFiltersLabels.get(Settings.FILTER_GRADE); 
+				}
+				
+			} else {
+				label = mFiltersLabels.get(e.getKey());
+				filter = (String) mFilters.get(e.getKey());
+				
+				if (!filter.isEmpty()) {
+					label += ": " + filter;
+				}
 			}
 			
 			e.getValue().setText(label);
 		}
 	}
 	
-	public void showFilterDialog(final String key) {
+	public void showFilterStringDialog(final String key) {
 		mDialog.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
-				mFilters.put(key, mDialog.getResult());
+				mFilters.putString(key, mDialog.getResult());
 				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				getNextResults();
 			}
 		});
-		mDialog.show(mFilters.get(key));
+		mDialog.show(mFilters.getString(key));
 	}
 	
 	public void onFilterNameClicked(View v) {
-		showFilterDialog(Settings.FILTER_NAME);
+		showFilterStringDialog(Settings.FILTER_NAME);
 	}
 	
 	public void onFilterClubClicked(View v) {
-		showFilterDialog(Settings.FILTER_CLUB);
+		showFilterStringDialog(Settings.FILTER_CLUB);
 	}
 	
 	public void onFilterCountryClicked(View v) {
-		showFilterDialog(Settings.FILTER_COUNTRY);
+		showFilterStringDialog(Settings.FILTER_COUNTRY);
 	}
 	
 	public void onFilterRankClicked(View v) {
-		showFilterDialog(Settings.FILTER_GRADE);
-	
+		mGradeDialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				mFilters.putInt(Settings.FILTER_GRADE_MIN, mGradeDialog.getGradeMin());
+				mFilters.putInt(Settings.FILTER_GRADE_MAX, mGradeDialog.getGradeMax());
+				
+				mPage = DatabaseHelper.FIRST_PAGE;
+				mPlayersAdapter.clear();
+				
+				getNextResults();
+				mPlayerList.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						mPlayerList.scrollTo(0, 0);
+					}
+				});
+			}
+		});
+		mGradeDialog.show(mFilters.getInt(Settings.FILTER_GRADE_MIN), mFilters.getInt(Settings.FILTER_GRADE_MAX));
 	}
 	
 	@Override
@@ -250,7 +287,7 @@ public class PlayerListActivity extends Activity {
 				return true;
 			case R.id.save_filter:
 				if (new Settings(this).storeFilters(mFilters)) {
-					Toast.makeText(this, "Filter configuration saved", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, getString(R.string.filters_saved), Toast.LENGTH_SHORT).show();
 				}
 				return true;
 			default:

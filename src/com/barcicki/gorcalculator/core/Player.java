@@ -8,6 +8,24 @@ import android.text.TextUtils;
 import com.barcicki.gorcalculator.libs.MathUtils;
 
 public class Player extends Observable {
+	
+	private static int LOWEST_KYU = 20;
+	private static int HIGHEST_KYU = 1;
+	private static int STEP_KYU = -1;
+	private static String LONG_KYU = "kyu";
+	private static String SHORT_KYU = "k";
+	
+	private static int LOWEST_DAN = 1;
+	private static int HIGHEST_DAN = 7;
+	private static int STEP_DAN = 1;
+	private static String LONG_DAN = "dan";
+	private static String SHORT_DAN = "d";
+	
+	private static int LOWEST_PRO = 1;
+	private static int HIGHEST_PRO = 9;
+	private static int STEP_PRO = 1;
+	private static String LONG_PRO= "pro";
+	private static String SHORT_PRO = "p";
 
 	public static ArrayList<String> STRENGTHS = new ArrayList<String>();
 
@@ -15,14 +33,14 @@ public class Player extends Observable {
 	private String mName;
 	private String mClub;
 	private String mCountry;
-	private String mStrength;
+	private int mGradeValue;
 	private int mGor;
 	
 	public Player(Player other) {
 		this.setName(other.getName());
 		this.setClub(other.getClub());
 		this.setCountry(other.getCountry());
-		this.setGrade(other.getGrade());
+		this.setGradeMapping(other.getGradeValue());
 		this.setGor(other.getGor());
 	}
 	
@@ -31,18 +49,18 @@ public class Player extends Observable {
 		this.setName("Shindo Hikaru");
 		this.setClub("HnG");
 		this.setCountry("JPN");
-		this.setGrade(calculateRanking(gor));
+		this.setGradeMapping(gorToGradeValue(gor));
 		this.setGor(gor);
 	}
 	
 	public Player(int pin, String name, String club, String country,
-			String strength, int gor) {
+			int gradeMapping, int gor) {
 		super();
 		this.setPin(pin);
 		this.setName(name);
 		this.setClub(club);
 		this.setCountry(country);
-		this.setGrade(strength);
+		this.setGradeMapping(gradeMapping);
 		this.setGor(gor);
 	}
 	
@@ -68,17 +86,47 @@ public class Player extends Observable {
 	}
 
 	static {
-		int i;
-		for (i = 20; i > 0; i--) {
-			STRENGTHS.add(i + " kyu");
+		
+		int rank = LOWEST_KYU;
+		while (rank != HIGHEST_KYU) {
+			STRENGTHS.add(rank + " " + LONG_KYU);
+			rank += STEP_KYU;
 		}
-		for (i = 1; i <= 9; i++) {
-			STRENGTHS.add(i + " dan");
+		STRENGTHS.add(HIGHEST_KYU + " " + LONG_KYU);
+		
+		rank = LOWEST_DAN;
+		while (rank != HIGHEST_DAN) {
+			STRENGTHS.add(rank + " " + LONG_DAN);
+			rank += STEP_DAN;
 		}
+		STRENGTHS.add(HIGHEST_DAN + " " + LONG_DAN);
+		
+		rank = LOWEST_PRO;
+		while (rank != HIGHEST_PRO) {
+			STRENGTHS.add(rank + " " + LONG_PRO);
+			rank += STEP_PRO;
+		}
+		STRENGTHS.add(HIGHEST_PRO + " " + LONG_PRO);
+		
+	}
+	
+	public static int gorToGradeValue(int gor) {
+		return (int) Math.floor(MathUtils.constrain(gor, (int) Calculator.MIN_GOR, (int) Calculator.MAX_GOR) / 100.0) - 1;
 	}
 
-	public static String calculateRanking(int gor) {
-		return STRENGTHS.get((int) Math.floor(MathUtils.constrain(gor, (int) Calculator.MIN_GOR, (int) Calculator.MAX_GOR) / 100.0) - 1);
+	public static String gorToGradeString(int gor) {
+		return STRENGTHS.get(gorToGradeValue(gor));
+	}
+	
+	public static int stringGradeToInt(String grade) {
+		if (grade.contains(SHORT_KYU)) {
+			return STRENGTHS.indexOf(grade.replace(SHORT_KYU, " " + LONG_KYU)); 
+		} else if (grade.contains(SHORT_DAN)) {
+			return STRENGTHS.indexOf(grade.replace(SHORT_DAN, " " + LONG_DAN));
+		} else if (grade.contains(SHORT_PRO)) {
+			return STRENGTHS.indexOf(grade.replace(SHORT_PRO, " " + LONG_PRO));
+		} else return 0;
+		
 	}
 
 	public String getClub() {
@@ -98,11 +146,15 @@ public class Player extends Observable {
 	}
 
 	public String getGrade() {
-		return mStrength;
+		return STRENGTHS.get(this.mGradeValue);
 	}
-
-	public void setGrade(String strength) {
-		this.mStrength = strength;
+	
+	public void setGradeMapping(int gradeMapping) {
+		this.mGradeValue = gradeMapping;
+	}
+	
+	public int getGradeValue() {
+		return this.mGradeValue;
 	}
 
 	public int getGor() {
