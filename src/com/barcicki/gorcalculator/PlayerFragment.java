@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.views.PlayerView;
 
 public class PlayerFragment extends CommonFragment {
@@ -91,10 +92,10 @@ public class PlayerFragment extends CommonFragment {
 	@Override
 	public void update(Observable observable, Object data) {
 		
-		float previousGor = getTournament().getStartingGor(),
-			  newGor = getTournament().getFinalGor();
+		double 	previousGor = getTournament().getStartingGor(),
+				newGor = getTournament().getFinalGor();
 		
-		mPlayerGorChange.setText( getString(R.string.title_gor_change, previousGor, newGor));
+		mPlayerGorChange.setText( getString(R.string.title_gor_change, previousGor, MathUtils.round1000(newGor)));
 	}
 	
 }

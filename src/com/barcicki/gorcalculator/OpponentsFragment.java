@@ -90,7 +90,7 @@ public class OpponentsFragment extends CommonFragment {
 		mOpponents.add(opponentView);
 	}
 	
-	public void updateGorChange(float gor) {
+	public void updateGorChange(double gor) {
 		for (OpponentView ov : mOpponents) {
 			float gorChange = (float) Math.round( getTournament().getGorChange(ov.getOpponent()) * 1000.0) / 1000;
 			gor += gorChange;

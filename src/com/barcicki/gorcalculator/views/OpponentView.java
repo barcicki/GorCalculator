@@ -15,6 +15,7 @@ import com.barcicki.gorcalculator.core.Opponent;
 import com.barcicki.gorcalculator.core.Opponent.GameColor;
 import com.barcicki.gorcalculator.core.Opponent.GameResult;
 import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.libs.Utils;
 
 public class OpponentView extends PlayerView {
@@ -104,20 +105,22 @@ public class OpponentView extends PlayerView {
 		mGestureDetector = new GestureDetector(getContext(), listener);
 	}
 	
-	public void updateGorChange(float newGor, float gorChange) {
+	public void updateGorChange(double newGor, double gorChange) {
 		String text;
 		int color;
+		
+		gorChange = MathUtils.round1000(gorChange);
 		
 		if (gorChange > 0) {
 			text = "+" + gorChange;
 			color = android.R.color.holo_green_dark;
 		} else {
-			text = Float.toString(gorChange);
+			text = "" + gorChange;
 			color = android.R.color.holo_red_dark;
 		}
 		
 		mGorChange.setBackgroundColor(getResources().getColor(color));
-		mGorChange.setText( getContext().getString(R.string.gor_change, Math.round(newGor), text));
+		mGorChange.setText( getContext().getString(R.string.gor_change, MathUtils.round1000(newGor), text));
 	}
 	
 	@Override

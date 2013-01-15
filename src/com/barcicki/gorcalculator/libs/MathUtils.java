@@ -34,12 +34,20 @@ public final class MathUtils {
     public static float abs(float v) {
         return v > 0 ? v : -v; 
     }
+    
+    public static double round1000(double value) {
+    	return Math.round( value * 1000.0) / 1000.0;
+    }
 
     public static int constrain(int amount, int low, int high) {
         return amount < low ? low : (amount > high ? high : amount);
     }
 
     public static float constrain(float amount, float low, float high) {
+        return amount < low ? low : (amount > high ? high : amount);
+    }
+    
+    public static double constrain(double amount, double low, double high) {
         return amount < low ? low : (amount > high ? high : amount);
     }
 

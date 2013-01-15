@@ -3,67 +3,71 @@ package com.barcicki.gorcalculator.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.barcicki.gorcalculator.core.Opponent.GameColor;
+import com.barcicki.gorcalculator.core.Opponent.GameResult;
+import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
+import com.barcicki.gorcalculator.libs.MathUtils;
+
 import android.util.Log;
 
-// ([0-9]+) +([a-zA-Z- ]+) +([a-zA-Z]{3,4}) +([0-9]p|[0-7]d|[0-9]{1,2}k) +([0-9]{3,4})
 public class Calculator {
 
-	public static float EPSILON = 0.016f;
+	public static double EPSILON = 0.016;
 	
-	public static Map<Float, Integer> CON_MAP = new HashMap<Float, Integer>();
+	public static Map<Double, Integer> CON_MAP = new HashMap<Double, Integer>();
 	
-	public static float MAX_GOR = 3000f;
-	public static float MAX_RANK_GOR = 2700f;
-	public static float MIN_GOR = 100f;
+	public static double MAX_GOR = 3000;
+	public static double MAX_RANK_GOR = 2700;
+	public static double MIN_GOR = 100;
 	
-	private static float RANK_STEP = 100f;
+	private static double RANK_STEP = 100;
 	private static String TAG = "Calculator";
 	
 	static {
-		CON_MAP.put(100f, 116);
-		CON_MAP.put(200f, 110);
-		CON_MAP.put(300f, 105);
-		CON_MAP.put(400f, 100);
-		CON_MAP.put(500f, 95);
-		CON_MAP.put(600f, 90);
-		CON_MAP.put(700f, 85);
-		CON_MAP.put(800f, 80);
-		CON_MAP.put(900f, 75);
-		CON_MAP.put(1000f, 70);
-		CON_MAP.put(1100f, 65);
-		CON_MAP.put(1200f, 60);
-		CON_MAP.put(1300f, 55);
-		CON_MAP.put(1400f, 51);
-		CON_MAP.put(1500f, 47);
-		CON_MAP.put(1600f, 43);
-		CON_MAP.put(1700f, 39);
-		CON_MAP.put(1800f, 35);
-		CON_MAP.put(1900f, 31);
-		CON_MAP.put(2000f, 27);
-		CON_MAP.put(2100f, 24);
-		CON_MAP.put(2200f, 21);
-		CON_MAP.put(2300f, 18);
-		CON_MAP.put(2400f, 15);
-		CON_MAP.put(2500f, 13);
-		CON_MAP.put(2600f, 11);
-		CON_MAP.put(2700f, 10);
+		CON_MAP.put(100.0, 116);
+		CON_MAP.put(200.0, 110);
+		CON_MAP.put(300.0, 105);
+		CON_MAP.put(400.0, 100);
+		CON_MAP.put(500.0, 95);
+		CON_MAP.put(600.0, 90);
+		CON_MAP.put(700.0, 85);
+		CON_MAP.put(800.0, 80);
+		CON_MAP.put(900.0, 75);
+		CON_MAP.put(1000.0, 70);
+		CON_MAP.put(1100.0, 65);
+		CON_MAP.put(1200.0, 60);
+		CON_MAP.put(1300.0, 55);
+		CON_MAP.put(1400.0, 51);
+		CON_MAP.put(1500.0, 47);
+		CON_MAP.put(1600.0, 43);
+		CON_MAP.put(1700.0, 39);
+		CON_MAP.put(1800.0, 35);
+		CON_MAP.put(1900.0, 31);
+		CON_MAP.put(2000.0, 27);
+		CON_MAP.put(2100.0, 24);
+		CON_MAP.put(2200.0, 21);
+		CON_MAP.put(2300.0, 18);
+		CON_MAP.put(2400.0, 15);
+		CON_MAP.put(2500.0, 13);
+		CON_MAP.put(2600.0, 11);
+		CON_MAP.put(2700.0, 10);
 	}
 	
-	private static float ratingBase(float rating) {
+	private static double ratingBase(double rating) {
 		return (float) Math.floor(rating / 100.0) * 100f;
 	}
 	
-	private static float ratingProgress(float rating) {
+	private static double ratingProgress(double rating) {
 		return (rating - ratingBase(rating)) / 100;
 	}
 	
-	static public float calculateRatingChange(float ratingA, float ratingB, float result, float handicap, float modifier) {
+	static public double calculateRatingChange(double ratingA, double ratingB, double result, double handicap, double modifier) {
 		Log.d(TAG, "Diff: " + (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB, handicap))));
 		return (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB, handicap))) * modifier;
 	}
 	
-	static public float formulaSe(float ratingA, float ratingB, float handicap) {
-		float formulaA;
+	static public double formulaSe(double ratingA, double ratingB, double handicap) {
+		double formulaA;
 		
 		if (handicap > 0) {
 			ratingA += 100 * (handicap - 0.5);
@@ -74,34 +78,34 @@ public class Calculator {
 			formulaA = formulaA(ratingB);
 			
 		} else {
-			formulaA = formulaA(ratingB);
+			formulaA = formulaA(ratingA, ratingB);
 		}
 		
 		Log.d(TAG, "Me: " + ratingA);
 		Log.d(TAG, "Him: " + ratingB);
 		
-		float diff = ratingB - ratingA;
+		double diff = ratingB - ratingA;
 		
 		Log.d(TAG, "Se: " + Math.max( 1 / ( (float) Math.exp( diff / formulaA ) + 1 ) - EPSILON / 2, 0));
 		return Math.max( 1 / ( (float) Math.exp( diff / formulaA ) + 1 ) - EPSILON / 2, 0);
 	}
 	
-	static public float formulaA(float ratingA, float ratingB) {
-		float aA = formulaA(ratingA),
-			  aB = formulaA(ratingB),
-			  result = Math.min(aA, aB);
+	static public double formulaA(double ratingA, double ratingB) {
+		double aA = formulaA(ratingA),
+			   aB = formulaA(ratingB),
+			   result = Math.max(aA, aB);
 				
 		Log.d(TAG, "Common a: " + result);
 		return result;
 	}
 	
-	static public float formulaA(float rating) {
-		Log.d(TAG, "a: " + (- 0.05f * rating + 205));
-		return - 0.05f * rating + 205;
+	static public double formulaA(double rating) {
+		Log.d(TAG, "a: " + (- 0.05 * rating + 205));
+		return MathUtils.constrain(- 0.05 * rating + 205, 70, 200);
 	}
 	
-	static public float formulaCon(float rating) {
-		float con;
+	static public double formulaCon(double rating) {
+		double con;
 		
 		if (rating <= MIN_GOR) {
 			con = 116;
@@ -109,9 +113,9 @@ public class Calculator {
 			con = 10;
 		} else {
 			
-			float base = ratingBase(rating),
-				  baseCon = CON_MAP.get(base),
-				  nextCon = CON_MAP.get(Math.min(base + RANK_STEP, MAX_RANK_GOR));
+			double 	base = ratingBase(rating),
+					baseCon = CON_MAP.get(base),
+					nextCon = CON_MAP.get(Math.min(base + RANK_STEP, MAX_RANK_GOR));
 			
 			con = baseCon + (nextCon - baseCon) * ratingProgress(rating);
 			
@@ -119,6 +123,25 @@ public class Calculator {
 		
 		Log.d(TAG, "Con: " + con);
 		return con;
+	}
+	
+	public static double calculate(Player player, Opponent opponent, TournamentClass tournamentClass) {
+		return calculate(player, opponent.getPlayer(), opponent.getHandicap(), opponent.getResult(), opponent.getColor(), tournamentClass);
+	}
+//
+	public static double calculate(Player player1, Player player2,
+			int handicap, GameResult gameResult, GameColor gameColor,
+			TournamentClass tournamentClass) {
+
+		int gorA = player1.getGor(),
+			gorB = player2.getGor();
+		
+		handicap = gameColor.equals(GameColor.BLACK) ? handicap : -handicap;
+		
+		float	modifier = tournamentClass.value,
+				result = gameResult.value;
+				
+		return calculateRatingChange(gorA, gorB, result, handicap, modifier);
 	}
 
 }

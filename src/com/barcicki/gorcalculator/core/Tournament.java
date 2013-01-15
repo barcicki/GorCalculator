@@ -99,30 +99,34 @@ public class Tournament extends Observable implements Observer {
 		}
 	}
 	
-	public float getStartingGor() {
+	public double getStartingGor() {
 		return Math.round(mPlayer.getGor());
 	}
 	
-	public float getFinalGor() {
-		float gor = getStartingGor();
+	public double getFinalGor() {
+		double gor = getStartingGor(),
+			   change = 0;
 		
 		for (Opponent opponent : mOpponents) {
-			gor += getGorChange(opponent);
+			change += getGorChange(opponent);
 		}
 		
-		return Math.round(gor * 1000) / 1000f;
+		if (change < -100) {
+			change = -100;
+		}
+		
+		return Math.round((gor + change) * 1000) / 1000f;
 	}
 	
-	public float getGorChange(Opponent opponent) {
-		float category = getTournamentClass().value;
+	public double getGorChange(Opponent opponent) {
 		
 		Log.d(TAG, "Player: " + mPlayer.getGor());
 		Log.d(TAG, "Opponent: " + opponent.getPlayer().getGor());
 		Log.d(TAG, "Win: " + opponent.getResult());
 		Log.d(TAG, "Handicap: " + opponent.getRelativeHandicap());
-		Log.d(TAG, "Category: " + category);
+		Log.d(TAG, "Category: " + getTournamentClass());
 		
-		return Calculator.calculateRatingChange(mPlayer.getGor(), opponent.getPlayer(). getGor(), opponent.getResult().value, opponent.getRelativeHandicap(), category);		
+		return Calculator.calculate(mPlayer, opponent, mTournamentClass);		
 	}
 
 	@Override

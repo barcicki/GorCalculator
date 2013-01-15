@@ -24,7 +24,7 @@
     
     <string name="tournament_class">Class</string>
     
-    <string name="gor_change">%1$d (%2$s)</string>
+    <string name="gor_change">%1$s (%2$s)</string>
     <string name="hint_player_gor">Go Rating</string>
 
     <string name="game_even">EVEN</string>
