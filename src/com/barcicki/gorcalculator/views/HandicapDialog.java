@@ -11,20 +11,24 @@ import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.Opponent;
+import com.barcicki.gorcalculator.core.Opponent.GameColor;
 import com.barcicki.gorcalculator.libs.Utils;
 
 public class HandicapDialog extends Dialog {
 	
-	private ArrayList<ToggleButton> mColors = new ArrayList<ToggleButton>();
 	private ArrayList<ToggleButton> mHandicaps = new ArrayList<ToggleButton>();
+	private ToggleButton mColorWhite;
+	private ToggleButton mColorBlack;
 	private Opponent mOpponent;
 	
 	public HandicapDialog(Context context) {
 		super(context);
 		setContentView(R.layout.dialog_handicap);
 //		
-		mColors.add( (ToggleButton) findViewById(R.id.colorWhite));
-		mColors.add( (ToggleButton) findViewById(R.id.colorBlack));
+		mColorWhite = (ToggleButton) findViewById(R.id.colorWhite);
+		mColorWhite.setTag(GameColor.WHITE);
+		mColorBlack = (ToggleButton) findViewById(R.id.colorBlack);
+		mColorBlack.setTag(GameColor.BLACK);
 		
 		mHandicaps.add( (ToggleButton) findViewById(R.id.handicap0));
 		mHandicaps.add( (ToggleButton) findViewById(R.id.handicap1));
@@ -58,11 +62,11 @@ public class HandicapDialog extends Dialog {
 	
 	public void attachListeners() {
 		
-		for (ToggleButton b : mColors) {
+		for (ToggleButton b : new ToggleButton[] { mColorWhite, mColorBlack }) {
 			b.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					mOpponent.setColor( mColors.indexOf((ToggleButton) v));
+					mOpponent.setColor( (GameColor) v.getTag());
 					dismiss();
 				}
 			});
@@ -81,8 +85,8 @@ public class HandicapDialog extends Dialog {
 	}
 	
 	public void updateColor() {
-		for (ToggleButton b : mColors) {
-			b.setChecked( mOpponent.getColor() == mColors.indexOf(b) );
+		for (ToggleButton b : new ToggleButton[] { mColorWhite, mColorBlack }) {
+			b.setChecked(mOpponent.getColor().equals(b.getTag()));
 		}
 	}
 	

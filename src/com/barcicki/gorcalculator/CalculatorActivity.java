@@ -12,9 +12,12 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.barcicki.gorcalculator.core.Opponent;
+import com.barcicki.gorcalculator.core.Opponent.GameColor;
+import com.barcicki.gorcalculator.core.Opponent.GameResult;
 import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.core.PlayersUpdater;
 import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
+import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.core.Tournament;
 
@@ -47,7 +50,7 @@ public class CalculatorActivity extends FragmentActivity {
 			player = new Player(1600);
 		}
 		
-		mTournament = new Tournament(player, Tournament.CATEGORY_A);
+		mTournament = new Tournament(player, TournamentClass.CLASS_A);
 		
 		// restore opponents
 		ArrayList<Opponent> opponents = mSettings.getStoredOpponents();
@@ -56,7 +59,7 @@ public class CalculatorActivity extends FragmentActivity {
 		} else {
 			
 			// default opponent is of the same rank
-			mTournament.addOpponent(new Opponent(player.getGor(), Opponent.WIN, Opponent.BLACK, Opponent.NO_HANDICAP));
+			mTournament.addOpponent(new Opponent(player.getGor(), GameResult.WIN, GameColor.BLACK, Opponent.NO_HANDICAP));
 		}
 		
 		mPlayerFragment = new PlayerFragment();
@@ -111,7 +114,7 @@ public class CalculatorActivity extends FragmentActivity {
 	
 	public void onAddNewOpponentClicked(View v) {
 		
-		Opponent newOpponent = new Opponent( new Player(mTournament.getPlayer().getGor()) , Opponent.WIN, Opponent.WHITE, Opponent.NO_HANDICAP);
+		Opponent newOpponent = new Opponent( new Player(mTournament.getPlayer().getGor()), GameResult.WIN, GameColor.BLACK, Opponent.NO_HANDICAP);
 		mOpponentsFragment.addOpponentView(newOpponent);
 		mTournament.addOpponent(newOpponent);
 		

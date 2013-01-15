@@ -19,7 +19,7 @@ This is a simple application allowing Go players to calculate how their rating m
 [GorCalculator v.0.9.1](https://www.dropbox.com/sh/6r869ltnzq4yt23/4TlrxiSMUI/GorCalculator_v0.9.1.apk?dl=1)
 
 *	Android 4.0+
-* 	Internet Connection to downloading / updating data from EGD 
+* 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
 

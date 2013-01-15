@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
+import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
 
 public class TournamentFragment extends CommonFragment implements OnClickListener {
 
@@ -32,9 +33,10 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 		View rootView = inflater.inflate(R.layout.fragment_tournament, container,
 				false);
 		
-		mButtons.add( (ToggleButton) rootView.findViewById(R.id.tournamentClassA) );
-		mButtons.add( (ToggleButton) rootView.findViewById(R.id.tournamentClassB) );
-		mButtons.add( (ToggleButton) rootView.findViewById(R.id.tournamentClassC) );
+		linkButton((ToggleButton) rootView.findViewById(R.id.tournamentClassA), TournamentClass.CLASS_A);
+		linkButton((ToggleButton) rootView.findViewById(R.id.tournamentClassB), TournamentClass.CLASS_B);
+		linkButton((ToggleButton) rootView.findViewById(R.id.tournamentClassC), TournamentClass.CLASS_C);
+		
 		mModifier = (TextView) rootView.findViewById(R.id.tournamentModifier);
 		
 		for (ToggleButton button : mButtons) {
@@ -45,25 +47,33 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 		return rootView;
 	}
 
+	private void linkButton(ToggleButton button, TournamentClass tournamentClass) {
+		button.setTag(tournamentClass);
+		mButtons.add(button);
+	}
+
 	@Override
 	public void onClick(View v) {
-		setChecked( (ToggleButton) v);
-		
-		getTournament().setCategory( mButtons.indexOf((ToggleButton) v) );
+		TournamentClass newTournamentClass = (TournamentClass) v.getTag();
+		getTournament().setTournamentClass(newTournamentClass);
 		getTournament().notifyObservers();
 	}
 	
-	public void setChecked(ToggleButton current) {
+	public void setChecked(TournamentClass tournamentClass) {
 		for (ToggleButton button : mButtons) {
-			button.setChecked(false);
+			TournamentClass linkedClass = (TournamentClass) button.getTag();
+			if (linkedClass.equals(tournamentClass)) {
+				button.setChecked(true);
+				mModifier.setText( button.getHint() );
+			} else {
+				button.setChecked(false);				
+			}
 		}
-		current.setChecked(true);
-		mModifier.setText( current.getHint() );
 	}
 	
 	@Override
 	public void update(Observable observable, Object data) {
 		super.update(observable, data);
-		setChecked(mButtons.get( getTournament().getCategory()));
+		setChecked(getTournament().getTournamentClass());
 	}
 }

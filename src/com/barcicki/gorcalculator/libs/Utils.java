@@ -13,7 +13,7 @@ public class Utils {
 			case Opponent.NO_HANDICAP:
 				resId = R.string.handicap_none;
 				break;
-			case Opponent.HANDICAP_1:
+			case Opponent.NO_KOMI:
 				resId = R.string.handicap_no_komi;
 				break;
 			default:

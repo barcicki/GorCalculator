@@ -1,7 +1,5 @@
 package com.barcicki.gorcalculator.views;
 
-import java.util.Observable;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -14,6 +12,8 @@ import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.Opponent;
+import com.barcicki.gorcalculator.core.Opponent.GameColor;
+import com.barcicki.gorcalculator.core.Opponent.GameResult;
 import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.libs.Utils;
 
@@ -37,7 +37,7 @@ public class OpponentView extends PlayerView {
 		mHandicapDialog = new HandicapDialog(context);
 		mHandicapDialog.setTitle(context.getString(R.string.dialog_handicap));
 		mHandicapDialog.setCancelable(true);
-		
+//		
 		mHandicap = (Button) findViewById(R.id.buttonHandicap);
 		mWin = (ToggleButton) findViewById(R.id.toggleWin);
 		mHandicapColor = (TextView) findViewById(R.id.handicapColor);
@@ -57,7 +57,7 @@ public class OpponentView extends PlayerView {
 		mWin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mOpponent.setResult(mWin.isChecked() ? Opponent.WIN : Opponent.LOSS);
+				mOpponent.setResult(mWin.isChecked() ? GameResult.WIN : GameResult.LOSS);
 				mOpponent.notifyObservers();
 			}
 		});
@@ -74,9 +74,9 @@ public class OpponentView extends PlayerView {
 	public void updateAttributes() {
 		super.updateAttributes();
 		
-		mHandicapColor.setText( mOpponent.getColor() == Opponent.BLACK ? getContext().getString(R.string.game_color_black) : getContext().getString(R.string.game_color_white));
+		mHandicapColor.setText( mOpponent.getColor().equals(GameColor.BLACK) ? getContext().getString(R.string.game_color_black) : getContext().getString(R.string.game_color_white));
 		mHandicapStones.setText( Utils.getHandicapString(getContext().getResources(), mOpponent.getHandicap()));
-		mWin.setChecked( mOpponent.getResult() == Opponent.WIN );
+		mWin.setChecked( mOpponent.getResult().equals(GameResult.WIN));
 	}
 	
 	public void updatePlayer(Player player) {

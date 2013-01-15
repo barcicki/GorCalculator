@@ -53,7 +53,7 @@
     <string name="filters_saved">Filter configuration saved</string>
     
     <string name="update_downloading">Downloading players list ...</string>
-    <string name="update_storing">Storing players ...</string>
+    <string name="update_storing">Saving players ...</string>
     <string name="update_prompt">Download EGD players list</string>
     <string name="update_reason">Your local database seems to be empty. Do you want to download players list from EGD?</string> 
 

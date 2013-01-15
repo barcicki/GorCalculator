@@ -103,14 +103,14 @@ public class PlayerView extends RelativeLayout implements Observer {
 			mClub.setVisibility(View.VISIBLE);
 			mCountry.setVisibility(View.VISIBLE);
 			mGrade.setVisibility(View.VISIBLE);
-			mChangeButton.setVisibility(mShowButtonChange ? View.VISIBLE : View.INVISIBLE);
+			mChangeButton.setVisibility(mShowButtonChange ? View.VISIBLE : View.GONE);
 		} else {
 			mFindButton.setVisibility(View.VISIBLE);
 			mName.setVisibility(View.INVISIBLE);
 			mClub.setVisibility(View.GONE);
 			mCountry.setVisibility(View.GONE);
 			mGrade.setVisibility(View.GONE);
-			mChangeButton.setVisibility(View.INVISIBLE);
+			mChangeButton.setVisibility(View.GONE);
 		}
 		
 	}

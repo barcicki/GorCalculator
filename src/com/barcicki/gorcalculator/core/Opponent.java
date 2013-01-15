@@ -4,38 +4,49 @@ import java.util.Observable;
 
 public class Opponent extends Observable {
 
-	final public static float WIN = 1f;
-	final public static float LOSS = 0f;
-	final public static float JIGO = 0.5f;
+	public enum GameResult {
+		WIN 	(1f),
+		JIGO 	(0.5f),
+		LOSS	(0f);
+		
+		public static GameResult fromValue(float value) {
+			for (GameResult g : GameResult.values()) {
+				if (g.value == value) {
+					return g;
+				}
+			}
+			return GameResult.LOSS;
+		}
+		
+		public final float value;
+		
+		private GameResult(float value) {
+			this.value = value;
+		}
+	};
+	
+	public enum GameColor {
+		BLACK,
+		WHITE
+	}
 	
 	final public static int NO_HANDICAP = 0;
-	final public static int HANDICAP_1 = 1;
-	final public static int HANDICAP_2 = 2;
-	final public static int HANDICAP_3 = 3;
-	final public static int HANDICAP_4 = 4;
-	final public static int HANDICAP_5 = 5;
-	final public static int HANDICAP_6 = 6;
-	final public static int HANDICAP_7 = 7;
-	final public static int HANDICAP_8 = 8;
-	final public static int HANDICAP_9 = 9;
+	final public static int NO_KOMI = 1;
 	
-	final public static int BLACK = 1;
-	final public static int WHITE = 0;
-	
-	private float mResult;
-	private int mColor;
+	private GameResult mResult;
+	private GameColor mColor;
 	private int mHandicap;
 	
 	private Player mPlayer;
 	
-	public Opponent(Player player, float result, int color, int handicap) {
+	public Opponent(Player player, GameResult result, GameColor color, int handicap) {
 		this.setPlayer(player);
 		this.setResult(result);
 		this.setColor(color);
 		this.setHandicap(handicap);
 	}
 	
-	public Opponent(int gor, float result, int color, int handicap) {
+	public Opponent(int gor, GameResult result, GameColor color, int handicap) {
 		this.setPlayer(new Player(gor));
 		this.setResult(result);
 		this.setColor(color);
@@ -53,21 +64,21 @@ public class Opponent extends Observable {
 		notifyObservers();
 	}
 
-	public float getResult() {
+	public GameResult getResult() {
 		return mResult;
 	}
 
-	public void setResult(float result) {
+	public void setResult(GameResult result) {
 		this.mResult = result;
 		setChanged();
 		notifyObservers();
 	}
 
-	public int getColor() {
+	public GameColor getColor() {
 		return mColor;
 	}
 
-	public void setColor(int color) {
+	public void setColor(GameColor color) {
 		this.mColor = color;
 		setChanged();
 		notifyObservers();
@@ -78,7 +89,7 @@ public class Opponent extends Observable {
 	}
 	
 	public int getRelativeHandicap() {
-		return getColor() == Opponent.WHITE ? -getHandicap() : getHandicap();
+		return getColor() == GameColor.WHITE ? -getHandicap() : getHandicap();
 	}
 
 	public void setHandicap(int handicap) {

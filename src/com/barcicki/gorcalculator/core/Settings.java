@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.barcicki.gorcalculator.core.Opponent.GameColor;
+import com.barcicki.gorcalculator.core.Opponent.GameResult;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class Settings {
@@ -28,10 +30,10 @@ public class Settings {
 	
 	public static String PLAYER = "player";
 	
-	
 	public static String OPPONENTS = "opponents";
 	public static String OPPONENTS_EMPTY = "[]";
 	
+	public static String JSON_OPPONENT_GOR = "gor";
 	public static String JSON_OPPONENT_PIN = "pin";
 	public static String JSON_OPPONENT_WIN = "win";
 	public static String JSON_OPPONENT_COLOR = "color";
@@ -99,10 +101,21 @@ public class Settings {
 				
 				Player p = mDB.getPlayerByPin(jo.getInt(JSON_OPPONENT_PIN));
 				if (p != null) {
-					Opponent op = new Opponent(p, (float) jo.getDouble(JSON_OPPONENT_WIN), jo.getInt(JSON_OPPONENT_COLOR), jo.getInt(JSON_OPPONENT_HANDICAP));
+					Opponent op = new Opponent(
+							p,
+							GameResult.fromValue((float) jo.getDouble(JSON_OPPONENT_WIN)),
+							GameColor.values()[jo.getInt(JSON_OPPONENT_COLOR)],
+							jo.getInt(JSON_OPPONENT_HANDICAP));
+					opponents.add(op);
+				} else {
+					Opponent op = new Opponent(
+							jo.getInt(JSON_OPPONENT_GOR),
+							GameResult.fromValue((float) jo.getDouble(JSON_OPPONENT_WIN)),
+							GameColor.values()[jo.getInt(JSON_OPPONENT_COLOR)],
+							jo.getInt(JSON_OPPONENT_HANDICAP));
 					opponents.add(op);
 				}
-			}
+			} 
 		} catch (JSONException e) {
 			Log.e(TAG, "Error parsing opponents: " + e.getLocalizedMessage());
 			e.printStackTrace();
@@ -118,7 +131,8 @@ public class Settings {
 			for (Opponent o : opponents) {
 				JSONObject jo = new JSONObject();
 				jo.put(JSON_OPPONENT_PIN, o.getPlayer().getPin());
-				jo.put(JSON_OPPONENT_WIN, (double) o.getResult());
+				jo.put(JSON_OPPONENT_GOR, o.getPlayer().getGor());
+				jo.put(JSON_OPPONENT_WIN,  (double) o.getResult().value);
 				jo.put(JSON_OPPONENT_COLOR, o.getColor());
 				jo.put(JSON_OPPONENT_HANDICAP, o.getHandicap());
 				ja.put(jo);

@@ -10,27 +10,26 @@ import android.util.Log;
 
 public class Tournament extends Observable implements Observer {
 	
-	public static int CATEGORY_A = 0;
-	public static int CATEGORY_B = 1;
-	public static int CATEGORY_C = 2;
-	
-	public static Map<Integer, Float> CATEGORIES = new HashMap<Integer, Float>(); 
+	public enum TournamentClass {
+		CLASS_A	 	(1f),
+		CLASS_B 	(0.75f),
+		CLASS_C		(0.5f);
+		
+		public final float value;
+		private TournamentClass(float value) {
+			this.value = value;
+		}
+	};
 	
 	private static String TAG = "Tournament";
 	
 	private Player mPlayer;
 	private ArrayList<Opponent> mOpponents = new ArrayList<Opponent>();
-	private int mCategory = CATEGORY_A;
+	private TournamentClass mTournamentClass = TournamentClass.CLASS_A;
 	
-	static {
-		CATEGORIES.put(CATEGORY_A, 1.0f);
-		CATEGORIES.put(CATEGORY_B, 0.75f);
-		CATEGORIES.put(CATEGORY_C, 0.5f);
-	}
-	
-	public Tournament(Player player, int category) {
+	public Tournament(Player player, TournamentClass category) {
 		mPlayer = player;
-		mCategory = category;
+		mTournamentClass = category;
 	}
 	
 	public Player getPlayer() {
@@ -51,12 +50,12 @@ public class Tournament extends Observable implements Observer {
 		notifyObservers();
 	}
 	
-	public int getCategory() {
-		return mCategory;
+	public TournamentClass getTournamentClass() {
+		return mTournamentClass;
 	}
 	
-	public void setCategory(int category) {
-		mCategory = category;
+	public void setTournamentClass(TournamentClass category) {
+		mTournamentClass = category;
 		
 		Log.d(TAG, "Category changed");
 		setChanged();
@@ -115,15 +114,15 @@ public class Tournament extends Observable implements Observer {
 	}
 	
 	public float getGorChange(Opponent opponent) {
-		float category = CATEGORIES.get(mCategory);
+		float category = getTournamentClass().value;
 		
-//		Log.d(TAG, "Player: " + mPlayer.getGor());
-//		Log.d(TAG, "Opponent: " + opponent.getPlayer().getGor());
-//		Log.d(TAG, "Win: " + opponent.getResult());
-//		Log.d(TAG, "Handicap: " + opponent.getRelativeHandicap());
-//		Log.d(TAG, "Category: " + category);
+		Log.d(TAG, "Player: " + mPlayer.getGor());
+		Log.d(TAG, "Opponent: " + opponent.getPlayer().getGor());
+		Log.d(TAG, "Win: " + opponent.getResult());
+		Log.d(TAG, "Handicap: " + opponent.getRelativeHandicap());
+		Log.d(TAG, "Category: " + category);
 		
-		return Calculator.calculateRatingChange(mPlayer.getGor(), opponent.getPlayer(). getGor(), opponent.getResult(), opponent.getRelativeHandicap(), category);		
+		return Calculator.calculateRatingChange(mPlayer.getGor(), opponent.getPlayer(). getGor(), opponent.getResult().value, opponent.getRelativeHandicap(), category);		
 	}
 
 	@Override
