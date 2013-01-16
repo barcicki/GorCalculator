@@ -16,13 +16,21 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.1](https://www.dropbox.com/sh/6r869ltnzq4yt23/4TlrxiSMUI/GorCalculator_v0.9.1.apk?dl=1)
+[GorCalculator v.0.9.3](https://www.dropbox.com/sh/6r869ltnzq4yt23/MrO6dPtsYJ/GorCalculator_v0.9.3.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
 
+*	v.0.9.3 (16.01.2013)
+
+	Fixed issue with calculating even games
+	
+	Added tests (thanks to Wysek)
+	
+	Improved code readability
+	
 *	v.0.9.2 (14.01.2013)
 
 	Added range filter for grade

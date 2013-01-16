@@ -35,7 +35,7 @@ public class Settings {
 	
 	public static String JSON_OPPONENT_GOR = "gor";
 	public static String JSON_OPPONENT_PIN = "pin";
-	public static String JSON_OPPONENT_WIN = "win";
+	public static String JSON_OPPONENT_WIN = "result";
 	public static String JSON_OPPONENT_COLOR = "color";
 	public static String JSON_OPPONENT_HANDICAP = "handicap";
 	
@@ -103,15 +103,15 @@ public class Settings {
 				if (p != null) {
 					Opponent op = new Opponent(
 							p,
-							GameResult.fromValue((float) jo.getDouble(JSON_OPPONENT_WIN)),
-							GameColor.values()[jo.getInt(JSON_OPPONENT_COLOR)],
+							GameResult.valueOf(jo.getString(JSON_OPPONENT_WIN)),
+							GameColor.valueOf(jo.getString(JSON_OPPONENT_COLOR)),
 							jo.getInt(JSON_OPPONENT_HANDICAP));
 					opponents.add(op);
 				} else {
 					Opponent op = new Opponent(
 							jo.getInt(JSON_OPPONENT_GOR),
-							GameResult.fromValue((float) jo.getDouble(JSON_OPPONENT_WIN)),
-							GameColor.values()[jo.getInt(JSON_OPPONENT_COLOR)],
+							GameResult.valueOf(jo.getString(JSON_OPPONENT_WIN)),
+							GameColor.valueOf(jo.getString(JSON_OPPONENT_COLOR)),
 							jo.getInt(JSON_OPPONENT_HANDICAP));
 					opponents.add(op);
 				}
@@ -132,7 +132,7 @@ public class Settings {
 				JSONObject jo = new JSONObject();
 				jo.put(JSON_OPPONENT_PIN, o.getPlayer().getPin());
 				jo.put(JSON_OPPONENT_GOR, o.getPlayer().getGor());
-				jo.put(JSON_OPPONENT_WIN,  (double) o.getResult().value);
+				jo.put(JSON_OPPONENT_WIN,  o.getResult());
 				jo.put(JSON_OPPONENT_COLOR, o.getColor());
 				jo.put(JSON_OPPONENT_HANDICAP, o.getHandicap());
 				ja.put(jo);
