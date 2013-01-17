@@ -16,71 +16,55 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.3](https://www.dropbox.com/sh/6r869ltnzq4yt23/MrO6dPtsYJ/GorCalculator_v0.9.3.apk?dl=1)
+[GorCalculator v.0.9.4](https://www.dropbox.com/sh/6r869ltnzq4yt23/VqAsiMX4PL/GorCalculator_v0.9.4.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
 
-*	v.0.9.3 (16.01.2013)
+#### v.0.9.4 (18.01.2013) ####
+* Country selector in players list
+* Switch player list from EUROPE to WORLD (in future it will be customizable) 
 
-	Fixed issue with calculating even games
+#### v.0.9.3 (16.01.2013) ####
+* Fixed issue with calculating even games
+* Added tests (thanks to Wysek)
+* Improved code readability
 	
-	Added tests (thanks to Wysek)
+#### v.0.9.2 (14.01.2013) ####
+* Added range filter for grade
+* Some GUI improvements
+
+#### v.0.9.1 (7.01.2013) ####
+* Current players and opponents are automatically saved
+
+#### v.0.9 (6.01.2013) BETA ####
+* Added integration with EGD.
+* Improved usability and layout.
 	
-	Improved code readability
-	
-*	v.0.9.2 (14.01.2013)
-
-	Added range filter for grade
-	
-	Some GUI improvements
-
-*	v.0.9.1 (7.01.2013)
-
-	Current players and opponents are automatically saved
-
-*	v.0.9 (6.01.2013) BETA
-
-	Added integration with EGD.
-	
-	Improved usability and layout.
-	
-
-* 	v.0.8 (2.01.2013)
-
-	Fully working calculator based on rating provided manually
-	
-	Basic GUI
+#### v.0.8 (2.01.2013) ####
+* Fully working calculator based on rating provided manually
+* Basic GUI
 
 ## ToDo ##
 
-*	More complex integration with EGD
-
-	Fetching players' photos
+#### More complex integration with EGD ####
+* Fetching players' photos
+* Allowing partial downloads, such as players from selected countries
+* Allowing partial updates
 	
-	Allowing partial downloads, such as players from selected countries
+#### More complex customization ####
+* Allowing to store few profile with different players for whom calculations are made.
+* Store custom filters
+* **DONE** Improve filters
 	
-	Allowing partial updates
+#### Usability improvements ####
+* Animations
+* Additional features like recently added players etc.
 	
-*	More complex customization
-
-	Allowing to store few profile with different players for whom calculations are made.
-	
-	Store custom filters
-	
-	Improve filters
-	
-*	Usability improvements
-
-	Animations
-	
-	Additional features like recently added players etc.
-	
-*	Sharing 
-
-	Get social ;)
+#### Sharing ####
+* Get social ;)
 	
 ## Usage ##
 

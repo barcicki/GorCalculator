@@ -32,11 +32,13 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.barcicki.gorcalculator.core.CountriesAdapter.Country;
 import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.core.PlayersUpdater;
 import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
+import com.barcicki.gorcalculator.views.CountryDialog;
 import com.barcicki.gorcalculator.views.GradeDialog;
 import com.barcicki.gorcalculator.views.PlayerView;
 import com.barcicki.gorcalculator.views.StringDialog;
@@ -54,6 +56,7 @@ public class PlayerListActivity extends Activity {
 	
 	private StringDialog mDialog;
 	private GradeDialog mGradeDialog;
+	private CountryDialog mCountryDialog;
 	
 	private DatabaseHelper mDB;
 	private int mPage = DatabaseHelper.FIRST_PAGE;
@@ -69,6 +72,7 @@ public class PlayerListActivity extends Activity {
 		mDB = new DatabaseHelper(this);
 		mDialog = new StringDialog(this);
 		mGradeDialog = new GradeDialog(this);
+		mCountryDialog = new CountryDialog(this);
 		
 		mFilters = new Settings(this).getFilters();
 		mFiltersAssignments = new HashMap<String, Button>();
@@ -244,7 +248,27 @@ public class PlayerListActivity extends Activity {
 	}
 	
 	public void onFilterCountryClicked(View v) {
-		showFilterStringDialog(Settings.FILTER_COUNTRY);
+		mCountryDialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				// TODO Auto-generated method stub
+				mFilters.putString(Settings.FILTER_COUNTRY, mCountryDialog.getCountry());
+				
+				mPage = DatabaseHelper.FIRST_PAGE;
+				mPlayersAdapter.clear();
+				
+				getNextResults();
+				mPlayerList.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						mPlayerList.scrollTo(0, 0);
+					}
+				});
+			}
+		});
+//		mCountryDialog.show(mFilters.getString(Settings.FILTER_COUNTRY));
+		mCountryDialog.show();
 	}
 	
 	public void onFilterRankClicked(View v) {
