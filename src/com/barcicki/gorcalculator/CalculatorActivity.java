@@ -15,8 +15,8 @@ import com.barcicki.gorcalculator.core.Opponent;
 import com.barcicki.gorcalculator.core.Opponent.GameColor;
 import com.barcicki.gorcalculator.core.Opponent.GameResult;
 import com.barcicki.gorcalculator.core.Player;
-import com.barcicki.gorcalculator.core.PlayersUpdater;
-import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
+import com.barcicki.gorcalculator.core.PlayersListDownloader;
+import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.core.Tournament;
@@ -93,7 +93,7 @@ public class CalculatorActivity extends FragmentActivity {
 		
 		switch (item.getItemId()) {
 		case R.id.update_data:
-			new PlayersUpdater(this).download(new PlayersUpdaterListener() {
+			new PlayersListDownloader(this).download(new PlayersUpdaterListener() {
 				
 				@Override
 				public void onSaved(String total) {

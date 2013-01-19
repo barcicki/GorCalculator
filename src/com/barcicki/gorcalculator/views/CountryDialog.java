@@ -42,4 +42,9 @@ public class CountryDialog extends Dialog {
 		return mCountry;
 	}
 
+	public void show(String country) {
+		super.show();
+		mCountry = country;
+	}
+	
 }

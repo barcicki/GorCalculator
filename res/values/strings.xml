@@ -46,10 +46,11 @@
     <string name="filter_grade">Grade</string>
     <string name="filters_saved">Filter configuration saved</string>
     <string name="update_downloading">Downloading players list ...</string>
+    <string name="update_download_cancelled">Downloading cancelled</string>
     <string name="update_storing">Saving players ...</string>
+    <string name="update_storing_cancelled">Saving players cancelled</string>
     <string name="update_prompt">Download EGD players list</string>
     <string name="update_reason">Your local database seems to be empty. Do you want to download players list from EGD?</string>
-    <string name="country_TA">Unknown</string>
     <string name="country_AD">Andorra</string>
     <string name="country_AG">Antigua e Barbuda</string>
     <string name="country_AR">Argentina</string>
@@ -125,6 +126,7 @@
     <string name="country_ES">Spain</string>
     <string name="country_SE">Sweden</string>
     <string name="country_CH">Switzerland</string>
+    <string name="country_TA">Unknown</string>
     <string name="country_TW">Taiwan</string>
     <string name="country_TH">Thailand</string>
     <string name="country_TO">Tonga Islands</string>

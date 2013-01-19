@@ -34,8 +34,8 @@ import android.widget.Toast;
 
 import com.barcicki.gorcalculator.core.CountriesAdapter.Country;
 import com.barcicki.gorcalculator.core.Player;
-import com.barcicki.gorcalculator.core.PlayersUpdater;
-import com.barcicki.gorcalculator.core.PlayersUpdater.PlayersUpdaterListener;
+import com.barcicki.gorcalculator.core.PlayersListDownloader;
+import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 import com.barcicki.gorcalculator.views.CountryDialog;
@@ -89,6 +89,9 @@ public class PlayerListActivity extends Activity {
 		
 		mPlayersAdapter =  new PlayersAdapter(this);
 		
+		mPlayerList = (ListView) findViewById(R.id.playerList);
+		mPlayerList.setAdapter(mPlayersAdapter);
+		
 		getNextResults();
 		
 		
@@ -99,7 +102,7 @@ public class PlayerListActivity extends Activity {
 			builder.setPositiveButton(getString(android.R.string.yes), new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					new PlayersUpdater(PlayerListActivity.this).download(new PlayersUpdaterListener() {
+					new PlayersListDownloader(PlayerListActivity.this).download(new PlayersUpdaterListener() {
 						
 						@Override
 						public void onSaved(String total) {
@@ -129,8 +132,7 @@ public class PlayerListActivity extends Activity {
 			dialog.show();
 		}
 		
-		mPlayerList = (ListView) findViewById(R.id.playerList);
-		mPlayerList.setAdapter(mPlayersAdapter);
+		
 		mPlayerList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -195,6 +197,15 @@ public class PlayerListActivity extends Activity {
 		mPage += 1;
 	}
 	
+	public void scrollToTop() {
+		mPlayerList.post(new Runnable() {
+			@Override
+			public void run() {
+				mPlayerList.smoothScrollToPosition(0);
+			}
+		});
+	}
+	
 	public void updateFilters() {
 		Iterator<Entry<String, Button>> it = mFiltersAssignments.entrySet().iterator();
 		while (it.hasNext()) {
@@ -233,6 +244,7 @@ public class PlayerListActivity extends Activity {
 				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
+				scrollToTop();
 				getNextResults();
 			}
 		});
@@ -257,18 +269,12 @@ public class PlayerListActivity extends Activity {
 				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
+				scrollToTop();
 				getNextResults();
-				mPlayerList.post(new Runnable() {
-					
-					@Override
-					public void run() {
-						mPlayerList.scrollTo(0, 0);
-					}
-				});
+				
 			}
 		});
-//		mCountryDialog.show(mFilters.getString(Settings.FILTER_COUNTRY));
-		mCountryDialog.show();
+		mCountryDialog.show(mFilters.getString(Settings.FILTER_COUNTRY));
 	}
 	
 	public void onFilterRankClicked(View v) {
@@ -281,14 +287,8 @@ public class PlayerListActivity extends Activity {
 				mPage = DatabaseHelper.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
+				scrollToTop();
 				getNextResults();
-				mPlayerList.post(new Runnable() {
-					
-					@Override
-					public void run() {
-						mPlayerList.scrollTo(0, 0);
-					}
-				});
 			}
 		});
 		mGradeDialog.show(mFilters.getInt(Settings.FILTER_GRADE_MIN), mFilters.getInt(Settings.FILTER_GRADE_MAX));

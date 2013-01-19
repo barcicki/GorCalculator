@@ -15,11 +15,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 
-public class PlayersUpdater extends AsyncTask<String, Integer, String>{
+public class PlayersListDownloader extends AsyncTask<String, Integer, String>{
 
 	public final static String EGD_EUROPE_ZIP_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.zip";
 	public final static String EGD_WORLD_ZIP_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/allworld_lp.zip";
@@ -36,7 +37,7 @@ public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 	
 	private PlayersUpdaterListener mListener;
 	
-	public PlayersUpdater(Activity activity) {
+	public PlayersListDownloader(Activity activity) {
 		mActivity = activity;
 		mProgressDialog = new ProgressDialog(activity);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -44,14 +45,10 @@ public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 			
 			@Override
 			public void onCancel(DialogInterface dialog) {
-				PlayersUpdater.this.cancel(true);
+				Toast.makeText(mActivity, mActivity.getString(R.string.update_download_cancelled), Toast.LENGTH_SHORT).show();
+				PlayersListDownloader.this.cancel(true);
 			}
 		});
-	}
-	
-	public PlayersUpdater(Activity activity, ProgressDialog progressDialog) {
-		mActivity = activity;
-		mProgressDialog = progressDialog;
 	}
 	
 	public void download(PlayersUpdaterListener listener) {
@@ -136,86 +133,10 @@ public class PlayersUpdater extends AsyncTask<String, Integer, String>{
 				mListener.onDownloaded(result);
 			}
 			
-			new PlayersParser(total).execute(result);
+			new PlayersListParser(mActivity, mListener, total).execute(result);
 		}
 	}
 	
-	private class PlayersParser extends AsyncTask<String, Integer, String> {
-
-		Pattern mPattern = Pattern.compile("([0-9]{8}) +([a-zA-Z,`._ -]+) +([A-Z]+) +([-a-zA-Z=?0-9]{1,4}) +([0-9]{1,2}k|[0-9]d|[0-9]p) +(--|[0-9]{1,2}k|[0-9]d|[0-9]p) +([0-9]{3,4})");
-		Integer mTotal;
-		
-		public PlayersParser(Integer total) {
-			mTotal = total;
-		}
-		
-		@Override
-		protected String doInBackground(String... params) {
-			
-			Matcher matcher = mPattern.matcher(params[0]);
-			Integer total = 0;
-			
-			DatabaseHelper helper = new DatabaseHelper(mActivity);
-			SQLiteDatabase db = helper.getWritableDatabase();
-			db.beginTransaction();
-			
-			helper.clearPlayers(db);
-			while (matcher.find() &&  !PlayersUpdater.this.isCancelled()) {
-				helper.insertPlayer(db, 
-						Integer.parseInt(matcher.group(1)), 
-						matcher.group(2), 
-						matcher.group(3),
-						matcher.group(4),
-						Player.stringGradeToInt(matcher.group(5)),
-						Integer.parseInt(matcher.group(7))
-				);
-				
-				if (++total % 50 == 0) {
-					publishProgress(total);
-				}
-			}
-			
-			if (!this.isCancelled()) {
-				db.setTransactionSuccessful();
-			} 
-			db.endTransaction();
-			db.close();
-			
-			return total.toString();
-		}
-		
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-			if (mProgressDialog != null) {
-				mProgressDialog.setProgress(values[0]);
-			}
-		}
-		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			if (mProgressDialog != null) {
-				mProgressDialog.setMessage(mActivity.getString(R.string.update_storing));
-				mProgressDialog.setIndeterminate(false);
-				mProgressDialog.setMax(mTotal);
-				mProgressDialog.show();
-			}
-		}
-		
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			
-			if (mProgressDialog != null) {
-				mProgressDialog.dismiss();
-			}
-			
-			if (mListener!= null) {
-				mListener.onSaved(result);
-			}
-		}
-		
-	}
+	
 	
 }

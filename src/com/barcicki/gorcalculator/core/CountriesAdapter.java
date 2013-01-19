@@ -36,7 +36,13 @@ public class CountriesAdapter extends ArrayAdapter<Country> {
 			this.name = name;
 		}
 		public String toString() {
-			return this.name;
+			return 
+				new StringBuilder()
+					.append(this.name)
+					.append(" (")
+					.append(this.initials)
+					.append(")")
+					.toString();
 		}
 	}
 }

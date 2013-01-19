@@ -23,6 +23,10 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Changelog ##
 
+#### v.0.9.5 (19.01.2013) ####
+* Improved country filter
+* Solved issue with aborting downloading or parsing
+
 #### v.0.9.4 (18.01.2013) ####
 * Country selector in players list
 * Switch player list from EUROPE to WORLD (in future it will be customizable) 
