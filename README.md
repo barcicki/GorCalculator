@@ -16,12 +16,18 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.5](https://www.dropbox.com/sh/6r869ltnzq4yt23/KOT9FaPifE/GorCalculator_v0.9.5.apk?dl=1)
+[GorCalculator v.0.9.6](https://www.dropbox.com/sh/6r869ltnzq4yt23/KOT9FaPifE/GorCalculator_v0.9.5.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
+
+#### v.0.9.6 (28.01.2013) ####
+* Fixed resuming application and rotating issue
+* Improved animation
+* Saving tournament class
+* Added landscape mode
 
 #### v.0.9.5 (19.01.2013) ####
 * Improved country filter

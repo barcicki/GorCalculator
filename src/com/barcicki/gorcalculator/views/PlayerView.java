@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.Player;
 
 public class PlayerView extends RelativeLayout implements Observer {
+	public String TAG = "PlayerView";
 
 	private Player mPlayer;
 	
@@ -88,11 +90,15 @@ public class PlayerView extends RelativeLayout implements Observer {
 	
 	public void updateAttributes() {
 		
-		mName.setText(mPlayer.getName());
-		mClub.setText(mPlayer.getClub());
-		mCountry.setText(mPlayer.getCountry());
-		mGrade.setText(mPlayer.getGrade());
-		mGorButton.setText( Integer.toString(mPlayer.getGor()) );
+		if (mPlayer != null) {
+			mName.setText(mPlayer.getName());
+			mClub.setText(mPlayer.getClub());
+			mCountry.setText(mPlayer.getCountry());
+			mGrade.setText(mPlayer.getGrade());
+			mGorButton.setText( Integer.toString(mPlayer.getGor()) );
+		} else {
+			Log.e(TAG, "No player set");
+		}
 	}
 	
 	public void setShowPlayerDetails(boolean value) {

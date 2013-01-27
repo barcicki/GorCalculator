@@ -9,7 +9,7 @@
     <string name="title_gor">New GoR</string>
     <string name="title_grade">Grade Range</string>
     <string name="title_country">Select country</string>
-    <string name="title_tournament">Tournament</string>
+    <string name="title_tournament">Tournament class</string>
     <string name="title_opponents">Opponents</string>
     <string name="title_gor_change">%1$s → %2$s</string>
     <string name="title_filter">Filter</string>

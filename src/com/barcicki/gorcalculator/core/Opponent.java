@@ -97,5 +97,10 @@ public class Opponent extends Observable {
 		setChanged();
 		notifyObservers();
 	}
+	
+	public double calculatePlayerGorChange(Tournament tournament) {
+		return Calculator.calculate(tournament.getPlayer(), this, tournament.getTournamentClass());
+	}
+	
 }
  

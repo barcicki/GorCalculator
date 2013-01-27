@@ -43,10 +43,9 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 			button.setOnClickListener(this);
 		}
 		
-		update(getTournament(), null);
 		return rootView;
 	}
-
+	
 	private void linkButton(ToggleButton button, TournamentClass tournamentClass) {
 		button.setTag(tournamentClass);
 		mButtons.add(button);
@@ -57,6 +56,7 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 		TournamentClass newTournamentClass = (TournamentClass) v.getTag();
 		getTournament().setTournamentClass(newTournamentClass);
 		getTournament().notifyObservers();
+		getSettings().storeTournamentClass(getTournament().getTournamentClass());
 	}
 	
 	public void setChecked(TournamentClass tournamentClass) {
@@ -74,6 +74,9 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	@Override
 	public void update(Observable observable, Object data) {
 		super.update(observable, data);
-		setChecked(getTournament().getTournamentClass());
+		
+		if (getTournament() != null) {
+			setChecked(getTournament().getTournamentClass());
+		}
 	}
 }

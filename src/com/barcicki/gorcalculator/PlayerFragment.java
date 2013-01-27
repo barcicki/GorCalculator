@@ -41,12 +41,6 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView = (PlayerView) rootView.findViewById(R.id.player_details);
 		mPlayerGorChange = (TextView) rootView.findViewById(R.id.playerGorChangePreview);
 		
-		
-		Player player = getTournament().getPlayer();
-		mPlayerView.setPlayer(player);
-		mPlayerView.setShowButtonChange(true);
-		mPlayerView.setShowPlayerDetails(player.getPin() > 0);
-		
 		OnClickListener swapView = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -63,9 +57,22 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView.getFindButton().setOnClickListener(swapView);
 		mPlayerView.getChangeButton().setOnClickListener(swapView);
 		
-		update(getTournament(), null);
-				
 		return rootView;
+	}
+	
+	@Override
+	public void onResume() {
+		
+		if (getTournament() != null) {
+		
+			Player player = getTournament().getPlayer();
+			mPlayerView.setPlayer(player);
+			mPlayerView.setShowButtonChange(true);
+			mPlayerView.setShowPlayerDetails(player.getPin() > 0);
+
+		}
+		
+		super.onResume();
 	}
 	
 	@Override

@@ -8,14 +8,14 @@ import com.barcicki.gorcalculator.core.CountriesAdapter.Country;
 public class CountriesAdapter extends ArrayAdapter<Country> {
 
 	private static String RESOURCE_PREFIX = "country_";
-	private static String[] SUPPORTED_COUNTRIES = new String[] { "TA", "AD",
-			"AG", "AR", "AM", "AU", "AT", "AZ", "BY", "BE", "BA", "BR", "BN",
-			"BG", "CA", "CN", "CL", "CO", "CR", "HR", "CU", "CY", "CZ", "DK",
-			"EC", "EE", "FI", "FR", "GF", "DE", "GR", "GT", "HK", "HU", "IS",
-			"IN", "ID", "IR", "IE", "IL", "IT", "JP", "KZ", "KP", "KR", "LV",
-			"LT", "LU", "MO", "MK", "MG", "MY", "MX", "MD", "MN", "MA", "NP",
-			"NL", "NZ", "NO", "PA", "PE", "PH", "PL", "PT", "RS", "RO", "RU",
-			"SM", "SG", "SK", "SI", "ZA", "ES", "SE", "CH", "TW", "TH", "TO",
+	private static String[] SUPPORTED_COUNTRIES = new String[] { "AD", "AG",
+			"AR", "AM", "AU", "AT", "AZ", "BY", "BE", "BA", "BR", "BN", "BG",
+			"CA", "CN", "CL", "CO", "CR", "HR", "CU", "CY", "CZ", "DK", "EC",
+			"EE", "FI", "FR", "GF", "DE", "GR", "GT", "HK", "HU", "IS", "IN",
+			"ID", "IR", "IE", "IL", "IT", "JP", "KZ", "KP", "KR", "LV", "LT",
+			"LU", "MO", "MK", "MG", "MY", "MX", "MD", "MN", "MA", "NP", "NL",
+			"NZ", "NO", "PA", "PE", "PH", "PL", "PT", "RS", "RO", "RU", "SM",
+			"SG", "SK", "SI", "ZA", "ES", "SE", "CH", "TA", "TW", "TH", "TO",
 			"TR", "UA", "UK", "US", "XX", "UY", "UZ", "VE", "VN", "YU" };
 	
 	public CountriesAdapter(Context context, int textViewResourceId) {

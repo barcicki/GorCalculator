@@ -3,16 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_red_dark"
+        android:background="@android:color/holo_blue_dark"
         android:paddingBottom="@dimen/padding_title_vertical"
         android:paddingLeft="@dimen/padding_title"
         android:paddingRight="@dimen/padding_title"
         android:paddingTop="@dimen/padding_title_vertical"
         android:text="@string/title_opponents"
         android:textAppearance="?android:attr/textAppearanceMediumInverse" />
+
+    <LinearLayout
+        android:id="@+id/opponentsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
 
 </LinearLayout>

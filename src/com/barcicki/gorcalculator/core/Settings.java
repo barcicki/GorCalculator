@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.barcicki.gorcalculator.core.Opponent.GameColor;
 import com.barcicki.gorcalculator.core.Opponent.GameResult;
+import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
 import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class Settings {
@@ -32,6 +33,8 @@ public class Settings {
 	
 	public static String OPPONENTS = "opponents";
 	public static String OPPONENTS_EMPTY = "[]";
+	
+	public static String TOURNAMENT_CLASS = "tournament";
 	
 	public static String JSON_OPPONENT_GOR = "gor";
 	public static String JSON_OPPONENT_PIN = "pin";
@@ -79,6 +82,16 @@ public class Settings {
 				.putInt(FILTER_GRADE_MIN, gradeMin)
 				.putInt(FILTER_GRADE_MAX, gradeMax)
 				.commit();		
+	}
+	
+	public TournamentClass getTournamentClass() {
+		return TournamentClass.valueOf(mPrefs.getString(TOURNAMENT_CLASS, TournamentClass.CLASS_A.name()));
+	}
+	
+	public boolean storeTournamentClass(TournamentClass tournamentClass) {
+		return mPrefs.edit()
+				.putString(TOURNAMENT_CLASS, tournamentClass.name())
+				.commit();
 	}
 	
 	public Player getStoredPlayer() {

@@ -120,11 +120,11 @@ public class Tournament extends Observable implements Observer {
 	
 	public double getGorChange(Opponent opponent) {
 		
-		Log.d(TAG, "Player: " + mPlayer.getGor());
-		Log.d(TAG, "Opponent: " + opponent.getPlayer().getGor());
-		Log.d(TAG, "Win: " + opponent.getResult());
-		Log.d(TAG, "Handicap: " + opponent.getRelativeHandicap());
-		Log.d(TAG, "Category: " + getTournamentClass());
+//		Log.d(TAG, "Player: " + mPlayer.getGor());
+//		Log.d(TAG, "Opponent: " + opponent.getPlayer().getGor());
+//		Log.d(TAG, "Win: " + opponent.getResult());
+//		Log.d(TAG, "Handicap: " + opponent.getRelativeHandicap());
+//		Log.d(TAG, "Category: " + getTournamentClass());
 		
 		return Calculator.calculate(mPlayer, opponent, mTournamentClass);		
 	}

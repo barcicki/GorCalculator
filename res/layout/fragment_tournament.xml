@@ -42,26 +42,6 @@
             android:textOff="A"
             android:textOn="A" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/padding_title"
-            android:text="@string/tournament_class"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/tournamentModifier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/tournamentClassA"
-            android:paddingRight="@dimen/padding_title"
-            android:text="x0.5"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
         <ToggleButton
             android:id="@+id/tournamentClassB"
             android:layout_width="wrap_content"
@@ -71,6 +51,19 @@
             android:hint="x0.75"
             android:textOff="B"
             android:textOn="B" />
+
+        <TextView
+            android:id="@+id/tournamentModifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/padding_title"
+            android:layout_toLeftOf="@+id/tournamentClassA"
+            android:gravity="center"
+            android:paddingRight="@dimen/padding_title"
+            android:text="x0.5"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
 

@@ -26,7 +26,7 @@ public final class R {
     public static final class id {
         public static final int LinearLayout1=0x7f09000d;
         public static final int RelativeLayout1=0x7f090000;
-        public static final int TextView1=0x7f090021;
+        public static final int TextView1=0x7f090022;
         public static final int buttonAddOpponent=0x7f090004;
         public static final int buttonApply=0x7f090013;
         public static final int buttonFilterClub=0x7f09000b;
@@ -58,44 +58,45 @@ public final class R {
         public static final int handicapColor=0x7f090033;
         public static final int handicapStones=0x7f090032;
         public static final int masterLayout=0x7f090010;
+        public static final int opponentsList=0x7f090021;
         public static final int playerButtonChange=0x7f09002b;
         public static final int playerButtonFind=0x7f09002f;
         public static final int playerButtonGor=0x7f090029;
         public static final int playerClub=0x7f09002d;
         public static final int playerCountry=0x7f09002e;
         public static final int playerGorChange=0x7f090035;
-        public static final int playerGorChangePreview=0x7f090023;
+        public static final int playerGorChangePreview=0x7f090024;
         public static final int playerGrade=0x7f09002c;
         public static final int playerList=0x7f090007;
         public static final int playerName=0x7f09002a;
-        public static final int player_details=0x7f090022;
+        public static final int player_details=0x7f090023;
         public static final int relativeLayout2=0x7f090030;
         public static final int save_filter=0x7f090037;
         public static final int scroller=0x7f090003;
         public static final int spacer=0x7f090002;
-        public static final int textView2=0x7f090027;
         public static final int toggleWin=0x7f090031;
-        public static final int tournamentClassA=0x7f090025;
-        public static final int tournamentClassB=0x7f090026;
-        public static final int tournamentClassC=0x7f090024;
+        public static final int tournamentClassA=0x7f090026;
+        public static final int tournamentClassB=0x7f090027;
+        public static final int tournamentClassC=0x7f090025;
         public static final int tournamentModifier=0x7f090028;
         public static final int update_data=0x7f090036;
     }
     public static final class layout {
         public static final int activity_calculator=0x7f030000;
-        public static final int activity_list=0x7f030001;
-        public static final int dialog_countries=0x7f030002;
-        public static final int dialog_gor=0x7f030003;
-        public static final int dialog_grade=0x7f030004;
-        public static final int dialog_handicap=0x7f030005;
-        public static final int dialog_string=0x7f030006;
-        public static final int fragment_opponents=0x7f030007;
-        public static final int fragment_player=0x7f030008;
-        public static final int fragment_tournament=0x7f030009;
-        public static final int opponent_item=0x7f03000a;
-        public static final int opponent_view=0x7f03000b;
-        public static final int player_item=0x7f03000c;
-        public static final int player_view=0x7f03000d;
+        public static final int activity_calculator_portrait=0x7f030001;
+        public static final int activity_list=0x7f030002;
+        public static final int dialog_countries=0x7f030003;
+        public static final int dialog_gor=0x7f030004;
+        public static final int dialog_grade=0x7f030005;
+        public static final int dialog_handicap=0x7f030006;
+        public static final int dialog_string=0x7f030007;
+        public static final int fragment_opponents=0x7f030008;
+        public static final int fragment_player=0x7f030009;
+        public static final int fragment_tournament=0x7f03000a;
+        public static final int opponent_item=0x7f03000b;
+        public static final int opponent_view=0x7f03000c;
+        public static final int player_item=0x7f03000d;
+        public static final int player_view=0x7f03000e;
     }
     public static final class menu {
         public static final int calculator=0x7f080000;

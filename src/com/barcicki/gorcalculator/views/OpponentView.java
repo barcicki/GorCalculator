@@ -2,8 +2,13 @@ package com.barcicki.gorcalculator.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +35,17 @@ public class OpponentView extends PlayerView {
 	
 	private HandicapDialog mHandicapDialog;
 	
-	private GestureDetector mGestureDetector;
+	private final static int ANIMATION_DURATION = 500;
+	private final static int ANIMATION_RETURN_TRIGGER = 10;
+	private final static int ANIMATION_FADE_TRIGGER = 200;
+	
+	private int mGestureStartX = 0;
+	private boolean mGestureDestroying = false;
+	
+	private boolean mAnimationsEnabled = true;
+	private AnimationSet mFadeAnimation = new AnimationSet(true);
+	private TranslateAnimation mReturnAnimation;
+	private AnimationListener mAnimationListener;
 	
 	public OpponentView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -44,6 +59,10 @@ public class OpponentView extends PlayerView {
 		mHandicapColor = (TextView) findViewById(R.id.handicapColor);
 		mHandicapStones = (TextView) findViewById(R.id.handicapStones);
 		mGorChange = (TextView) findViewById(R.id.playerGorChange);
+		
+		mFadeAnimation.setDuration(ANIMATION_DURATION);
+		mFadeAnimation.addAnimation(new AlphaAnimation(1.0f, 0.0f));
+		mFadeAnimation.setFillBefore(true);
 		
 		attachListeners();
 	}
@@ -101,10 +120,6 @@ public class OpponentView extends PlayerView {
 		return mOpponent;
 	}
 	
-	public void setOnGestureListener(OnGestureListener listener) {
-		mGestureDetector = new GestureDetector(getContext(), listener);
-	}
-	
 	public void updateGorChange(double newGor, double gorChange) {
 		String text;
 		int color;
@@ -131,10 +146,62 @@ public class OpponentView extends PlayerView {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (mGestureDetector != null) {
-			mGestureDetector.onTouchEvent(event);
+		
+		if (mAnimationsEnabled) {
+		
+			final int x = (int) event.getRawX();
+			final int y = (int) event.getRawY();
+			final int diff = x - mGestureStartX;
+
+			switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					mGestureStartX = x;
+					break;
+				case MotionEvent.ACTION_MOVE:
+					if (Math.abs(diff) > ANIMATION_RETURN_TRIGGER) {
+						mReturnAnimation = new TranslateAnimation(diff, 0, 0, 0);
+						mReturnAnimation.setFillEnabled(true);
+						mReturnAnimation.setFillBefore(true);
+						mReturnAnimation.setDuration(ANIMATION_DURATION);
+						startAnimation(mReturnAnimation);
+					}
+					break;
+					
+				case MotionEvent.ACTION_UP:
+				case MotionEvent.ACTION_CANCEL:
+					if (Math.abs(diff) > ANIMATION_FADE_TRIGGER && !mGestureDestroying) {
+						TranslateAnimation slideAway = new TranslateAnimation(diff, diff * 1.5f, 0, 0);
+						slideAway.setFillEnabled(true);
+						slideAway.setFillBefore(true);
+						mFadeAnimation.addAnimation(slideAway);
+						startAnimation(mFadeAnimation);
+						mGestureDestroying = true;
+					} 
+					break;
+			}
+		
 		}
+		
 		return super.onTouchEvent(event);
 	}
+
+	public boolean isAnimationsEnabled() {
+		return mAnimationsEnabled;
+	}
+
+	public void setAnimationsEnabled(boolean mAnimationsEnabled) {
+		this.mAnimationsEnabled = mAnimationsEnabled;
+	}
+
+	public AnimationListener getAnimationListener() {
+		return mAnimationListener;
+	}
+
+	public void setAnimationListener(AnimationListener mAnimationListener) {
+		this.mAnimationListener = mAnimationListener;
+		this.mFadeAnimation.setAnimationListener(mAnimationListener);
+	}
+	
+	
 	
 }

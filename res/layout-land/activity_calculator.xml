@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFEEEEEE" >
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#FFEEEEEE"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/container_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" >
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/container_tournament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/container_player"
+            android:layout_marginTop="@dimen/margin_box" >
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/buttonAddOpponent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:onClick="onAddNewOpponentClicked"
+            android:text="@string/button_add_opponent" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="3dp"
+        android:layout_height="fill_parent" />
+
+    <ScrollView
+        android:id="@+id/scroller"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" >
+
+        <FrameLayout
+            android:id="@+id/container_opponents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </FrameLayout>
+
+    </ScrollView>
+
+</LinearLayout>

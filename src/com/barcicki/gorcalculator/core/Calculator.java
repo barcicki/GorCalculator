@@ -62,7 +62,7 @@ public class Calculator {
 	}
 	
 	static public double calculateRatingChange(double ratingA, double ratingB, double result, double handicap, double modifier) {
-		Log.d(TAG, "Diff: " + (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB, handicap))));
+//		Log.d(TAG, "Diff: " + (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB, handicap))));
 		return (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB, handicap))) * modifier;
 	}
 	
@@ -81,12 +81,12 @@ public class Calculator {
 			formulaA = formulaA(ratingA, ratingB);
 		}
 		
-		Log.d(TAG, "Me: " + ratingA);
-		Log.d(TAG, "Him: " + ratingB);
+//		Log.d(TAG, "Me: " + ratingA);
+//		Log.d(TAG, "Him: " + ratingB);
 		
 		double diff = ratingB - ratingA;
 		
-		Log.d(TAG, "Se: " + Math.max( 1 / ( (float) Math.exp( diff / formulaA ) + 1 ) - EPSILON / 2, 0));
+//		Log.d(TAG, "Se: " + Math.max( 1 / ( (float) Math.exp( diff / formulaA ) + 1 ) - EPSILON / 2, 0));
 		return Math.max( 1 / ( (float) Math.exp( diff / formulaA ) + 1 ) - EPSILON / 2, 0);
 	}
 	
@@ -95,12 +95,12 @@ public class Calculator {
 			   aB = formulaA(ratingB),
 			   result = Math.max(aA, aB);
 				
-		Log.d(TAG, "Common a: " + result);
+//		Log.d(TAG, "Common a: " + result);
 		return result;
 	}
 	
 	static public double formulaA(double rating) {
-		Log.d(TAG, "a: " + (- 0.05 * rating + 205));
+//		Log.d(TAG, "a: " + (- 0.05 * rating + 205));
 		return MathUtils.constrain(- 0.05 * rating + 205, 70, 200);
 	}
 	
@@ -121,7 +121,7 @@ public class Calculator {
 			
 		}
 		
-		Log.d(TAG, "Con: " + con);
+//		Log.d(TAG, "Con: " + con);
 		return con;
 	}
 	

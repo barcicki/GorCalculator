@@ -50,7 +50,7 @@ public class CalculatorActivity extends FragmentActivity {
 			player = new Player(1600);
 		}
 		
-		mTournament = new Tournament(player, TournamentClass.CLASS_A);
+		mTournament = new Tournament(player, mSettings.getTournamentClass());
 		
 		// restore opponents
 		ArrayList<Opponent> opponents = mSettings.getStoredOpponents();
@@ -62,23 +62,37 @@ public class CalculatorActivity extends FragmentActivity {
 			mTournament.addOpponent(new Opponent(player.getGor(), GameResult.WIN, GameColor.BLACK, Opponent.NO_HANDICAP));
 		}
 		
-		mPlayerFragment = new PlayerFragment();
-		mPlayerFragment.setTournament(mTournament);
-					
-		mTournamentFragment = new TournamentFragment();
-		mTournamentFragment.setTournament(mTournament);
+		if (savedInstanceState == null) {
 		
-		mOpponentsFragment = new OpponentsFragment();
-		mOpponentsFragment.setTournament(mTournament);
+			mPlayerFragment = new PlayerFragment();
+			mTournamentFragment = new TournamentFragment();
+			mOpponentsFragment = new OpponentsFragment();
 		
-		getSupportFragmentManager()
-			.beginTransaction()
-			.add(R.id.container_player, mPlayerFragment)
-			.add(R.id.container_tournament, mTournamentFragment)
-			.add(R.id.container_opponents, mOpponentsFragment)
-			.commit();
+			getSupportFragmentManager()
+				.beginTransaction()
+				.add(R.id.container_player, mPlayerFragment)
+				.add(R.id.container_tournament, mTournamentFragment)
+				.add(R.id.container_opponents, mOpponentsFragment)
+				.commit();
 		
+		} else {
+			
+			mPlayerFragment = (PlayerFragment) getSupportFragmentManager().findFragmentById(R.id.container_player);
+			mTournamentFragment = (TournamentFragment) getSupportFragmentManager().findFragmentById(R.id.container_tournament);
+			mOpponentsFragment = (OpponentsFragment) getSupportFragmentManager().findFragmentById(R.id.container_opponents);
+			
+		}
 	}
+	
+	@Override
+	protected void onResume() {
+		mPlayerFragment.setTournament(mTournament);
+		mTournamentFragment.setTournament(mTournament);
+		mOpponentsFragment.setTournament(mTournament);
+		mTournament.update(null, null);
+		super.onResume();
+	}
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,8 +129,9 @@ public class CalculatorActivity extends FragmentActivity {
 	public void onAddNewOpponentClicked(View v) {
 		
 		Opponent newOpponent = new Opponent( new Player(mTournament.getPlayer().getGor()), GameResult.WIN, GameColor.BLACK, Opponent.NO_HANDICAP);
-		mOpponentsFragment.addOpponentView(newOpponent);
+		
 		mTournament.addOpponent(newOpponent);
+		mOpponentsFragment.addOpponent(newOpponent);
 		
 		mScroll.post(new Runnable() {
 			
