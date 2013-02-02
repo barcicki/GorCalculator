@@ -3,7 +3,6 @@ package com.barcicki.gorcalculator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -15,7 +14,6 @@ import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,15 +27,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.barcicki.gorcalculator.core.CountriesAdapter.Country;
-import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.core.Go;
 import com.barcicki.gorcalculator.core.PlayersListDownloader;
 import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
-import com.barcicki.gorcalculator.database.DatabaseHelper;
+import com.barcicki.gorcalculator.database.DbModel;
+import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.views.CountryDialog;
 import com.barcicki.gorcalculator.views.GradeDialog;
 import com.barcicki.gorcalculator.views.PlayerView;
@@ -57,9 +54,9 @@ public class PlayerListActivity extends Activity {
 	private StringDialog mDialog;
 	private GradeDialog mGradeDialog;
 	private CountryDialog mCountryDialog;
+	private Settings mSettings;
 	
-	private DatabaseHelper mDB;
-	private int mPage = DatabaseHelper.FIRST_PAGE;
+	private int mPage = DbModel.FIRST_PAGE;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +66,12 @@ public class PlayerListActivity extends Activity {
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		mDB = new DatabaseHelper(this);
 		mDialog = new StringDialog(this);
 		mGradeDialog = new GradeDialog(this);
 		mCountryDialog = new CountryDialog(this);
+		mSettings = new Settings(this);
 		
-		mFilters = new Settings(this).getFilters();
+		mFilters = mSettings.getFilters();
 		mFiltersAssignments = new HashMap<String, Button>();
 		mFiltersAssignments.put(Settings.FILTER_NAME, (Button) findViewById(R.id.buttonFilterName));
 		mFiltersAssignments.put(Settings.FILTER_COUNTRY, (Button) findViewById(R.id.buttonFilterCountry));
@@ -95,7 +92,7 @@ public class PlayerListActivity extends Activity {
 		getNextResults();
 		
 		
-		if (mPlayersAdapter.getCount() == 0) {
+		if (!mSettings.hasDownloadedPlayerList()) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(getString(R.string.update_prompt));
 			builder.setMessage(getString(R.string.update_reason));
@@ -139,22 +136,11 @@ public class PlayerListActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				
 				PlayerView pv = (PlayerView) arg1;
-				int requestId = getIntent().getIntExtra(GorCalculator.REQUEST_PLAYER, 0);
-
-				if (requestId > 0) {
-
-					((GorCalculator) getApplication()).respondToPlayerRequest(requestId, pv.getPlayer());
-					
-					Intent returnIntent = new Intent();
-					returnIntent.putExtra(GorCalculator.REQUEST_PLAYER, requestId);
-					setResult(RESULT_OK, returnIntent);
-					finish();
-					
-					Log.d("ListActivity", "Player selected: " + pv.getPlayer().getName());
 				
-				} else {
-					Toast.makeText(PlayerListActivity.this, "not ok ", Toast.LENGTH_SHORT).show();
-				}
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra(PlayerModel.ID, pv.getPlayer().getId().doubleValue());
+				setResult(RESULT_OK, returnIntent);
+				finish();
 				
 			}
 			
@@ -172,7 +158,7 @@ public class PlayerListActivity extends Activity {
 					int visibleItemCount, int totalItemCount) {
 				
 				if (firstVisibleItem + visibleItemCount >= totalItemCount
-						&& totalItemCount >= mPage * DatabaseHelper.LIMIT) {
+						&& totalItemCount >= mPage * DbModel.LIMIT) {
 					
 					getNextResults();
 					
@@ -182,8 +168,8 @@ public class PlayerListActivity extends Activity {
 	}
 	
 	public void getNextResults() {
-		mPlayersAdapter.addAll(
-				mDB.getPlayers(
+		mPlayersAdapter.addAll( 
+				PlayerModel.getPlayers(
 						mPage, 
 						mFilters.getString(Settings.FILTER_NAME),
 						mFilters.getString(Settings.FILTER_CLUB),
@@ -191,6 +177,10 @@ public class PlayerListActivity extends Activity {
 						mFilters.getInt(Settings.FILTER_GRADE_MIN),
 						mFilters.getInt(Settings.FILTER_GRADE_MAX)));
 						
+		if (mPlayersAdapter.getCount() == 0) {
+			Toast.makeText(this, getString(R.string.no_results), Toast.LENGTH_SHORT).show();
+		}
+		
 		mPlayersAdapter.notifyDataSetChanged();
 		updateFilters();
 		
@@ -217,8 +207,8 @@ public class PlayerListActivity extends Activity {
 				int min = mFilters.getInt(Settings.FILTER_GRADE_MIN),
 					max = mFilters.getInt(Settings.FILTER_GRADE_MAX);
 				
-				if (min > 0 || max < Player.STRENGTHS.size() - 1) {
-					label = Player.STRENGTHS.get(min) + " - " + Player.STRENGTHS.get(max);	
+				if (min > 0 || max < Go.STRENGTHS.size() - 1) {
+					label = Go.STRENGTHS.get(min) + " - " + Go.STRENGTHS.get(max);	
 				} else {
 					label = mFiltersLabels.get(Settings.FILTER_GRADE); 
 				}
@@ -241,7 +231,7 @@ public class PlayerListActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				mFilters.putString(key, mDialog.getResult());
-				mPage = DatabaseHelper.FIRST_PAGE;
+				mPage = DbModel.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				scrollToTop();
@@ -266,7 +256,7 @@ public class PlayerListActivity extends Activity {
 				// TODO Auto-generated method stub
 				mFilters.putString(Settings.FILTER_COUNTRY, mCountryDialog.getCountry());
 				
-				mPage = DatabaseHelper.FIRST_PAGE;
+				mPage = DbModel.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				scrollToTop();
@@ -284,7 +274,7 @@ public class PlayerListActivity extends Activity {
 				mFilters.putInt(Settings.FILTER_GRADE_MIN, mGradeDialog.getGradeMin());
 				mFilters.putInt(Settings.FILTER_GRADE_MAX, mGradeDialog.getGradeMax());
 				
-				mPage = DatabaseHelper.FIRST_PAGE;
+				mPage = DbModel.FIRST_PAGE;
 				mPlayersAdapter.clear();
 				
 				scrollToTop();
@@ -320,20 +310,20 @@ public class PlayerListActivity extends Activity {
 		
 	}
 	
-	public class PlayersAdapter extends ArrayAdapter<Player> {
+	public class PlayersAdapter extends ArrayAdapter<PlayerModel> {
 
 		private LayoutInflater mInflater;
 		
 		public PlayersAdapter(Context context) {
-			this(context, new ArrayList<Player>());
+			this(context, new ArrayList<PlayerModel>());
 		}
 		
-		public PlayersAdapter(Context context, ArrayList<Player> players) {
+		public PlayersAdapter(Context context, ArrayList<PlayerModel> players) {
 			this(context, R.layout.player_item, players);
 		}
 		
 		public PlayersAdapter(Context context, int textViewResourceId,
-				ArrayList<Player> objects) {
+				ArrayList<PlayerModel> objects) {
 			super(context, textViewResourceId, objects);
 
 			mInflater = LayoutInflater.from(context);
@@ -356,9 +346,7 @@ public class PlayerListActivity extends Activity {
 				return pv;
 			
 			} else {
-				
 				((PlayerView) convertView).setPlayer(this.getItem(position));
-				
 			}
 			
 			return convertView;

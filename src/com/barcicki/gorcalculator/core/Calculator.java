@@ -3,26 +3,26 @@ package com.barcicki.gorcalculator.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.barcicki.gorcalculator.core.Opponent.GameColor;
-import com.barcicki.gorcalculator.core.Opponent.GameResult;
-import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
+import com.barcicki.gorcalculator.database.OpponentModel;
+import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
+import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
+import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 import com.barcicki.gorcalculator.libs.MathUtils;
-
-import android.util.Log;
 
 public class Calculator {
 
 	public static double EPSILON = 0.016;
-	
+
 	public static Map<Double, Integer> CON_MAP = new HashMap<Double, Integer>();
-	
+
 	public static double MAX_GOR = 3000;
 	public static double MAX_RANK_GOR = 2700;
 	public static double MIN_GOR = 100;
-	
+
 	private static double RANK_STEP = 100;
 	private static String TAG = "Calculator";
-	
+
 	static {
 		CON_MAP.put(100.0, 116);
 		CON_MAP.put(200.0, 110);
@@ -52,95 +52,100 @@ public class Calculator {
 		CON_MAP.put(2600.0, 11);
 		CON_MAP.put(2700.0, 10);
 	}
-	
+
 	private static double ratingBase(double rating) {
 		return (float) Math.floor(rating / 100.0) * 100f;
 	}
-	
+
 	private static double ratingProgress(double rating) {
 		return (rating - ratingBase(rating)) / 100;
 	}
-	
-	static public double calculateRatingChange(double ratingA, double ratingB, double result, double handicap, double modifier) {
-//		Log.d(TAG, "Diff: " + (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB, handicap))));
-		return (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB, handicap))) * modifier;
+
+	static public double calculateRatingChange(double ratingA, double ratingB,
+			double result, double handicap, double modifier) {
+		// Log.d(TAG, "Diff: " + (formulaCon(ratingA) * (result -
+		// formulaSe(ratingA, ratingB, handicap))));
+		return (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB,
+				handicap))) * modifier;
 	}
-	
-	static public double formulaSe(double ratingA, double ratingB, double handicap) {
+
+	static public double formulaSe(double ratingA, double ratingB,
+			double handicap) {
 		double formulaA;
-		
+
 		if (handicap > 0) {
 			ratingA += 100 * (handicap - 0.5);
 			formulaA = formulaA(ratingA);
-			
+
 		} else if (handicap < 0) {
 			ratingB += 100 * (-handicap - 0.5);
 			formulaA = formulaA(ratingB);
-			
+
 		} else {
 			formulaA = formulaA(ratingA, ratingB);
 		}
-		
-//		Log.d(TAG, "Me: " + ratingA);
-//		Log.d(TAG, "Him: " + ratingB);
-		
+
+		// Log.d(TAG, "Me: " + ratingA);
+		// Log.d(TAG, "Him: " + ratingB);
+
 		double diff = ratingB - ratingA;
-		
-//		Log.d(TAG, "Se: " + Math.max( 1 / ( (float) Math.exp( diff / formulaA ) + 1 ) - EPSILON / 2, 0));
-		return Math.max( 1 / ( (float) Math.exp( diff / formulaA ) + 1 ) - EPSILON / 2, 0);
+
+		// Log.d(TAG, "Se: " + Math.max( 1 / ( (float) Math.exp( diff / formulaA
+		// ) + 1 ) - EPSILON / 2, 0));
+		return Math.max(1 / ((float) Math.exp(diff / formulaA) + 1) - EPSILON
+				/ 2, 0);
 	}
-	
+
 	static public double formulaA(double ratingA, double ratingB) {
-		double aA = formulaA(ratingA),
-			   aB = formulaA(ratingB),
-			   result = Math.max(aA, aB);
-				
-//		Log.d(TAG, "Common a: " + result);
+		double aA = formulaA(ratingA), aB = formulaA(ratingB), result = Math
+				.max(aA, aB);
+
+		// Log.d(TAG, "Common a: " + result);
 		return result;
 	}
-	
+
 	static public double formulaA(double rating) {
-//		Log.d(TAG, "a: " + (- 0.05 * rating + 205));
-		return MathUtils.constrain(- 0.05 * rating + 205, 70, 200);
+		// Log.d(TAG, "a: " + (- 0.05 * rating + 205));
+		return MathUtils.constrain(-0.05 * rating + 205, 70, 200);
 	}
-	
+
 	static public double formulaCon(double rating) {
 		double con;
-		
+
 		if (rating <= MIN_GOR) {
 			con = 116;
 		} else if (rating >= MAX_RANK_GOR) {
 			con = 10;
 		} else {
-			
-			double 	base = ratingBase(rating),
-					baseCon = CON_MAP.get(base),
-					nextCon = CON_MAP.get(Math.min(base + RANK_STEP, MAX_RANK_GOR));
-			
+
+			double base = ratingBase(rating), baseCon = CON_MAP.get(base), nextCon = CON_MAP
+					.get(Math.min(base + RANK_STEP, MAX_RANK_GOR));
+
 			con = baseCon + (nextCon - baseCon) * ratingProgress(rating);
-			
+
 		}
-		
-//		Log.d(TAG, "Con: " + con);
+
+		// Log.d(TAG, "Con: " + con);
 		return con;
 	}
-	
-	public static double calculate(Player player, Opponent opponent, TournamentClass tournamentClass) {
-		return calculate(player, opponent.getPlayer(), opponent.getHandicap(), opponent.getResult(), opponent.getColor(), tournamentClass);
+
+	public static double calculate(PlayerModel player, OpponentModel opponent,
+			TournamentClass tournamentClass) {
+		return calculate(player, opponent.player, opponent.handicap,
+				opponent.result, opponent.color, tournamentClass);
 	}
-//
-	public static double calculate(Player player1, Player player2,
-			int handicap, GameResult gameResult, GameColor gameColor,
+
+	//
+	public static double calculate(PlayerModel player1, PlayerModel player2,
+			int handicap, GameResult result2, GameColor color,
 			TournamentClass tournamentClass) {
 
-		int gorA = player1.getGor(),
-			gorB = player2.getGor();
-		
-		handicap = gameColor.equals(GameColor.BLACK) ? handicap : -handicap;
-		
-		float	modifier = tournamentClass.value,
-				result = gameResult.value;
-				
+		double gorA = player1.gor, gorB = player2.gor;
+
+		handicap = color.equals(GameColor.BLACK) ? handicap : -handicap;
+
+		float modifier = tournamentClass.value, result = result2.value;
+
 		return calculateRatingChange(gorA, gorB, result, handicap, modifier);
 	}
 

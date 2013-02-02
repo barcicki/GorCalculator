@@ -7,13 +7,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
-import com.barcicki.gorcalculator.database.DatabaseHelper;
+import com.barcicki.gorcalculator.database.PlayerModel;
 
 public class PlayersListParser extends AsyncTask<String, Integer, String> {
 
@@ -39,16 +40,21 @@ public class PlayersListParser extends AsyncTask<String, Integer, String> {
 		Matcher matcher = mPattern.matcher(params[0]);
 		Integer total = 0;
 
-		DatabaseHelper helper = new DatabaseHelper(mActivity);
-		SQLiteDatabase db = helper.getWritableDatabase();
-		db.beginTransaction();
+		ActiveAndroid.beginTransaction();
 
-		helper.clearPlayers(db);
+		new Delete().from(PlayerModel.class).where("1=1").execute();
+		
 		while (matcher.find() && !isCancelled()) {
-			helper.insertPlayer(db, Integer.parseInt(matcher.group(1)),
-					matcher.group(2), matcher.group(3), matcher.group(4),
-					Player.stringGradeToInt(matcher.group(5)),
-					Integer.parseInt(matcher.group(7)));
+			PlayerModel player = new PlayerModel();
+			
+			player.pin = Integer.parseInt(matcher.group(1));
+			player.name = matcher.group(2);
+			player.country = matcher.group(3);
+			player.club = matcher.group(4);
+			player.grade = Go.stringGradeToInt(matcher.group(5));
+			player.gor = Integer.parseInt(matcher.group(7));
+			
+			player.save();
 
 			if (++total % 50 == 0) {
 				publishProgress(total);
@@ -56,11 +62,10 @@ public class PlayersListParser extends AsyncTask<String, Integer, String> {
 		}
 
 		if (!isCancelled()) {
-			db.setTransactionSuccessful();
+			ActiveAndroid.setTransactionSuccessful();
 		} 
 		
-		db.endTransaction();
-		db.close();
+		ActiveAndroid.endTransaction();
 
 		return total.toString();
 	}
@@ -104,9 +109,12 @@ public class PlayersListParser extends AsyncTask<String, Integer, String> {
 			mProgressDialog.dismiss();
 		}
 
+		new Settings(mActivity).storeDownloadedPlayerList(true);
+		
 		if (mListener != null) {
 			mListener.onSaved(result);
 		}
+		
 	}
 
 }

@@ -13,12 +13,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.barcicki.gorcalculator.R;
-import com.barcicki.gorcalculator.database.DatabaseHelper;
 
 public class PlayersListDownloader extends AsyncTask<String, Integer, String>{
 

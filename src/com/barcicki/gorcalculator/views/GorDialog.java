@@ -9,12 +9,12 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.barcicki.gorcalculator.R;
-import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.database.PlayerModel;
 
 public class GorDialog extends Dialog {
 	
 	private EditText mGor;
-	private Player mPlayer; 
+	private double mResult;
 	
 	public GorDialog(Context context) {
 		super(context);
@@ -33,31 +33,23 @@ public class GorDialog extends Dialog {
 		});
 	}
 	
-	public Player getPlayer() {
-		return mPlayer;
-	}
-
-	public void setPlayer(Player mPlayer) {
-		this.mPlayer = mPlayer;
+	public double getResult() {
+		return mResult;
 	}
 	
-	@Override
-	public void show() {
+	public void show(double gor) {
 		super.show();
-		if (mPlayer != null) {
-			mGor.setText(Integer.toString(mPlayer.getGor()));
-			      
-		}
+		mResult = gor;
+		mGor.setText(Integer.toString( (int) mResult));
 		mGor.selectAll();
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 	}
 	
 	@Override
 	public void dismiss() {
-		String rank = mGor.getText().toString();
-		if (rank.length() >= 3 && mPlayer != null) {
-			mPlayer.setGor(Integer.parseInt(rank));
-			mPlayer.notifyObservers();
+		String gorString = mGor.getText().toString();
+		if (gorString.length() >= 3) {
+			mResult = Double.parseDouble(gorString);
 		}
 		super.dismiss();
 	}

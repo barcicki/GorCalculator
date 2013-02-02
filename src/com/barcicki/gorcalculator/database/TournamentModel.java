@@ -2,9 +2,13 @@ package com.barcicki.gorcalculator.database;
 
 import java.util.List;
 
+import android.util.Log;
+
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.barcicki.gorcalculator.core.Calculator;
 
 @Table(name = "Tournaments")
 public class TournamentModel extends DbModel {
@@ -20,14 +24,31 @@ public class TournamentModel extends DbModel {
 		}
 	};
 	
+	public TournamentModel() {
+		super();
+	}
+	
+	public TournamentModel(String name, PlayerModel player, TournamentClass tournamentClass) {
+		super();
+		this.name = name;
+		this.player = player;
+		this.tournamentClass = tournamentClass;
+	}
+	
 	@Column(name = "Name")
 	public String name;
-	
+//	
 	@Column(name = "TournamentClass")
 	public TournamentClass tournamentClass;
 	
 	@Column(name = "Player")
 	public PlayerModel player;
+	
+	@Column(name = "Gor")
+	public double gor;
+	
+	@Column(name = "Active")
+	public boolean active;
 	
 	public List<OpponentModel> opponents() {
 		return getMany(OpponentModel.class, "Tournament");
@@ -42,8 +63,76 @@ public class TournamentModel extends DbModel {
 	
 	public static List<TournamentModel> getTournaments() {
 		return new Select()
+			.all()
 			.from(TournamentModel.class)
 			.orderBy("Name ASC")
+			.execute();
+	}
+	
+	public static TournamentModel getActiveTournament() {
+		List<TournamentModel> tournaments = new Select()
+			.from(TournamentModel.class)
+			.execute();
+		TournamentModel tournament;
+		
+		if (tournaments.size() > 0) {
+			tournament = tournaments.get(0);
+			
+			for (TournamentModel t : tournaments) {
+				if (t.active) {
+					if (t.player == null) {
+						t.player = PlayerModel.getDefaultPlayer();
+					}
+					
+					t.player.gor = t.gor;
+					return t;
+				}
+			}
+		} else {
+			
+			tournament = new TournamentModel("Default", PlayerModel.getDefaultPlayer(), TournamentClass.CLASS_A);
+			tournament.gor = tournament.player.gor;
+			tournament.active = true;
+			tournament.save();
+			
+		}
+		
+		
+		
+		Log.d("TournamentModel", 
+				"Name: " + tournament.name + "\n" +
+				"Active: " + tournament.active+ "\n" +
+				"Gor: " + tournament.gor+ "\n"
+				);
+		Log.d("TournamentModel", "Player: " + tournament.player.name);
+		
+		return tournament;
+		
+	}
+	
+	public double calculateFinalGor() {
+		double change = 0;
+		
+		for (OpponentModel opponent : opponents()) {
+			change += Calculator.calculate(player, opponent, tournamentClass);
+		}
+		
+		if (change < -100) {
+			change = -100;
+		}
+		
+		return Math.round((gor + change) * 1000) / 1000f;
+	}
+
+	public void addOpponent(OpponentModel newOpponent) {
+		newOpponent.tournament = this;
+		newOpponent.save();
+	}
+
+	public void removeOpponent(OpponentModel opponent) {
+		new Delete().from(OpponentModel.class)
+			.where("Id = ?", opponent.getId())
+			.where("Tournament = ?", getId())
 			.execute();
 	}
 	

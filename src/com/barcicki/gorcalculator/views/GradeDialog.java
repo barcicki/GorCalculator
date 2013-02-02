@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.barcicki.gorcalculator.R;
-import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.core.Go;
 import com.barcicki.gorcalculator.views.RangeSeekBar.OnRangeSeekBarChangeListener;
 
 public class GradeDialog extends Dialog {
@@ -31,7 +31,7 @@ public class GradeDialog extends Dialog {
 		mGradeMinLabel = (TextView) findViewById(R.id.gradeMin);
 		mGradeMaxLabel = (TextView) findViewById(R.id.gradeMax);
 		
-		mSeekBar = new RangeSeekBar<Integer>(0, Player.STRENGTHS.size() - 1, context);
+		mSeekBar = new RangeSeekBar<Integer>(0, Go.STRENGTHS.size() - 1, context);
 		mSeekBar.setOnRangeSeekBarChangeListener(new OnRangeSeekBarChangeListener<Integer>() {
 
 			@Override
@@ -77,8 +77,8 @@ public class GradeDialog extends Dialog {
 	}
 	
 	private void updateLabels() {
-		mGradeMinLabel.setText(Player.STRENGTHS.get(mTempGradeMin));
-		mGradeMaxLabel.setText(Player.STRENGTHS.get(mTempGradeMax));
+		mGradeMinLabel.setText(Go.STRENGTHS.get(mTempGradeMin));
+		mGradeMaxLabel.setText(Go.STRENGTHS.get(mTempGradeMax));
 	}
 	
 }

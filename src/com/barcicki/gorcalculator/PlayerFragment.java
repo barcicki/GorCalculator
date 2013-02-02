@@ -1,7 +1,5 @@
 package com.barcicki.gorcalculator;
 
-import java.util.Observable;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
-import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.views.PlayerView;
+import com.barcicki.gorcalculator.views.PlayerView.PlayerListener;
 
 public class PlayerFragment extends CommonFragment {
 
@@ -41,15 +40,11 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView = (PlayerView) rootView.findViewById(R.id.player_details);
 		mPlayerGorChange = (TextView) rootView.findViewById(R.id.playerGorChangePreview);
 		
-		OnClickListener swapView = new OnClickListener() {
+		final OnClickListener swapView = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
-				int requestId = getApp().storePlayerRequest(mPlayerView);
-				
 				Intent intent = new Intent(getActivity(), PlayerListActivity.class);
-				intent.putExtra(GorCalculator.REQUEST_PLAYER, requestId);
-				
 				startActivityForResult(intent, PlayerListActivity.REQUEST_DEFAULT);
 			}
 		};
@@ -57,6 +52,21 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView.getFindButton().setOnClickListener(swapView);
 		mPlayerView.getChangeButton().setOnClickListener(swapView);
 		
+		mPlayerView.setPlayerListener(new PlayerListener() {
+			@Override
+			public void onPlayerUpdate(PlayerModel player) {
+				getTournament().gor = player.gor;
+				getTournament().save();
+				getTournament().notifyObservers(null);
+			}
+
+			@Override
+			public void onPlayerGorChange(double newGor) {
+				getTournament().gor = newGor;
+				getTournament().save();
+				getTournament().notifyObservers(null);
+			}
+		});
 		return rootView;
 	}
 	
@@ -65,11 +75,13 @@ public class PlayerFragment extends CommonFragment {
 		
 		if (getTournament() != null) {
 		
-			Player player = getTournament().getPlayer();
+			PlayerModel player = getTournament().player;
+			
+//			Player player = getTournament().getPlayer();
 			mPlayerView.setPlayer(player);
 			mPlayerView.setShowButtonChange(true);
-			mPlayerView.setShowPlayerDetails(player.getPin() > 0);
-
+			mPlayerView.setShowPlayerDetails(player.pin > 0);
+			
 		}
 		
 		super.onResume();
@@ -78,29 +90,41 @@ public class PlayerFragment extends CommonFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PlayerListActivity.REQUEST_DEFAULT && resultCode == Activity.RESULT_OK) {
-			int requestId = data.getIntExtra(GorCalculator.REQUEST_PLAYER, 0);
 			
-			if (requestId > 0) {
-				GorCalculator.PlayerRequest request = getApp().getPlayerRequest(requestId);
+			long id = (long) data.getDoubleExtra(PlayerModel.ID, 0L);
+			if (id > 0) {
+				PlayerModel player = PlayerModel.load(PlayerModel.class, id); 
 				
-				Log.d("PlayerFragment", "Received player: " + request.player.getName());
-
-				mPlayerView.setPlayer(request.player);
-				mPlayerView.setShowButtonChange(true);
-				mPlayerView.setShowPlayerDetails(true);
-				getTournament().setPlayer(request.player);
+				if (player != null) {
+					
+					mPlayerView.setPlayer(player);
+					mPlayerView.setShowButtonChange(true);
+					mPlayerView.setShowPlayerDetails(player.pin > 0);
+					
+					getTournament().player = player;
+					getTournament().gor = player.gor;
+					getTournament().save();
+					getTournament().notifyObservers(null);
+					
+					Log.d("PlayerFragment", "Receiver player: " + player.name);
+				} else {
+					Log.e("PlayerFragment", "Player empty");
+				}
 				
-				getSettings().storePlayer(request.player);
+			} else {
+				Log.e("PlayerFragment", "ID = 0!");
 			}
+			
 		}
+		
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	@Override
-	public void update(Observable observable, Object data) {
+	public void update(Object data) {
 		
-		double 	previousGor = getTournament().getStartingGor(),
-				newGor = getTournament().getFinalGor();
+		double 	previousGor = getTournament().gor,
+				newGor = getTournament().calculateFinalGor();
 		
 		mPlayerGorChange.setText( getString(R.string.title_gor_change, previousGor, MathUtils.round1000(newGor)));
 	}

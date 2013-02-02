@@ -1,9 +1,8 @@
 package com.barcicki.gorcalculator.views;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +12,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.barcicki.gorcalculator.R;
-import com.barcicki.gorcalculator.core.Player;
+import com.barcicki.gorcalculator.core.Calculator;
+import com.barcicki.gorcalculator.database.DbModel.DbObserver;
+import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.libs.MathUtils;
 
-public class PlayerView extends RelativeLayout implements Observer {
+public class PlayerView extends RelativeLayout {
 	public String TAG = "PlayerView";
 
-	private Player mPlayer;
+	private PlayerModel mPlayer;
 	
 	private Button mGorButton;
 	private Button mFindButton;
@@ -34,6 +36,8 @@ public class PlayerView extends RelativeLayout implements Observer {
 	private boolean mShowPlayerDetails = true;
 	private boolean mShowButtonChange = false;
 	
+	private PlayerListener mPlayerListener = null;
+	
 	public PlayerView(Context context) {
 		this(context, null);
 	}
@@ -41,41 +45,36 @@ public class PlayerView extends RelativeLayout implements Observer {
 	public PlayerView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
-		LayoutInflater.from(context).inflate(getLayoutResource(), this);
+		LayoutInflater.from(context).inflate(R.layout.player_view, this);
 		
+		// buttons
 		mGorButton = (Button) findViewById(R.id.playerButtonGor);
 		mFindButton = (Button) findViewById(R.id.playerButtonFind);
 		mChangeButton  = (Button) findViewById(R.id.playerButtonChange);
 		
+		// textviews
 		mName = (TextView) findViewById(R.id.playerName);
 		mCountry = (TextView) findViewById(R.id.playerCountry);
 		mClub = (TextView) findViewById(R.id.playerClub);
 		mGrade = (TextView) findViewById(R.id.playerGrade);
 		
-		attachListeners();
-		
+		// dialogs
 		mGorDialog = new GorDialog(getContext());
+		
+		attachListeners();
 	}
 	
-	protected int getLayoutResource() {
-		return R.layout.player_view;
-	}
-	
-	public Player getPlayer() {
+	public PlayerModel getPlayer() {
 		return mPlayer;
 	}
 
-	public void setPlayer(Player player) {
-		if (mPlayer != null) {
-			mPlayer.deleteObserver(this);
-		}
-		
-		mPlayer = player;
-		mPlayer.addObserver(this);
-		
-		mGorDialog.setPlayer(player);
-		
+	public void setPlayer(PlayerModel newPlayer) {
+		mPlayer = newPlayer;
 		updateAttributes();
+		
+		if (mPlayerListener != null) {
+			mPlayerListener.onPlayerUpdate(newPlayer);
+		}
 	}
 	
 	private void attachListeners() {
@@ -83,7 +82,23 @@ public class PlayerView extends RelativeLayout implements Observer {
 		mGorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mGorDialog.show();
+				mGorDialog.show(mPlayer.gor);
+			}
+		});
+		
+		mGorDialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				
+				mPlayer.gor = MathUtils.constrain(mGorDialog.getResult(), Calculator.MIN_GOR, Calculator.MAX_GOR);
+				// do not save mPlayer!
+				
+				updateAttributes();
+				
+				if (mPlayerListener != null) {
+					mPlayerListener.onPlayerGorChange(mGorDialog.getResult());
+				}
+				
 			}
 		});
 	}
@@ -91,11 +106,11 @@ public class PlayerView extends RelativeLayout implements Observer {
 	public void updateAttributes() {
 		
 		if (mPlayer != null) {
-			mName.setText(mPlayer.getName());
-			mClub.setText(mPlayer.getClub());
-			mCountry.setText(mPlayer.getCountry());
+			mName.setText(mPlayer.name);
+			mClub.setText(mPlayer.club);
+			mCountry.setText(mPlayer.country);
 			mGrade.setText(mPlayer.getGrade());
-			mGorButton.setText( Integer.toString(mPlayer.getGor()) );
+			mGorButton.setText( Integer.toString( (int) mPlayer.gor ));
 		} else {
 			Log.e(TAG, "No player set");
 		}
@@ -145,9 +160,13 @@ public class PlayerView extends RelativeLayout implements Observer {
 		return mGorButton;
 	}
 
-	@Override
-	public void update(Observable observable, Object data) {
-		updateAttributes();
+	public void setPlayerListener(PlayerListener listener) {
+		this.mPlayerListener = listener;
+	}
+	
+	public interface PlayerListener {
+		public void onPlayerGorChange(double newGor);
+		public void onPlayerUpdate(PlayerModel newPlayer);
 	}
 	
 }

@@ -1,11 +1,7 @@
 package com.barcicki.gorcalculator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,18 +9,14 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.activeandroid.query.Delete;
-import com.barcicki.gorcalculator.core.Opponent;
-import com.barcicki.gorcalculator.core.Opponent.GameColor;
-import com.barcicki.gorcalculator.core.Opponent.GameResult;
-import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.core.PlayersListDownloader;
 import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
-import com.barcicki.gorcalculator.core.Tournament;
+import com.barcicki.gorcalculator.database.OpponentModel;
+import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
+import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
 import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
-import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 
 public class CalculatorActivity extends FragmentActivity {
 
@@ -32,10 +24,9 @@ public class CalculatorActivity extends FragmentActivity {
 	TournamentFragment mTournamentFragment;
 	OpponentsFragment mOpponentsFragment;
 	
+	TournamentModel mTournament;
+	
 	Settings mSettings;
-	
-	Tournament mTournament;
-	
 	ScrollView mScroll;
 	
 	@Override
@@ -45,50 +36,11 @@ public class CalculatorActivity extends FragmentActivity {
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		
+		mTournament = TournamentModel.getActiveTournament();
+		
 		mSettings = new Settings(this);
-
-//		PlayerModel p = new PlayerModel();
-//		p.name = "Awesome";
-//		p.save();
-//		
-////		new Delete().from(TournamentModel.class).where("1 = 1").execute();
-//		
-//		TournamentModel t = new TournamentModel();
-//		t.name = "Default";
-//		t.tournamentClass = TournamentClass.CLASS_A;
-//		t.player = p;
-//		
-//		t.save();
-//		
-//		List<TournamentModel> ts = TournamentModel.getTournaments();
-//		
-//		Log.d("Test", t.name + " " + t.tournamentClass.toString());
-////		Log.d("test 2", ts.get(0).name + " " + ts.get(0).tournamentClass);
-		
-		
-		
-		
-		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
-		
-		// restore player
-		Player player = mSettings.getStoredPlayer();
-		if (player == null) {
-			player = new Player(1600);
-		}
-		
-		mTournament = new Tournament(player, mSettings.getTournamentClass());
-		
-		// restore opponents
-		ArrayList<Opponent> opponents = mSettings.getStoredOpponents();
-		if (opponents.size() > 0) {
-			mTournament.addOpponents(opponents);
-		} else {
-			
-			// default opponent is of the same rank
-			mTournament.addOpponent(new Opponent(player.getGor(), GameResult.WIN, GameColor.BLACK, Opponent.NO_HANDICAP));
-		}
-		
+
 		if (savedInstanceState == null) {
 		
 			mPlayerFragment = new PlayerFragment();
@@ -113,10 +65,14 @@ public class CalculatorActivity extends FragmentActivity {
 	
 	@Override
 	protected void onResume() {
+		
+		mTournament = TournamentModel.getActiveTournament();
+		
 		mPlayerFragment.setTournament(mTournament);
 		mTournamentFragment.setTournament(mTournament);
 		mOpponentsFragment.setTournament(mTournament);
-		mTournament.update(null, null);
+		
+		mTournament.notifyObservers(null);
 		super.onResume();
 	}
 	
@@ -155,9 +111,11 @@ public class CalculatorActivity extends FragmentActivity {
 	
 	public void onAddNewOpponentClicked(View v) {
 		
-		Opponent newOpponent = new Opponent( new Player(mTournament.getPlayer().getGor()), GameResult.WIN, GameColor.BLACK, Opponent.NO_HANDICAP);
-		
+		OpponentModel newOpponent = new OpponentModel(PlayerModel.getDefaultPlayer(), GameResult.WIN, GameColor.BLACK, OpponentModel.NO_HANDICAP);
+//		
 		mTournament.addOpponent(newOpponent);
+		mTournament.notifyObservers(null);
+		
 		mOpponentsFragment.addOpponent(newOpponent);
 		
 		mScroll.post(new Runnable() {
@@ -166,6 +124,7 @@ public class CalculatorActivity extends FragmentActivity {
 			public void run() {
 				mScroll.fullScroll(ScrollView.FOCUS_DOWN);
 			}
+			
 		});
 	}
 	

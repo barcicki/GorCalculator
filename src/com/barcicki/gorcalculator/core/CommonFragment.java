@@ -1,16 +1,15 @@
 package com.barcicki.gorcalculator.core;
 
-import java.util.Observable;
-import java.util.Observer;
-
-import com.barcicki.gorcalculator.GorCalculator;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-public class CommonFragment extends Fragment implements Observer {
+import com.barcicki.gorcalculator.GorCalculator;
+import com.barcicki.gorcalculator.database.DbModel.DbObserver;
+import com.barcicki.gorcalculator.database.TournamentModel;
+
+public class CommonFragment extends Fragment implements DbObserver {
 	
-	private Tournament mTournament;
+	private TournamentModel mTournament;
 	private GorCalculator mApp;
 	private Settings mSettings;
 	
@@ -21,7 +20,7 @@ public class CommonFragment extends Fragment implements Observer {
 		mSettings = new Settings(getActivity());
 	}
 	
-	public void setTournament(Tournament tournament) {
+	public void setTournament(TournamentModel tournament) {
 		mTournament = tournament;
 		mTournament.addObserver(this);
 	}
@@ -30,7 +29,7 @@ public class CommonFragment extends Fragment implements Observer {
 		return mApp;
 	}
 	
-	public Tournament getTournament() {
+	public TournamentModel getTournament() {
 		return mTournament;
 	}
 	
@@ -39,8 +38,6 @@ public class CommonFragment extends Fragment implements Observer {
 	}
 
 	@Override
-	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
-		
+	public void update(Object data) {
 	}
 }

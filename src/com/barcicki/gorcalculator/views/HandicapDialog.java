@@ -6,12 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.R;
-import com.barcicki.gorcalculator.core.Opponent;
-import com.barcicki.gorcalculator.core.Opponent.GameColor;
+import com.barcicki.gorcalculator.database.OpponentModel;
+import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.libs.Utils;
 
 public class HandicapDialog extends Dialog {
@@ -19,7 +18,7 @@ public class HandicapDialog extends Dialog {
 	private ArrayList<ToggleButton> mHandicaps = new ArrayList<ToggleButton>();
 	private ToggleButton mColorWhite;
 	private ToggleButton mColorBlack;
-	private Opponent mOpponent;
+	private OpponentModel mOpponent;
 	
 	public HandicapDialog(Context context) {
 		super(context);
@@ -52,11 +51,11 @@ public class HandicapDialog extends Dialog {
 		attachListeners();
 	}
 	
-	public Opponent getOpponent() {
+	public OpponentModel getOpponent() {
 		return mOpponent;
 	}
 
-	public void setOpponent(Opponent mOpponent) {
+	public void setOpponent(OpponentModel mOpponent) {
 		this.mOpponent = mOpponent;
 	}
 	
@@ -66,7 +65,7 @@ public class HandicapDialog extends Dialog {
 			b.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					mOpponent.setColor( (GameColor) v.getTag());
+					mOpponent.color = (GameColor) v.getTag();
 					dismiss();
 				}
 			});
@@ -76,7 +75,7 @@ public class HandicapDialog extends Dialog {
 			b.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					mOpponent.setHandicap( mHandicaps.indexOf((ToggleButton) v));
+					mOpponent.handicap = mHandicaps.indexOf((ToggleButton) v);
 					dismiss();
 				}
 			});
@@ -86,13 +85,13 @@ public class HandicapDialog extends Dialog {
 	
 	public void updateColor() {
 		for (ToggleButton b : new ToggleButton[] { mColorWhite, mColorBlack }) {
-			b.setChecked(mOpponent.getColor().equals(b.getTag()));
+			b.setChecked(mOpponent.color.equals(b.getTag()));
 		}
 	}
 	
 	public void updateHandicap() {
 		for (ToggleButton b : mHandicaps) {
-			b.setChecked(mHandicaps.indexOf(b) == mOpponent.getHandicap());
+			b.setChecked(mHandicaps.indexOf(b) == mOpponent.handicap);
 		}
 	}
 	
@@ -103,11 +102,4 @@ public class HandicapDialog extends Dialog {
 		updateHandicap();
 	}
 	
-	@Override
-	public void dismiss() {
-		mOpponent.notifyObservers();
-		super.dismiss();
-	}
-	
-
 }

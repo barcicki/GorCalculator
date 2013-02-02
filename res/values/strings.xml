@@ -29,6 +29,7 @@
     <string name="game_color_white">White</string>
     <string name="dialog_handicap">Game details</string>
     <string name="dialog_gor">Edit GoR</string>
+    <string name="no_results">No results</string>
 
     <plurals name="game_handicap_stones">
         <item quantity="one">No Komi</item>
@@ -50,7 +51,7 @@
     <string name="update_storing">Saving players ...</string>
     <string name="update_storing_cancelled">Saving players cancelled</string>
     <string name="update_prompt">Download EGD players list</string>
-    <string name="update_reason">Your local database seems to be empty. Do you want to download players list from EGD?</string>
+    <string name="update_reason">Do you want to download player list from EGD?</string>
     <string name="country_AD">Andorra</string>
     <string name="country_AG">Antigua e Barbuda</string>
     <string name="country_AR">Argentina</string>

@@ -7,6 +7,9 @@ import com.activeandroid.Model;
 
 public class DbModel extends Model {
 	
+	public static final int FIRST_PAGE = 0;
+	public static final int LIMIT = 50;
+	
 	private List<DbObserver> mObservers = new ArrayList<DbObserver>();
 	
 	public void addObserver(DbObserver observer) {
@@ -21,14 +24,14 @@ public class DbModel extends Model {
 		}
 	}
 	
-	public void notifyObservers() {
+	public void notifyObservers(Object data) {
 		for (DbObserver o : mObservers) {
-			o.update(this);
+			o.update(data);
 		}
 	}
 	
 	public interface DbObserver {
-		public void update(DbModel model);
+		public void update(Object data);
 	}
 	
 }

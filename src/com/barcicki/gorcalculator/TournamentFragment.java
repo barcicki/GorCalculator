@@ -1,7 +1,6 @@
 package com.barcicki.gorcalculator;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +11,8 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
-import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
+import com.barcicki.gorcalculator.database.DbModel;
+import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 
 public class TournamentFragment extends CommonFragment implements OnClickListener {
 
@@ -54,9 +54,8 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		TournamentClass newTournamentClass = (TournamentClass) v.getTag();
-		getTournament().setTournamentClass(newTournamentClass);
-		getTournament().notifyObservers();
-		getSettings().storeTournamentClass(getTournament().getTournamentClass());
+		getTournament().tournamentClass = newTournamentClass;
+		getTournament().notifyObservers(null);
 	}
 	
 	public void setChecked(TournamentClass tournamentClass) {
@@ -72,11 +71,11 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	}
 	
 	@Override
-	public void update(Observable observable, Object data) {
-		super.update(observable, data);
+	public void update(Object data) {
+		super.update(data);
 		
 		if (getTournament() != null) {
-			setChecked(getTournament().getTournamentClass());
+			setChecked(getTournament().tournamentClass);
 		}
 	}
 }
