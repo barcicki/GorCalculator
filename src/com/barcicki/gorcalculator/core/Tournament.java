@@ -21,8 +21,9 @@ public class Tournament extends Observable implements Observer {
 		}
 	};
 	
-	private static String TAG = "Tournament";
+	private static final String TAG = "Tournament";
 	
+	private String mName;
 	private Player mPlayer;
 	private ArrayList<Opponent> mOpponents = new ArrayList<Opponent>();
 	private TournamentClass mTournamentClass = TournamentClass.CLASS_A;
@@ -32,6 +33,14 @@ public class Tournament extends Observable implements Observer {
 		mTournamentClass = category;
 	}
 	
+	public String getName() {
+		return mName;
+	}
+
+	public void setName(String mName) {
+		this.mName = mName;
+	}
+
 	public Player getPlayer() {
 		return mPlayer;
 	}

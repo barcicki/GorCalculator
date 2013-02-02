@@ -15,16 +15,29 @@ import com.barcicki.gorcalculator.core.Player;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 16;
+	private static final int DATABASE_VERSION = 17;
 	private static final String DATABASE_NAME = "gorcalculator";
 	
-	public static final String KEY_ID = "_id";
-	public static final String KEY_PIN = "pin";
-	public static final String KEY_NAME = "name";
-	public static final String KEY_CLUB = "club";
-	public static final String KEY_COUNTRY = "country";
-	public static final String KEY_GOR = "gor";
-	public static final String KEY_GRADE_VALUE = "grade";
+	public static final String PLAYER_KEY_ID = "_id";
+	public static final String PLAYER_KEY_PIN = "pin";
+	public static final String PLAYER_KEY_NAME = "name";
+	public static final String PLAYER_KEY_CLUB = "club";
+	public static final String PLAYER_KEY_COUNTRY = "country";
+	public static final String PLAYER_KEY_GOR = "gor";
+	public static final String PLAYER_KEY_GRADE_VALUE = "grade";
+	
+	public static final String TOURNAMENT_KEY_ID = "_id";
+	public static final String TOURNAMENT_KEY_NAME = "name";
+	public static final String TOURNAMENT_KEY_PLAYER_PIN = "pin";
+	public static final String TOURNAMENT_KEY_PLAYER_GOR = "gor";
+	
+	public static final String OPPONENTS_KEY_ID = "_id";
+	public static final String OPPONENTS_KEY_TOURNAMENT_ID = "tournament_id";
+	public static final String OPPONENTS_KEY_PLAYER_PIN = "pin";
+	public static final String OPPONENTS_KEY_PLAYER_GOR = "gor";
+	public static final String OPPONENTS_KEY_GAME_RESULT = "result";
+	public static final String OPPONENTS_KEY_GAME_HANDICAP = "handicap";
+	public static final String OPPONENTS_KEY_GAME_COLOR = "color";
 	
 	public static final int LIMIT = 50;
 	public static final int FIRST_PAGE = 0;
@@ -32,25 +45,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String PLAYER_TABLE_NAME = "players";
 	private static final String PLAYER_TABLE_CREATE = 
 			"CREATE TABLE " + PLAYER_TABLE_NAME + " (" + 
-		    KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-			KEY_PIN + " INTEGER NOT NULL, " +
-			KEY_NAME + " TEXT NOT NULL COLLATE NOCASE, " + 
-			KEY_CLUB+ " TEXT NOT NULL COLLATE NOCASE, " + 
-			KEY_COUNTRY + " TEXT NOT NULL COLLATE NOCASE, " + 
-			KEY_GRADE_VALUE + " INTEGER NOT NULL, " + 
-			KEY_GOR + " INTEGER NOT NULL DEFAULT 100" + 
+		    PLAYER_KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			PLAYER_KEY_PIN + " INTEGER NOT NULL, " +
+			PLAYER_KEY_NAME + " TEXT NOT NULL COLLATE NOCASE, " + 
+			PLAYER_KEY_CLUB+ " TEXT NOT NULL COLLATE NOCASE, " + 
+			PLAYER_KEY_COUNTRY + " TEXT NOT NULL COLLATE NOCASE, " + 
+			PLAYER_KEY_GRADE_VALUE + " INTEGER NOT NULL, " + 
+			PLAYER_KEY_GOR + " INTEGER NOT NULL DEFAULT 100" + 
 		    ")";
+	
+	private static final String TOURNAMENTS_TABLE_NAME = "tournaments";
+	private static final String TOURNAMENTS_TABLE_CREATE =
+			"CREATE TABLE " + TOURNAMENTS_TABLE_NAME + " (" + 
+				    TOURNAMENT_KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+					TOURNAMENT_KEY_NAME + " TEXT NOT NULL COLLATE NOCASE, " +
+					TOURNAMENT_KEY_PLAYER_PIN + " INTEGER NOT NULL, " + 
+					TOURNAMENT_KEY_PLAYER_GOR + " INTEGER NOT NULL " + 
+				    ")";
+	
+	private static final String OPPONENTS_TABLE_NAME = "opponents";
+	private static final String OPPONENTS_TABLE_CREATE =
+			"CREATE TABLE " + OPPONENTS_TABLE_NAME + " (" + 
+				    OPPONENTS_KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+				    OPPONENTS_KEY_TOURNAMENT_ID + " INTEGER NOT NULL, " +
+					OPPONENTS_KEY_PLAYER_PIN + " INTEGER NOT NULL, " +
+					OPPONENTS_KEY_PLAYER_GOR + " INTEGER NOT NULL, " + 
+					OPPONENTS_KEY_GAME_RESULT + " TEXT NOT NULL COLLATE NOCASE, " + 
+					OPPONENTS_KEY_GAME_COLOR + " TEXT NOT NULL COLLATE NOCASE, " + 
+					OPPONENTS_KEY_GAME_HANDICAP + " INTEGER NOT NULL DEFAULT 0 " + 
+				    ")";
+	
 	private static final String PLAYER_TABLE_SELECT_ALL = 
 			"SELECT " + 
-					KEY_ID + ", " +
-					KEY_PIN + ", " +
-					KEY_NAME + ", " + 
-					KEY_GRADE_VALUE + ", " + 	
-					KEY_GOR + ", " + 	
-					KEY_CLUB + ", " + 	
-					KEY_COUNTRY + " " + 
+					PLAYER_KEY_ID + ", " +
+					PLAYER_KEY_PIN + ", " +
+					PLAYER_KEY_NAME + ", " + 
+					PLAYER_KEY_GRADE_VALUE + ", " + 	
+					PLAYER_KEY_GOR + ", " + 	
+					PLAYER_KEY_CLUB + ", " + 	
+					PLAYER_KEY_COUNTRY + " " + 
 			"FROM " + PLAYER_TABLE_NAME;
+	
+	
 	private static final String PLAYER_TABLE_DROP = "DROP TABLE IF EXISTS " + PLAYER_TABLE_NAME;
+	private static final String TOURNAMENT_TABLE_DROP = "DROP TABLE IF EXISTS " + TOURNAMENTS_TABLE_NAME;
+	private static final String OPPONENTS_TABLE_DROP = "DROP TABLE IF EXISTS " + OPPONENTS_TABLE_NAME;
 	
 
 	public DatabaseHelper(Context context) {
@@ -60,12 +99,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(PLAYER_TABLE_CREATE);
+//		db.execSQL(TOURNAMENTS_TABLE_CREATE);
+//		db.execSQL(OPPONENTS_TABLE_NAME);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(PLAYER_TABLE_DROP);
-		onCreate(db);
+		if (oldVersion < 20) {
+			db.execSQL(PLAYER_TABLE_DROP);
+//			db.execSQL(TOURNAMENT_TABLE_DROP);
+//			db.execSQL(OPPONENTS_TABLE_DROP);
+			onCreate(db);	
+		} else {
+			db.execSQL(PLAYER_TABLE_DROP);
+			db.execSQL(PLAYER_TABLE_CREATE);
+		}
 	}
 	
 	public long insertPLayer(Player player) {
@@ -76,27 +124,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public long insertPlayer(SQLiteDatabase db, int pin, String name, String country, String club, int grade, int gor) {
 		ContentValues cv = new ContentValues();
 		
-		cv.put(KEY_PIN, pin);
-		cv.put(KEY_NAME, name);
-		cv.put(KEY_CLUB, club);
-		cv.put(KEY_COUNTRY, country);
-		cv.put(KEY_GRADE_VALUE, grade);
-		cv.put(KEY_GOR, gor);
+		cv.put(PLAYER_KEY_PIN, pin);
+		cv.put(PLAYER_KEY_NAME, name);
+		cv.put(PLAYER_KEY_CLUB, club);
+		cv.put(PLAYER_KEY_COUNTRY, country);
+		cv.put(PLAYER_KEY_GRADE_VALUE, grade);
+		cv.put(PLAYER_KEY_GOR, gor);
 		
-		return db.insert(PLAYER_TABLE_NAME, KEY_NAME, cv);
+		return db.insert(PLAYER_TABLE_NAME, PLAYER_KEY_NAME, cv);
 	}
 	
 	private long insertPlayer(SQLiteDatabase db, Player player) {
 		ContentValues cv = new ContentValues();
 		
-		cv.put(KEY_PIN, 1);
-		cv.put(KEY_NAME, player.getName());
-		cv.put(KEY_CLUB, player.getClub());
-		cv.put(KEY_COUNTRY, player.getCountry());
-		cv.put(KEY_GRADE_VALUE, player.getGradeValue());
-		cv.put(KEY_GOR, player.getGor());
+		cv.put(PLAYER_KEY_PIN, 1);
+		cv.put(PLAYER_KEY_NAME, player.getName());
+		cv.put(PLAYER_KEY_CLUB, player.getClub());
+		cv.put(PLAYER_KEY_COUNTRY, player.getCountry());
+		cv.put(PLAYER_KEY_GRADE_VALUE, player.getGradeValue());
+		cv.put(PLAYER_KEY_GOR, player.getGor());
 		
-		return db.insert(PLAYER_TABLE_NAME, KEY_NAME, cv);
+		return db.insert(PLAYER_TABLE_NAME, PLAYER_KEY_NAME, cv);
 	}
 	
 	public void clearPlayers(SQLiteDatabase db) {
@@ -112,22 +160,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		boolean conditionsApplies = false;
 		
 		if (name != null) {
-			conditions.add(KEY_NAME + " LIKE '%" + name + "%'");
+			conditions.add(PLAYER_KEY_NAME + " LIKE '%" + name + "%'");
 			conditionsApplies = true;
 		}
 		
 		if (club != null) {
-			conditions.add(KEY_CLUB + " LIKE '%" + club + "%'");
+			conditions.add(PLAYER_KEY_CLUB + " LIKE '%" + club + "%'");
 			conditionsApplies = true;
 		}
 		
 		if (country != null) {
-			conditions.add(KEY_COUNTRY + " LIKE '%" + country + "%'");
+			conditions.add(PLAYER_KEY_COUNTRY + " LIKE '%" + country + "%'");
 			conditionsApplies = true;
 		}
 		
 		if (gradeMin > 0 || gradeMax < Player.STRENGTHS.size() - 1) {
-			conditions.add(KEY_GRADE_VALUE + " BETWEEN " + gradeMin + " AND " + gradeMax);
+			conditions.add(PLAYER_KEY_GRADE_VALUE + " BETWEEN " + gradeMin + " AND " + gradeMax);
 			conditionsApplies = true;
 		}
 		
@@ -192,19 +240,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	private Player convertToPlayer(Cursor result) {
 		return new Player(
-				result.getInt(result.getColumnIndex(KEY_PIN)),
-				result.getString(result.getColumnIndex(KEY_NAME)),
-				result.getString(result.getColumnIndex(KEY_CLUB)),
-				result.getString(result.getColumnIndex(KEY_COUNTRY)),
-				result.getInt(result.getColumnIndex(KEY_GRADE_VALUE)),
-				result.getInt(result.getColumnIndex(KEY_GOR)));
+				result.getInt(result.getColumnIndex(PLAYER_KEY_PIN)),
+				result.getString(result.getColumnIndex(PLAYER_KEY_NAME)),
+				result.getString(result.getColumnIndex(PLAYER_KEY_CLUB)),
+				result.getString(result.getColumnIndex(PLAYER_KEY_COUNTRY)),
+				result.getInt(result.getColumnIndex(PLAYER_KEY_GRADE_VALUE)),
+				result.getInt(result.getColumnIndex(PLAYER_KEY_GOR)));
 	}
 
 	public Player getPlayerByPin(int playerPIN) {
 		Player player = null;
 		SQLiteDatabase db = getReadableDatabase();
 		
-		Cursor result = db.rawQuery(PLAYER_TABLE_SELECT_ALL + " WHERE " + KEY_PIN + " = " + playerPIN, null);
+		Cursor result = db.rawQuery(PLAYER_TABLE_SELECT_ALL + " WHERE " + PLAYER_KEY_PIN + " = " + playerPIN, null);
 		if (result.getCount() > 0) {
 			result.moveToFirst();
 			player = convertToPlayer(result);

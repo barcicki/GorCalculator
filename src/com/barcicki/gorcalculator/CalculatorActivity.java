@@ -1,9 +1,11 @@
 package com.barcicki.gorcalculator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,15 +13,18 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.activeandroid.query.Delete;
 import com.barcicki.gorcalculator.core.Opponent;
 import com.barcicki.gorcalculator.core.Opponent.GameColor;
 import com.barcicki.gorcalculator.core.Opponent.GameResult;
 import com.barcicki.gorcalculator.core.Player;
 import com.barcicki.gorcalculator.core.PlayersListDownloader;
 import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
-import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.core.Tournament;
+import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.database.TournamentModel;
+import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 
 public class CalculatorActivity extends FragmentActivity {
 
@@ -41,6 +46,28 @@ public class CalculatorActivity extends FragmentActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 		
 		mSettings = new Settings(this);
+
+//		PlayerModel p = new PlayerModel();
+//		p.name = "Awesome";
+//		p.save();
+//		
+////		new Delete().from(TournamentModel.class).where("1 = 1").execute();
+//		
+//		TournamentModel t = new TournamentModel();
+//		t.name = "Default";
+//		t.tournamentClass = TournamentClass.CLASS_A;
+//		t.player = p;
+//		
+//		t.save();
+//		
+//		List<TournamentModel> ts = TournamentModel.getTournaments();
+//		
+//		Log.d("Test", t.name + " " + t.tournamentClass.toString());
+////		Log.d("test 2", ts.get(0).name + " " + ts.get(0).tournamentClass);
+		
+		
+		
+		
 		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
 		
