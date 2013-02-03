@@ -20,17 +20,19 @@ import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
 import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.database.TournamentModel;
 import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.views.OpponentView;
 import com.barcicki.gorcalculator.views.OpponentView.OpponentListener;
-import com.barcicki.gorcalculator.views.PlayerView.PlayerListener;
 
 public class OpponentsFragment extends CommonFragment {
 
+	private static final String TAG = "OpponentsFragment";
+	
 	private ViewGroup mContainer;
 	private ViewGroup mOpponentsContainer;
 	private OpponentsAdapter mOpponentsAdapter;
-	
+
 	private OpponentView mWaitingForPlayer = null;
 
 	public OpponentsFragment() {
@@ -45,35 +47,37 @@ public class OpponentsFragment extends CommonFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mContainer = (ViewGroup) inflater.inflate(R.layout.fragment_opponents, container, false);
-		mOpponentsContainer = (ViewGroup) mContainer.findViewById(R.id.opponentsList);
+		mContainer = (ViewGroup) inflater.inflate(R.layout.fragment_opponents,
+				container, false);
+		mOpponentsContainer = (ViewGroup) mContainer
+				.findViewById(R.id.opponentsList);
 		mOpponentsAdapter = new OpponentsAdapter();
 
 		return mContainer;
 	}
 
 	@Override
-	public void onResume() {
+	public void setTournament(TournamentModel tournament) {
+		super.setTournament(tournament);
 		mOpponentsAdapter.clear();
-		mOpponentsAdapter.addAll(getTournament().opponents());
+		mOpponentsAdapter.addAll(tournament.opponents());
 		updateGorChange();
-		super.onResume();
 	}
-	
+
 	public void addOpponent(OpponentModel newOpponent) {
 		mOpponentsAdapter.add(newOpponent);
 		updateGorChange();
 	}
 
 	public void updateGorChange() {
-		double gor = getTournament().gor,
-			   change;
-		
+		double gor = getTournament().gor, change;
+
 		for (OpponentModel op : mOpponentsAdapter) {
-			
-			change = Calculator.calculate(getTournament().player, op, getTournament().tournamentClass); 
+
+			change = Calculator.calculate(getTournament().player, op,
+					getTournament().tournamentClass);
 			gor += MathUtils.round1000(change);
-			
+
 			mOpponentsAdapter.getOpponentView(op).updateGorChange(gor, change);
 		}
 	}
@@ -86,63 +90,64 @@ public class OpponentsFragment extends CommonFragment {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
-		if (requestCode == PlayerListActivity.REQUEST_DEFAULT && resultCode == Activity.RESULT_OK) {
-			
+
+		if (requestCode == PlayerListActivity.REQUEST_DEFAULT
+				&& resultCode == Activity.RESULT_OK) {
+
 			long id = (long) data.getDoubleExtra(PlayerModel.ID, 0L);
 			if (id > 0) {
-				PlayerModel player = PlayerModel.load(PlayerModel.class, id); 
-				
+				PlayerModel player = PlayerModel.load(PlayerModel.class, id);
+
 				if (mWaitingForPlayer != null && player != null) {
-					
+
 					mWaitingForPlayer.updatePlayer(player);
 					mWaitingForPlayer = null;
-					
-					Log.d("OpponentsFragment", "Receiver player: " + player.name);
+
 				} else {
-					Log.e("OpponentsFragment", "Player empty or no view is waiting");
+					Log.e(TAG, "Player empty or no view is waiting");
 				}
-				
+
 			} else {
-				Log.e("OpponentsFragment", "ID = 0!");
+				Log.e(TAG, "ID = 0!");
 			}
-			
+
 		}
-		
+
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	public class OpponentsAdapter extends ArrayList<OpponentModel> {
-		private LayoutInflater mInflater = LayoutInflater.from(getActivity());
+		private static final long serialVersionUID = 5987215845409571452L;
 		
+		private LayoutInflater mInflater = LayoutInflater.from(getActivity());
+
 		@Override
 		public void clear() {
 			super.clear();
 			mOpponentsContainer.removeAllViews();
 		}
-	
+
 		@Override
 		public boolean addAll(Collection<? extends OpponentModel> collection) {
 			boolean result = super.addAll(collection);
-			
+
 			for (OpponentModel op : this) {
 				addOpponentView(op);
 			}
 			return result;
 		}
-		
+
 		@Override
 		public boolean add(OpponentModel object) {
 			boolean result = super.add(object);
 			addOpponentView(object);
 			return result;
 		}
-		
+
 		public OpponentView addOpponentView(OpponentModel opponent) {
-			final OpponentView ov = (OpponentView) mInflater.inflate(R.layout.opponent_item, mContainer, false);
-			
-			Log.d("Adapter", "Added player view"); 
-			
+			final OpponentView ov = (OpponentView) mInflater.inflate(
+					R.layout.opponent_item, mContainer, false);
+
 			ov.getPlayerView().setShowButtonChange(true);
 			ov.getPlayerView().setShowPlayerDetails(false);
 
@@ -152,38 +157,41 @@ public class OpponentsFragment extends CommonFragment {
 				public void onClick(View v) {
 
 					mWaitingForPlayer = ov;
-					
-					Intent intent = new Intent(getActivity(), PlayerListActivity.class);
-					startActivityForResult(intent, PlayerListActivity.REQUEST_DEFAULT);
+
+					Intent intent = new Intent(getActivity(),
+							PlayerListActivity.class);
+					startActivityForResult(intent,
+							PlayerListActivity.REQUEST_DEFAULT);
 
 				}
 			};
 			ov.setOnFindAndChangeClick(swapView);
 
 			ov.setAnimationListener(new AnimationListener() {
-				
+
 				@Override
 				public void onAnimationStart(Animation animation) {
 					// TODO Auto-generated method stub
-					
+
 				}
-				
+
 				@Override
 				public void onAnimationRepeat(Animation animation) {
 					// TODO Auto-generated method stub
-					
+
 				}
-				
+
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					getTournament().removeOpponent(ov.getOpponent());
 					ov.setVisibility(View.GONE);
 					updateGorChange();
+					getTournament().notifyObservers(null);
 				}
 			});
-			
+
 			ov.setOpponent(opponent);
-			
+
 			ov.setOpponentListener(new OpponentListener() {
 				@Override
 				public void onOpponentUpdate(OpponentModel opponent) {
@@ -210,19 +218,20 @@ public class OpponentsFragment extends CommonFragment {
 					getTournament().notifyObservers(null);
 				}
 			});
-			
+
 			mOpponentsContainer.addView(ov);
-			
+
 			ov.getPlayerView().setShowButtonChange(true);
 			ov.getPlayerView().setShowPlayerDetails(opponent.player.pin > 0);
 			ov.updateAttributes();
-			
+
 			return ov;
 		}
 
 		public OpponentView getOpponentView(OpponentModel opponent) {
 			for (int i = 0; i < mOpponentsContainer.getChildCount(); i++) {
-				OpponentView ov = (OpponentView) mOpponentsContainer.getChildAt(i);
+				OpponentView ov = (OpponentView) mOpponentsContainer
+						.getChildAt(i);
 				if (ov.getOpponent().equals(opponent)) {
 					return ov;
 				}

@@ -6,11 +6,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.barcicki.gorcalculator.core.Calculator;
-import com.barcicki.gorcalculator.core.Opponent;
-import com.barcicki.gorcalculator.core.Opponent.GameColor;
-import com.barcicki.gorcalculator.core.Opponent.GameResult;
-import com.barcicki.gorcalculator.core.Player;
-import com.barcicki.gorcalculator.core.Tournament.TournamentClass;
+import com.barcicki.gorcalculator.database.OpponentModel;
+import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
+import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
+import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 import com.xtremelabs.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
@@ -110,170 +110,170 @@ public class GorCalculatorTest {
 	
 	@Test
 	public void lowKyuWins() {
-		Player player = new Player(408);
+		PlayerModel player = new PlayerModel(408);
 		
-		assertEquals(18.38, 	Calculator.calculate(player, new Player(100), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(48.208, 	Calculator.calculate(player, new Player(541), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(51.193, 	Calculator.calculate(player, new Player(762), 4, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(43.578, 	Calculator.calculate(player, new Player(812), 5, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(51.271, 	Calculator.calculate(player, new Player(413), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(40.743, 	Calculator.calculate(player, new Player(895), 6, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(43.462, 	Calculator.calculate(player, new Player(1217), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(92.829, 	Calculator.calculate(player, new Player(1613), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(25.45, 	Calculator.calculate(player, new Player(1100), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(99.6, 		Calculator.calculate(player, new Player(2512), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(92.365, 	Calculator.calculate(player, new Player(989), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(61.986, 	Calculator.calculate(player, new Player(142), 4, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(56.711, 	Calculator.calculate(player, new Player(203), 3, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(69.643, 	Calculator.calculate(player, new Player(101), 5, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(63.009, 	Calculator.calculate(player, new Player(502), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(18.38, 	Calculator.calculate(player, new PlayerModel(100), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(48.208, 	Calculator.calculate(player, new PlayerModel(541), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(51.193, 	Calculator.calculate(player, new PlayerModel(762), 4, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(43.578, 	Calculator.calculate(player, new PlayerModel(812), 5, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(51.271, 	Calculator.calculate(player, new PlayerModel(413), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(40.743, 	Calculator.calculate(player, new PlayerModel(895), 6, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(43.462, 	Calculator.calculate(player, new PlayerModel(1217), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(92.829, 	Calculator.calculate(player, new PlayerModel(1613), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(25.45, 	Calculator.calculate(player, new PlayerModel(1100), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(99.6, 		Calculator.calculate(player, new PlayerModel(2512), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(92.365, 	Calculator.calculate(player, new PlayerModel(989), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(61.986, 	Calculator.calculate(player, new PlayerModel(142), 4, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(56.711, 	Calculator.calculate(player, new PlayerModel(203), 3, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(69.643, 	Calculator.calculate(player, new PlayerModel(101), 5, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(63.009, 	Calculator.calculate(player, new PlayerModel(502), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 	}
 	
 	@Test
 	public void lowKyuLosses() {
-		Player player = new Player(408);
+		PlayerModel player = new PlayerModel(408);
 		
-		assertEquals(-81.22, 	Calculator.calculate(player, new Player(100), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-51.392, 	Calculator.calculate(player, new Player(541), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-48.407, 	Calculator.calculate(player, new Player(762), 4, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-56.022, 	Calculator.calculate(player, new Player(812), 5, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-48.329, 	Calculator.calculate(player, new Player(413), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-58.857, 	Calculator.calculate(player, new Player(895), 6, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-56.138, 	Calculator.calculate(player, new Player(1217), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-6.771, 	Calculator.calculate(player, new Player(1613), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-74.15, 	Calculator.calculate(player, new Player(1100), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.0, 		Calculator.calculate(player, new Player(2512), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-7.235, 	Calculator.calculate(player, new Player(989), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-37.614, 	Calculator.calculate(player, new Player(142), 4, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-42.889, 	Calculator.calculate(player, new Player(203), 3, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-29.957, 	Calculator.calculate(player, new Player(101), 5, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-36.591, 	Calculator.calculate(player, new Player(502), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-81.22, 	Calculator.calculate(player, new PlayerModel(100), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-51.392, 	Calculator.calculate(player, new PlayerModel(541), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-48.407, 	Calculator.calculate(player, new PlayerModel(762), 4, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-56.022, 	Calculator.calculate(player, new PlayerModel(812), 5, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-48.329, 	Calculator.calculate(player, new PlayerModel(413), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-58.857, 	Calculator.calculate(player, new PlayerModel(895), 6, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-56.138, 	Calculator.calculate(player, new PlayerModel(1217), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-6.771, 	Calculator.calculate(player, new PlayerModel(1613), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-74.15, 	Calculator.calculate(player, new PlayerModel(1100), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.0, 		Calculator.calculate(player, new PlayerModel(2512), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-7.235, 	Calculator.calculate(player, new PlayerModel(989), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-37.614, 	Calculator.calculate(player, new PlayerModel(142), 4, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-42.889, 	Calculator.calculate(player, new PlayerModel(203), 3, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-29.957, 	Calculator.calculate(player, new PlayerModel(101), 5, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-36.591, 	Calculator.calculate(player, new PlayerModel(502), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 	}
 	
 	@Test
 	public void midKyuWins() {
-		Player player = new Player(1423);
+		PlayerModel player = new PlayerModel(1423);
 		
-		assertEquals(0.499, 	Calculator.calculate(player, new Player(213), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(1.430, 	Calculator.calculate(player, new Player(782), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(16.871, 	Calculator.calculate(player, new Player(1324), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(49.501, 	Calculator.calculate(player, new Player(1947), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(50.080, 	Calculator.calculate(player, new Player(2104), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(50.080, 	Calculator.calculate(player, new Player(2341), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.499, 	Calculator.calculate(player, new PlayerModel(213), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(1.430, 	Calculator.calculate(player, new PlayerModel(782), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(16.871, 	Calculator.calculate(player, new PlayerModel(1324), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(49.501, 	Calculator.calculate(player, new PlayerModel(1947), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(50.080, 	Calculator.calculate(player, new PlayerModel(2104), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(50.080, 	Calculator.calculate(player, new PlayerModel(2341), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(0.401, 	Calculator.calculate(player, new Player(213), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.496, 	Calculator.calculate(player, new Player(782), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(12.588, 	Calculator.calculate(player, new Player(1324), 1, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(41.311, 	Calculator.calculate(player, new Player(1947), 4, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(16.839, 	Calculator.calculate(player, new Player(2104), 8, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(34.353, 	Calculator.calculate(player, new Player(2341), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.401, 	Calculator.calculate(player, new PlayerModel(213), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.496, 	Calculator.calculate(player, new PlayerModel(782), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(12.588, 	Calculator.calculate(player, new PlayerModel(1324), 1, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(41.311, 	Calculator.calculate(player, new PlayerModel(1947), 4, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(16.839, 	Calculator.calculate(player, new PlayerModel(2104), 8, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(34.353, 	Calculator.calculate(player, new PlayerModel(2341), 9, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(4.679, 	Calculator.calculate(player, new Player(213), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(26.285, 	Calculator.calculate(player, new Player(782), 7, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(30.243, 	Calculator.calculate(player, new Player(1324), 2, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(50.080, 	Calculator.calculate(player, new Player(1947), 1, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(50.080, 	Calculator.calculate(player, new Player(2104), 3, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(50.080, 	Calculator.calculate(player, new Player(2341), 1, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(4.679, 	Calculator.calculate(player, new PlayerModel(213), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(26.285, 	Calculator.calculate(player, new PlayerModel(782), 7, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(30.243, 	Calculator.calculate(player, new PlayerModel(1324), 2, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(50.080, 	Calculator.calculate(player, new PlayerModel(1947), 1, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(50.080, 	Calculator.calculate(player, new PlayerModel(2104), 3, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(50.080, 	Calculator.calculate(player, new PlayerModel(2341), 1, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
 	
 	}
 	
 	@Test
 	public void midKyuLosses() {
-		Player player = new Player(1423);
+		PlayerModel player = new PlayerModel(1423);
 		
-		assertEquals(-49.581, 	Calculator.calculate(player, new Player(213), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-48.650, 	Calculator.calculate(player, new Player(782), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-33.209, 	Calculator.calculate(player, new Player(1324), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-0.579, 	Calculator.calculate(player, new Player(1947), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.0,	 	Calculator.calculate(player, new Player(2104), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.0, 		Calculator.calculate(player, new Player(2341), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-49.581, 	Calculator.calculate(player, new PlayerModel(213), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-48.650, 	Calculator.calculate(player, new PlayerModel(782), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-33.209, 	Calculator.calculate(player, new PlayerModel(1324), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-0.579, 	Calculator.calculate(player, new PlayerModel(1947), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.0,	 	Calculator.calculate(player, new PlayerModel(2104), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.0, 		Calculator.calculate(player, new PlayerModel(2341), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(-49.679, 	Calculator.calculate(player, new Player(213), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-49.584, 	Calculator.calculate(player, new Player(782), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-37.492, 	Calculator.calculate(player, new Player(1324), 1, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-8.769, 	Calculator.calculate(player, new Player(1947), 4, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-33.241, 	Calculator.calculate(player, new Player(2104), 8, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-15.727, 	Calculator.calculate(player, new Player(2341), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-49.679, 	Calculator.calculate(player, new PlayerModel(213), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-49.584, 	Calculator.calculate(player, new PlayerModel(782), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-37.492, 	Calculator.calculate(player, new PlayerModel(1324), 1, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-8.769, 	Calculator.calculate(player, new PlayerModel(1947), 4, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-33.241, 	Calculator.calculate(player, new PlayerModel(2104), 8, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-15.727, 	Calculator.calculate(player, new PlayerModel(2341), 9, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(-45.401, 	Calculator.calculate(player, new Player(213), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-23.795, 	Calculator.calculate(player, new Player(782), 7, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-19.837, 	Calculator.calculate(player, new Player(1324), 2, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.0,	 	Calculator.calculate(player, new Player(1947), 1, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.0, 		Calculator.calculate(player, new Player(2104), 3, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.0, 		Calculator.calculate(player, new Player(2341), 1, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-45.401, 	Calculator.calculate(player, new PlayerModel(213), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-23.795, 	Calculator.calculate(player, new PlayerModel(782), 7, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-19.837, 	Calculator.calculate(player, new PlayerModel(1324), 2, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.0,	 	Calculator.calculate(player, new PlayerModel(1947), 1, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.0, 		Calculator.calculate(player, new PlayerModel(2104), 3, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.0, 		Calculator.calculate(player, new PlayerModel(2341), 1, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
 	
 	}
 	
 	
 	@Test
 	public void strongDanWins() {
-		Player player = new Player(2341);
+		PlayerModel player = new PlayerModel(2341);
 		
-		assertEquals(0.135, 	Calculator.calculate(player, new Player(308), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.136, 	Calculator.calculate(player, new Player(847), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.159, 	Calculator.calculate(player, new Player(1488), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.354, 	Calculator.calculate(player, new Player(1856), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(1.025, 	Calculator.calculate(player, new Player(2045), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(3.019, 	Calculator.calculate(player, new Player(2191), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(7.216, 	Calculator.calculate(player, new Player(2313), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(10.663, 	Calculator.calculate(player, new Player(2387), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(14.564, 	Calculator.calculate(player, new Player(2501), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.135, 	Calculator.calculate(player, new PlayerModel(308), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.136, 	Calculator.calculate(player, new PlayerModel(847), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.159, 	Calculator.calculate(player, new PlayerModel(1488), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.354, 	Calculator.calculate(player, new PlayerModel(1856), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(1.025, 	Calculator.calculate(player, new PlayerModel(2045), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(3.019, 	Calculator.calculate(player, new PlayerModel(2191), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(7.216, 	Calculator.calculate(player, new PlayerModel(2313), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(10.663, 	Calculator.calculate(player, new PlayerModel(2387), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(14.564, 	Calculator.calculate(player, new PlayerModel(2501), 0, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(0.134, 	Calculator.calculate(player, new Player(308), 1, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.134, 	Calculator.calculate(player, new Player(847), 6, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.134, 	Calculator.calculate(player, new Player(1488), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.140, 	Calculator.calculate(player, new Player(1856), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.135, 	Calculator.calculate(player, new Player(2045), 5, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.217, 	Calculator.calculate(player, new Player(2191), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(4.937, 	Calculator.calculate(player, new Player(2313), 1, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.355, 	Calculator.calculate(player, new Player(2387), 4, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(4.037, 	Calculator.calculate(player, new Player(2501), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.134, 	Calculator.calculate(player, new PlayerModel(308), 1, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.134, 	Calculator.calculate(player, new PlayerModel(847), 6, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.134, 	Calculator.calculate(player, new PlayerModel(1488), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.140, 	Calculator.calculate(player, new PlayerModel(1856), 2, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.135, 	Calculator.calculate(player, new PlayerModel(2045), 5, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.217, 	Calculator.calculate(player, new PlayerModel(2191), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(4.937, 	Calculator.calculate(player, new PlayerModel(2313), 1, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.355, 	Calculator.calculate(player, new PlayerModel(2387), 4, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(4.037, 	Calculator.calculate(player, new PlayerModel(2501), 3, GameResult.WIN, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(0.140, 	Calculator.calculate(player, new Player(308), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(0.213, 	Calculator.calculate(player, new Player(847), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(8.376, 	Calculator.calculate(player, new Player(1488), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(16.435, 	Calculator.calculate(player, new Player(1856), 8, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(6.427, 	Calculator.calculate(player, new Player(2045), 3, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(8.519, 	Calculator.calculate(player, new Player(2191), 2, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(9.576, 	Calculator.calculate(player, new Player(2313), 1, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(15.641, 	Calculator.calculate(player, new Player(2387), 2, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(16.770, 	Calculator.calculate(player, new Player(2501), 4, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.140, 	Calculator.calculate(player, new PlayerModel(308), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(0.213, 	Calculator.calculate(player, new PlayerModel(847), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(8.376, 	Calculator.calculate(player, new PlayerModel(1488), 9, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(16.435, 	Calculator.calculate(player, new PlayerModel(1856), 8, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(6.427, 	Calculator.calculate(player, new PlayerModel(2045), 3, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(8.519, 	Calculator.calculate(player, new PlayerModel(2191), 2, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(9.576, 	Calculator.calculate(player, new PlayerModel(2313), 1, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(15.641, 	Calculator.calculate(player, new PlayerModel(2387), 2, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(16.770, 	Calculator.calculate(player, new PlayerModel(2501), 4, GameResult.WIN, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
 	
 	}
 	
 	@Test
 	public void strongDanLosses() {
-		Player player = new Player(2341);
+		PlayerModel player = new PlayerModel(2341);
 		
-		assertEquals(-16.635, 	Calculator.calculate(player, new Player(308), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.634, 	Calculator.calculate(player, new Player(847), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.611, 	Calculator.calculate(player, new Player(1488), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.416, 	Calculator.calculate(player, new Player(1856), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-15.745, 	Calculator.calculate(player, new Player(2045), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-13.751, 	Calculator.calculate(player, new Player(2191), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-9.554, 	Calculator.calculate(player, new Player(2313), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-6.107, 	Calculator.calculate(player, new Player(2387), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-2.206, 	Calculator.calculate(player, new Player(2501), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.635, 	Calculator.calculate(player, new PlayerModel(308), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.634, 	Calculator.calculate(player, new PlayerModel(847), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.611, 	Calculator.calculate(player, new PlayerModel(1488), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.416, 	Calculator.calculate(player, new PlayerModel(1856), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-15.745, 	Calculator.calculate(player, new PlayerModel(2045), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-13.751, 	Calculator.calculate(player, new PlayerModel(2191), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-9.554, 	Calculator.calculate(player, new PlayerModel(2313), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-6.107, 	Calculator.calculate(player, new PlayerModel(2387), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-2.206, 	Calculator.calculate(player, new PlayerModel(2501), 0, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(-16.636, 	Calculator.calculate(player, new Player(308), 1, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.636, 	Calculator.calculate(player, new Player(847), 6, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.636, 	Calculator.calculate(player, new Player(1488), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.630, 	Calculator.calculate(player, new Player(1856), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.635, 	Calculator.calculate(player, new Player(2045), 5, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.553, 	Calculator.calculate(player, new Player(2191), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-11.833, 	Calculator.calculate(player, new Player(2313), 1, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.415, 	Calculator.calculate(player, new Player(2387), 4, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-12.733, 	Calculator.calculate(player, new Player(2501), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.636, 	Calculator.calculate(player, new PlayerModel(308), 1, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.636, 	Calculator.calculate(player, new PlayerModel(847), 6, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.636, 	Calculator.calculate(player, new PlayerModel(1488), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.630, 	Calculator.calculate(player, new PlayerModel(1856), 2, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.635, 	Calculator.calculate(player, new PlayerModel(2045), 5, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.553, 	Calculator.calculate(player, new PlayerModel(2191), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-11.833, 	Calculator.calculate(player, new PlayerModel(2313), 1, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.415, 	Calculator.calculate(player, new PlayerModel(2387), 4, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-12.733, 	Calculator.calculate(player, new PlayerModel(2501), 3, GameResult.LOSS, GameColor.BLACK, TournamentClass.CLASS_A), DELTA);
 		
-		assertEquals(-16.630, 	Calculator.calculate(player, new Player(308), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-16.557, 	Calculator.calculate(player, new Player(847), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-8.394, 	Calculator.calculate(player, new Player(1488), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-0.335, 	Calculator.calculate(player, new Player(1856), 8, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-10.343, 	Calculator.calculate(player, new Player(2045), 3, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-8.251, 	Calculator.calculate(player, new Player(2191), 2, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-7.194, 	Calculator.calculate(player, new Player(2313), 1, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-1.129, 	Calculator.calculate(player, new Player(2387), 2, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
-		assertEquals(-0.0, 		Calculator.calculate(player, new Player(2501), 4, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.630, 	Calculator.calculate(player, new PlayerModel(308), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-16.557, 	Calculator.calculate(player, new PlayerModel(847), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-8.394, 	Calculator.calculate(player, new PlayerModel(1488), 9, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-0.335, 	Calculator.calculate(player, new PlayerModel(1856), 8, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-10.343, 	Calculator.calculate(player, new PlayerModel(2045), 3, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-8.251, 	Calculator.calculate(player, new PlayerModel(2191), 2, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-7.194, 	Calculator.calculate(player, new PlayerModel(2313), 1, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-1.129, 	Calculator.calculate(player, new PlayerModel(2387), 2, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
+		assertEquals(-0.0, 		Calculator.calculate(player, new PlayerModel(2501), 4, GameResult.LOSS, GameColor.WHITE, TournamentClass.CLASS_A), DELTA);
 	
 	}
 	
@@ -283,11 +283,11 @@ public class GorCalculatorTest {
 		GameResult result = GameResult.WIN;
 		TournamentClass category = TournamentClass.CLASS_A;
 		double 	myGor = 1914, 
-				opponentGor = 2103,
-				handicap = Opponent.NO_HANDICAP,
+				OpponentModelGor = 2103,
+				handicap = OpponentModel.NO_HANDICAP,
 				expectedResult = 26.096f;
 		
-		double actualResult = Calculator.calculateRatingChange(myGor, opponentGor, result.value, handicap, category.value);    
+		double actualResult = Calculator.calculateRatingChange(myGor, OpponentModelGor, result.value, handicap, category.value);    
 	 
 	 	assertEquals (expectedResult, actualResult, 0.1);
 	 }

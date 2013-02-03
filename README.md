@@ -16,12 +16,17 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.7.1](https://www.dropbox.com/s/2i2a7hrnpauvmw5/GorCalculator_v0.9.7.1.apk?dl=1)
+[GorCalculator v.0.9.8](https://www.dropbox.com/s/rutrbcis2wsw82t/GorCalculator_v0.9.8.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
+
+#### v.0.9.8 (3.02.2013) ####
+* Fixed issue with deleting opponents
+* Replaced tournament name with date of its creation
+* Issue: tests fails as Robolectric can't use database (though calculations are ok)
 
 #### v.0.9.7 (3.02.2013) ####
 * Added possibility to store multiple tournaments

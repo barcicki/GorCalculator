@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
-import com.barcicki.gorcalculator.database.DbModel;
 import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 
 public class TournamentFragment extends CommonFragment implements OnClickListener {

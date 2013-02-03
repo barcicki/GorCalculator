@@ -1,0 +1,1 @@
+UPDATE Tournaments SET Created=DATE('now') WHERE 1=1;

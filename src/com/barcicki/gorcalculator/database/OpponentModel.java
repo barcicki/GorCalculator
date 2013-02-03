@@ -2,7 +2,6 @@ package com.barcicki.gorcalculator.database;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.barcicki.gorcalculator.database.DbModel.DbObserver;
 
 @Table(name = "Opponents")
 public class OpponentModel extends DbModel {

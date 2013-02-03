@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.database.TournamentModel;
 import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.views.PlayerView;
 import com.barcicki.gorcalculator.views.PlayerView.PlayerListener;
@@ -21,7 +22,7 @@ public class PlayerFragment extends CommonFragment {
 	PlayerView mPlayerView;
 	TextView mPlayerGorChange;
 
-	private static String TAG = "Player";
+	private static String TAG = "PlayerFragment";
 	
 	public PlayerFragment() {
 	}
@@ -71,20 +72,13 @@ public class PlayerFragment extends CommonFragment {
 	}
 	
 	@Override
-	public void onResume() {
+	public void setTournament(TournamentModel tournament) {
+		super.setTournament(tournament);
 		
-		if (getTournament() != null) {
-		
-			PlayerModel player = getTournament().player;
-			
-//			Player player = getTournament().getPlayer();
-			mPlayerView.setPlayer(player);
-			mPlayerView.setShowButtonChange(true);
-			mPlayerView.setShowPlayerDetails(player.pin > 0);
-			
-		}
-		
-		super.onResume();
+		PlayerModel player = tournament.player;
+		mPlayerView.setPlayer(player);
+		mPlayerView.setShowButtonChange(true);
+		mPlayerView.setShowPlayerDetails(player.pin > 0);
 	}
 	
 	@Override
@@ -106,13 +100,12 @@ public class PlayerFragment extends CommonFragment {
 					getTournament().save();
 					getTournament().notifyObservers(null);
 					
-					Log.d("PlayerFragment", "Receiver player: " + player.name);
 				} else {
-					Log.e("PlayerFragment", "Player empty");
+					Log.e(TAG, "Player empty");
 				}
 				
 			} else {
-				Log.e("PlayerFragment", "ID = 0!");
+				Log.e(TAG, "ID = 0!");
 			}
 			
 		}

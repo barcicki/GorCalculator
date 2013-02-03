@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.barcicki.gorcalculator.R;
-import com.barcicki.gorcalculator.database.PlayerModel;
 
 public class GorDialog extends Dialog {
 	

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.Calculator;
-import com.barcicki.gorcalculator.database.DbModel.DbObserver;
 import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.libs.MathUtils;
 

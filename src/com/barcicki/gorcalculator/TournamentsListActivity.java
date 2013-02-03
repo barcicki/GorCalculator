@@ -1,6 +1,8 @@
 package com.barcicki.gorcalculator;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,11 +29,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.database.DbModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
 import com.barcicki.gorcalculator.views.TournamentDeleteDialog;
-import com.barcicki.gorcalculator.views.TournamentDialog;
 
 public class TournamentsListActivity extends Activity {
 
@@ -40,9 +40,7 @@ public class TournamentsListActivity extends Activity {
 	private ListView mTournamentsList;
 	private TournamentsAdapter mTournamentsAdapter;
 	
-	private TournamentDialog mDialog;
 	private TournamentDeleteDialog mDeleteDialog;
-	private Settings mSettings;
 	
 	private int mPage = DbModel.FIRST_PAGE;
 	
@@ -62,21 +60,6 @@ public class TournamentsListActivity extends Activity {
 			}
 		});
 		
-		mDialog = new TournamentDialog(this);
-		mDialog.setTitle("New tournament");
-		mDialog.setOnButtonClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				TournamentModel.createNewTournament(mDialog.getResult());
-				
-				mPage = DbModel.FIRST_PAGE;
-				
-				resetResults();
-			}
-		});
-		
-		mSettings = new Settings(this);
-		
 		mTournamentsAdapter = new TournamentsAdapter(this);
 		
 		mTournamentsList = (ListView) findViewById(R.id.tournamentsList);
@@ -92,7 +75,7 @@ public class TournamentsListActivity extends Activity {
 				TournamentModel tournament = mTournamentsAdapter.getItem(position);
 				TournamentModel.setActive(tournament);
 				
-				finish();
+				resetResults();
 				
 			}
 			
@@ -155,7 +138,9 @@ public class TournamentsListActivity extends Activity {
 				NavUtils.navigateUpTo(this, new Intent(this, CalculatorActivity.class));
 				return true;
 			case R.id.add_tournament:
-				mDialog.show("Default");
+				TournamentModel.createNewTournament();
+				mPage = DbModel.FIRST_PAGE;
+				resetResults();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -167,6 +152,7 @@ public class TournamentsListActivity extends Activity {
 
 		private LayoutInflater mInflater;
 		private Resources mRes;
+		private SimpleDateFormat mFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 		
 		public TournamentsAdapter(Context context) {
 			this(context, new ArrayList<TournamentModel>());
@@ -195,7 +181,7 @@ public class TournamentsListActivity extends Activity {
 			convertView.setBackgroundColor(mRes.getColor(tournament.active ? android.R.color.holo_orange_light : android.R.color.background_light));
 			
 			((TextView) convertView.findViewById(R.id.playerName)).setText(tournament.player.name);
-			((TextView) convertView.findViewById(R.id.tournamentName)).setText(tournament.name);
+			((TextView) convertView.findViewById(R.id.tournamentName)).setText(mFormatter.format(tournament.created));
 			((TextView) convertView.findViewById(R.id.tournamentClass)).setText(getResources().getStringArray(R.array.tournament_class)[tournament.tournamentClass.ordinal()]);
 			((TextView) convertView.findViewById(R.id.opponentsCount)).setText(getString(R.string.tournament_opponents_count, tournament.opponents().size()));
 			

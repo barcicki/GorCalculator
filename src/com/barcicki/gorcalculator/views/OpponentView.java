@@ -213,7 +213,6 @@ public class OpponentView extends RelativeLayout {
 		if (mAnimationsEnabled) {
 		
 			final int x = (int) event.getRawX();
-			final int y = (int) event.getRawY();
 			final int diff = x - mGestureStartX;
 
 			switch (event.getAction()) {
