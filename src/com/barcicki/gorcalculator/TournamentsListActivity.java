@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
@@ -165,6 +166,7 @@ public class TournamentsListActivity extends Activity {
 	public class TournamentsAdapter extends ArrayAdapter<TournamentModel> {
 
 		private LayoutInflater mInflater;
+		private Resources mRes;
 		
 		public TournamentsAdapter(Context context) {
 			this(context, new ArrayList<TournamentModel>());
@@ -178,6 +180,7 @@ public class TournamentsListActivity extends Activity {
 				ArrayList<TournamentModel> objects) {
 			super(context, textViewResourceId, objects);
 			mInflater = LayoutInflater.from(context);
+			mRes = context.getResources();
 		}
 		
 		@Override
@@ -188,6 +191,8 @@ public class TournamentsListActivity extends Activity {
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.tournament_view, parent, false);
 			}
+			
+			convertView.setBackgroundColor(mRes.getColor(tournament.active ? android.R.color.holo_orange_light : android.R.color.background_light));
 			
 			((TextView) convertView.findViewById(R.id.playerName)).setText(tournament.player.name);
 			((TextView) convertView.findViewById(R.id.tournamentName)).setText(tournament.name);

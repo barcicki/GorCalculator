@@ -16,7 +16,7 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.7](https://www.dropbox.com/s/7j7tkqgdltk9je4/GorCalculator_v0.9.7.apk?dl=1)
+[GorCalculator v.0.9.7.1](https://www.dropbox.com/s/2i2a7hrnpauvmw5/GorCalculator_v0.9.7.1.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
@@ -26,6 +26,7 @@ This is a simple application allowing Go players to calculate how their rating m
 #### v.0.9.7 (3.02.2013) ####
 * Added possibility to store multiple tournaments
 * Changed the way the data is stored on mobile phones
+* *(v.0.9.7.1)* Added marking currently active tournament
 
 #### v.0.9.6 (28.01.2013) ####
 * Fixed resuming application and rotating issue

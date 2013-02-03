@@ -121,7 +121,9 @@ public class TournamentModel extends DbModel {
 		double change = 0;
 		
 		for (OpponentModel opponent : opponents()) {
-			change += Calculator.calculate(player, opponent, tournamentClass);
+			if (opponent != null) {
+				change += Calculator.calculate(player, opponent, tournamentClass);
+			}
 		}
 		
 		if (change < -100) {
