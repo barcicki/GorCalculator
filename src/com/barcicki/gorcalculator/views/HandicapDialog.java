@@ -21,7 +21,7 @@ public class HandicapDialog extends Dialog {
 	private OpponentModel mOpponent;
 	
 	public HandicapDialog(Context context) {
-		super(context);
+		super(context, R.style.AppDialog);
 		setContentView(R.layout.dialog_handicap);
 //		
 		mColorWhite = (ToggleButton) findViewById(R.id.colorWhite);

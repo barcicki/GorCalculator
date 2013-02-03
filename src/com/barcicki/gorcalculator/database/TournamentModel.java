@@ -3,14 +3,11 @@ package com.barcicki.gorcalculator.database;
 import java.util.Date;
 import java.util.List;
 
-import android.util.Log;
-
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.barcicki.gorcalculator.core.Calculator;
 
 @Table(name = "Tournaments")
 public class TournamentModel extends DbModel {
@@ -53,7 +50,13 @@ public class TournamentModel extends DbModel {
 	public boolean active;
 	
 	public List<OpponentModel> opponents() {
-		return getMany(OpponentModel.class, "Tournament");
+		List<OpponentModel> opponents = getMany(OpponentModel.class, "Tournament");
+		for (OpponentModel op : opponents) {
+			if (op.player == null) {
+				op.player = new PlayerModel(op.gor);
+			}
+		}
+		return opponents;
 	}
 	
 	public static TournamentModel getTournament(long id) {
@@ -79,10 +82,9 @@ public class TournamentModel extends DbModel {
 			.where("Active = ?", 1)
 			.executeSingle();
 		
-		if (activeTournament != null) {
-			return activeTournament;
-			
-		} else {
+		
+		// getting active tournament
+		if (activeTournament == null) {
 			
 			activeTournament = new Select()
 				.from(TournamentModel.class)
@@ -101,25 +103,17 @@ public class TournamentModel extends DbModel {
 			}
 		}
 		
+		// validating player, e.g. database failed
+		if (activeTournament.player == null) {
+			activeTournament.player = PlayerModel.getDefaultPlayer();
+			activeTournament.player.gor = activeTournament.gor;
+			activeTournament.save();
+		}
+		
+		
 		return activeTournament;
 	}
 	
-	public double calculateFinalGor() {
-		double change = 0;
-		
-		for (OpponentModel opponent : opponents()) {
-			if (opponent != null) {
-				change += Calculator.calculate(player, opponent, tournamentClass);
-			}
-		}
-		
-		if (change < -100) {
-			change = -100;
-		}
-		
-		return Math.round((gor + change) * 1000) / 1000f;
-	}
-
 	public void addOpponent(OpponentModel newOpponent) {
 		newOpponent.tournament = this;
 		newOpponent.save();
@@ -134,8 +128,6 @@ public class TournamentModel extends DbModel {
 	public static void setActive(TournamentModel tournament) {
 		List<TournamentModel> previous = new Select().from(TournamentModel.class).where("Active = ?", 1).execute();
 		
-		Log.d("TournamentModel", "Count: " + previous.size());
-		
 		ActiveAndroid.beginTransaction();
 		for (TournamentModel t : previous) {
 			t.active = false;
@@ -148,15 +140,19 @@ public class TournamentModel extends DbModel {
 		ActiveAndroid.setTransactionSuccessful();
 		ActiveAndroid.endTransaction();
 	}
-
-	public static TournamentModel createNewTournament() {
+	
+	public static TournamentModel createNewTournament(PlayerModel player) {
 		TournamentModel tournament = new TournamentModel();
 		tournament.created = new Date();
 		tournament.tournamentClass = TournamentClass.CLASS_A;
-		tournament.player = PlayerModel.getDefaultPlayer();
+		tournament.player = player;
 		tournament.gor = tournament.player.gor;
 		tournament.save();
 		return tournament;
+	}
+
+	public static TournamentModel createNewTournament() {
+		return createNewTournament(PlayerModel.getDefaultPlayer());
 	}
 	
 }

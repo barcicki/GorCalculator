@@ -16,11 +16,11 @@ import android.view.animation.Animation.AnimationListener;
 
 import com.barcicki.gorcalculator.core.Calculator;
 import com.barcicki.gorcalculator.core.CommonFragment;
+import com.barcicki.gorcalculator.core.Tournament;
 import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
 import com.barcicki.gorcalculator.database.PlayerModel;
-import com.barcicki.gorcalculator.database.TournamentModel;
 import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.views.OpponentView;
 import com.barcicki.gorcalculator.views.OpponentView.OpponentListener;
@@ -56,26 +56,14 @@ public class OpponentsFragment extends CommonFragment {
 		return mContainer;
 	}
 
-	@Override
-	public void setTournament(TournamentModel tournament) {
-		super.setTournament(tournament);
-		mOpponentsAdapter.clear();
-		mOpponentsAdapter.addAll(tournament.opponents());
-		updateGorChange();
-	}
-
-	public void addOpponent(OpponentModel newOpponent) {
-		mOpponentsAdapter.add(newOpponent);
-		updateGorChange();
-	}
-
 	public void updateGorChange() {
-		double gor = getTournament().gor, change;
+		double gor = Tournament.getTournament().gor, change;
 
 		for (OpponentModel op : mOpponentsAdapter) {
 
-			change = Calculator.calculate(getTournament().player, op,
-					getTournament().tournamentClass);
+			change = Calculator.calculate(
+					Tournament.getTournament().player, op,
+					Tournament.getTournament().tournamentClass);
 			gor += MathUtils.round1000(change);
 
 			mOpponentsAdapter.getOpponentView(op).updateGorChange(gor, change);
@@ -83,8 +71,13 @@ public class OpponentsFragment extends CommonFragment {
 	}
 
 	@Override
-	public void update(Object data) {
-		super.update(data);
+	public void update() {
+		
+//		mOpponentsAdapter.refresh(Tournament.getTournament());
+		
+		mOpponentsAdapter.clear();
+		mOpponentsAdapter.addAll(Tournament.getTournament().opponents());
+		
 		updateGorChange();
 	}
 
@@ -102,6 +95,8 @@ public class OpponentsFragment extends CommonFragment {
 
 					mWaitingForPlayer.updatePlayer(player);
 					mWaitingForPlayer = null;
+					
+					Tournament.notifyObservers();
 
 				} else {
 					Log.e(TAG, "Player empty or no view is waiting");
@@ -126,6 +121,7 @@ public class OpponentsFragment extends CommonFragment {
 			super.clear();
 			mOpponentsContainer.removeAllViews();
 		}
+		
 
 		@Override
 		public boolean addAll(Collection<? extends OpponentModel> collection) {
@@ -183,39 +179,33 @@ public class OpponentsFragment extends CommonFragment {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					getTournament().removeOpponent(ov.getOpponent());
+					Tournament.getTournament().removeOpponent(ov.getOpponent());
 					ov.setVisibility(View.GONE);
-					updateGorChange();
-					getTournament().notifyObservers(null);
+					Tournament.notifyObservers();
 				}
 			});
 
 			ov.setOpponent(opponent);
-
 			ov.setOpponentListener(new OpponentListener() {
-				@Override
-				public void onOpponentUpdate(OpponentModel opponent) {
-					getTournament().notifyObservers(null);
-				}
 
 				@Override
 				public void onPlayerGorChange(double newGor) {
-					getTournament().notifyObservers(null);
+					Tournament.notifyObservers();
 				}
 
 				@Override
 				public void onResultChange(GameResult result) {
-					getTournament().notifyObservers(null);
+					Tournament.notifyObservers();
 				}
 
 				@Override
 				public void onHandicapChange(int newHandicap) {
-					getTournament().notifyObservers(null);
+					Tournament.notifyObservers();
 				}
 
 				@Override
 				public void onColorChange(GameColor newColor) {
-					getTournament().notifyObservers(null);
+					Tournament.notifyObservers();
 				}
 			});
 

@@ -15,6 +15,11 @@ public class Settings {
 	public static String FILTER_GRADE_MAX = "filter_grade_max";
 
 	public static String DOWNLOADED_PLAYER_LIST = "downloaded_player_list";
+	
+	public static final String HINT_FILTER = "hint_filter";
+	public static final String HINT_DELETE_OPPONENT = "hint_opponent";
+	public static final String HINT_ADD_TOURNAMENT = "hint_tournament";
+	public static final String HINT_FIND_PLAYER = "hint_find_player";
 
 	private SharedPreferences mPrefs;
 
@@ -56,6 +61,14 @@ public class Settings {
 				.putString(FILTER_CLUB, club)
 				.putInt(FILTER_GRADE_MIN, gradeMin)
 				.putInt(FILTER_GRADE_MAX, gradeMax).commit();
+	}
+	
+	public boolean storeHint(String key, boolean value) {
+		return mPrefs.edit().putBoolean(key, value).commit();
+	}
+	
+	public boolean getHint(String key) {
+		return mPrefs.getBoolean(key, false);
 	}
 
 }

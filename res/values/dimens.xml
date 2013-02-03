@@ -5,4 +5,5 @@
     <dimen name="margin_detail">6dp</dimen>
     <dimen name="padding_calculation">20dp</dimen>
     <dimen name="margin_box">5dp</dimen>
+    <dimen name="dialog_min_width">250dp</dimen>
 </resources>

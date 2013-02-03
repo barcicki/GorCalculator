@@ -16,7 +16,7 @@ public class GorDialog extends Dialog {
 	private double mResult;
 	
 	public GorDialog(Context context) {
-		super(context);
+		super(context, R.style.AppDialog);
 		setContentView(R.layout.dialog_gor);
 		
 		setTitle(getContext().getString(R.string.title_gor));

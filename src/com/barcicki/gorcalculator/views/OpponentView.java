@@ -63,7 +63,6 @@ public class OpponentView extends RelativeLayout {
 	
 		// dialogs
 		mHandicapDialog = new HandicapDialog(context);
-		mHandicapDialog.setTitle(context.getString(R.string.dialog_handicap));
 		mHandicapDialog.setCancelable(true);
 		
 		// buttons		
@@ -127,11 +126,6 @@ public class OpponentView extends RelativeLayout {
 		mPlayerView.setPlayerListener(new PlayerListener() {
 			
 			@Override
-			public void onPlayerUpdate(PlayerModel newPlayer) {
-				// do nothing as it probably came from this view
-			}
-			
-			@Override
 			public void onPlayerGorChange(double newGor) {
 				mOpponent.gor = newGor;
 				
@@ -155,6 +149,7 @@ public class OpponentView extends RelativeLayout {
 	}
 	
 	public void updatePlayer(PlayerModel player) {
+		
 		mOpponent.player = player;
 		mOpponent.gor = player.gor;
 		mOpponent.save();
@@ -170,9 +165,6 @@ public class OpponentView extends RelativeLayout {
 		mHandicapDialog.setOpponent(newOpponent);
 		mPlayerView.setPlayer(newOpponent.player);
 		
-		if (mOpponentListener != null) {
-			mOpponentListener.onOpponentUpdate(newOpponent);
-		}
 	}
 	
 	public OpponentModel getOpponent() {
@@ -275,7 +267,6 @@ public class OpponentView extends RelativeLayout {
 	
 	public interface OpponentListener {
 		public void onPlayerGorChange(double newGor);
-		public void onOpponentUpdate(OpponentModel newOpponent);
 		public void onResultChange(GameResult result);
 		public void onHandicapChange(int newHandicap);
 		public void onColorChange(GameColor newColor);

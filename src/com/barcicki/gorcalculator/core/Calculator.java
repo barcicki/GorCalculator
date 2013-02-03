@@ -119,22 +119,26 @@ public class Calculator {
 
 	public static double calculate(PlayerModel player, OpponentModel opponent,
 			TournamentClass tournamentClass) {
-		return calculate(player, opponent.player, opponent.handicap,
-				opponent.result, opponent.color, tournamentClass);
+		
+		return calculateRatingChange(
+			player.gor, 
+			opponent.gor, 
+			opponent.result.value, 
+			opponent.color.equals(GameColor.BLACK) ? opponent.handicap : -opponent.handicap,
+			tournamentClass.value
+		);
 	}
-
-	//
-	public static double calculate(PlayerModel player1, PlayerModel player2,
-			int handicap, GameResult result2, GameColor color,
+	
+	public static double calculate(PlayerModel player, PlayerModel opponent, int handicap, GameResult gameResult, GameColor gameColor,
 			TournamentClass tournamentClass) {
-
-		double gorA = player1.gor, gorB = player2.gor;
-
-		handicap = color.equals(GameColor.BLACK) ? handicap : -handicap;
-
-		float modifier = tournamentClass.value, result = result2.value;
-
-		return calculateRatingChange(gorA, gorB, result, handicap, modifier);
+		
+		return calculateRatingChange(
+			player.gor, 
+			opponent.gor, 
+			gameResult.value, 
+			gameColor.equals(GameColor.BLACK) ? handicap : -handicap,
+			tournamentClass.value
+		);
 	}
 
 }

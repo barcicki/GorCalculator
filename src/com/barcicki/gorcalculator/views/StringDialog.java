@@ -15,7 +15,7 @@ public class StringDialog extends Dialog {
 	private EditText mString;
 	
 	public StringDialog(Context context) {
-		super(context);
+		super(context, R.style.AppDialog);
 		setContentView(R.layout.dialog_string);
 		
 		setTitle(context.getString(R.string.title_filter));

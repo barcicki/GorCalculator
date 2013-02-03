@@ -1,13 +1,19 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="AppDialog" parent="android:Theme.Holo.Light.Dialog.NoActionBar">
+        <item name="android:minWidth">@dimen/dialog_min_width</item>
+    </style>
+    
     <style name="AppTheme" parent="android:Theme.Light" />
 
-   	<style name="GorResult">
-   	    <item name="android:paddingLeft">@dimen/padding_calculation</item>
-   	    <item name="android:paddingRight">@dimen/padding_calculation</item>
-   	    <item name="android:paddingTop">@dimen/padding_title_vertical</item>
-   	    <item name="android:paddingBottom">@dimen/padding_title_vertical</item>
-   	    <item name="android:textColor">@android:color/white</item>
-   	</style>
+    <style name="GorResult">
+        <item name="android:paddingLeft">@dimen/padding_calculation</item>
+        <item name="android:paddingRight">@dimen/padding_calculation</item>
+        <item name="android:paddingTop">@dimen/padding_title_vertical</item>
+        <item name="android:paddingBottom">@dimen/padding_title_vertical</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     
+
 </resources>

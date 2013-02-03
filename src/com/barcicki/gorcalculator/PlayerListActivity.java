@@ -6,10 +6,8 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,8 +33,11 @@ import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListe
 import com.barcicki.gorcalculator.core.Settings;
 import com.barcicki.gorcalculator.database.DbModel;
 import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.views.ConfirmDialog;
+import com.barcicki.gorcalculator.views.ConfirmDialog.ConfirmDialogListener;
 import com.barcicki.gorcalculator.views.CountryDialog;
 import com.barcicki.gorcalculator.views.GradeDialog;
+import com.barcicki.gorcalculator.views.HintDialog;
 import com.barcicki.gorcalculator.views.PlayerView;
 import com.barcicki.gorcalculator.views.StringDialog;
 
@@ -56,6 +57,8 @@ public class PlayerListActivity extends Activity {
 	private CountryDialog mCountryDialog;
 	private Settings mSettings;
 	
+	private HintDialog mHintDialog;
+	
 	private int mPage = DbModel.FIRST_PAGE;
 	
 	@Override
@@ -70,6 +73,7 @@ public class PlayerListActivity extends Activity {
 		mGradeDialog = new GradeDialog(this);
 		mCountryDialog = new CountryDialog(this);
 		mSettings = new Settings(this);
+		mHintDialog = new HintDialog(this);
 		
 		mFilters = mSettings.getFilters();
 		mFiltersAssignments = new HashMap<String, Button>();
@@ -93,12 +97,11 @@ public class PlayerListActivity extends Activity {
 		
 		
 		if (!mSettings.hasDownloadedPlayerList()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(getString(R.string.update_prompt));
-			builder.setMessage(getString(R.string.update_reason));
-			builder.setPositiveButton(getString(android.R.string.yes), new OnClickListener() {
+			
+			ConfirmDialog dialog = new ConfirmDialog(this);
+			dialog.setListener(new ConfirmDialogListener() {
 				@Override
-				public void onClick(DialogInterface dialog, int which) {
+				public void onConfirm() {
 					new PlayersListDownloader(PlayerListActivity.this).download(new PlayersUpdaterListener() {
 						
 						@Override
@@ -112,21 +115,14 @@ public class PlayerListActivity extends Activity {
 							
 						}
 					});
-					
-					dialog.dismiss();
 				}
-			});
-			builder.setNegativeButton(getString(android.R.string.no), new OnClickListener() {
 				
 				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
+				public void onCancel() {
 					finish();
 				}
 			});
-			
-			AlertDialog dialog = builder.create();
-			dialog.show();
+			dialog.show(getString(R.string.update_reason));
 		}
 		
 		
@@ -236,6 +232,8 @@ public class PlayerListActivity extends Activity {
 				
 				scrollToTop();
 				getNextResults();
+				
+				mHintDialog.show(Settings.HINT_FILTER, getString(R.string.help_filter));
 			}
 		});
 		mDialog.show(mFilters.getString(key));
@@ -262,6 +260,7 @@ public class PlayerListActivity extends Activity {
 				scrollToTop();
 				getNextResults();
 				
+				mHintDialog.show(Settings.HINT_FILTER, getString(R.string.help_filter));	
 			}
 		});
 		mCountryDialog.show(mFilters.getString(Settings.FILTER_COUNTRY));
@@ -279,6 +278,8 @@ public class PlayerListActivity extends Activity {
 				
 				scrollToTop();
 				getNextResults();
+				
+				mHintDialog.show(Settings.HINT_FILTER, getString(R.string.help_filter));
 			}
 		});
 		mGradeDialog.show(mFilters.getInt(Settings.FILTER_GRADE_MIN), mFilters.getInt(Settings.FILTER_GRADE_MAX));

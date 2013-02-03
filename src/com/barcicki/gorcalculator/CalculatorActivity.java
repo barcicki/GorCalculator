@@ -13,11 +13,13 @@ import android.widget.Toast;
 import com.barcicki.gorcalculator.core.PlayersListDownloader;
 import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
+import com.barcicki.gorcalculator.core.Tournament;
 import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
 import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
+import com.barcicki.gorcalculator.views.HintDialog;
 
 public class CalculatorActivity extends FragmentActivity {
 
@@ -25,7 +27,7 @@ public class CalculatorActivity extends FragmentActivity {
 	TournamentFragment mTournamentFragment;
 	OpponentsFragment mOpponentsFragment;
 
-	TournamentModel mTournament;
+	HintDialog mHintDialog;
 
 	Settings mSettings;
 	ScrollView mScroll;
@@ -37,9 +39,9 @@ public class CalculatorActivity extends FragmentActivity {
 
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 
-		mTournament = TournamentModel.getActiveTournament();
-
+		mHintDialog = new HintDialog(this);
 		mSettings = new Settings(this);
+		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
 
 		if (savedInstanceState == null) {
@@ -67,15 +69,17 @@ public class CalculatorActivity extends FragmentActivity {
 
 	@Override
 	protected void onResume() {
-
-		mTournament = TournamentModel.getActiveTournament();
-
-		mPlayerFragment.setTournament(mTournament);
-		mTournamentFragment.setTournament(mTournament);
-		mOpponentsFragment.setTournament(mTournament);
-
-		mTournament.notifyObservers(null);
 		super.onResume();
+		
+		Tournament.clearObservers();
+		
+		Tournament.addObserver(mPlayerFragment);
+		Tournament.addObserver(mTournamentFragment);
+		Tournament.addObserver(mOpponentsFragment);
+		
+		Tournament.refreshTournament();
+		
+		mHintDialog.show(Settings.HINT_FIND_PLAYER, getString(R.string.help_find_player));
 	}
 
 	@Override
@@ -111,8 +115,11 @@ public class CalculatorActivity extends FragmentActivity {
 					});
 			return true;
 		case R.id.add_tournament:
-			TournamentModel.setActive(TournamentModel.createNewTournament());
-			onResume();
+			TournamentModel.setActive(TournamentModel.createNewTournament(Tournament.getTournament().player));
+			Tournament.refreshTournament();
+			Tournament.notifyObservers();
+			
+			mHintDialog.show(Settings.HINT_ADD_TOURNAMENT, getString(R.string.help_add_tournaments));
 			return true;
 		case R.id.manage_tournaments:
 			startActivity(new Intent(this, TournamentsListActivity.class));
@@ -128,10 +135,8 @@ public class CalculatorActivity extends FragmentActivity {
 				PlayerModel.getDefaultPlayer(), GameResult.WIN,
 				GameColor.BLACK, OpponentModel.NO_HANDICAP);
 
-		mTournament.addOpponent(newOpponent);
-		mTournament.notifyObservers(null);
-
-		mOpponentsFragment.addOpponent(newOpponent);
+		Tournament.getTournament().addOpponent(newOpponent);
+		Tournament.notifyObservers();
 
 		mScroll.post(new Runnable() {
 
@@ -141,6 +146,8 @@ public class CalculatorActivity extends FragmentActivity {
 			}
 
 		});
+		
+		mHintDialog.show(Settings.HINT_DELETE_OPPONENT, getString(R.string.help_delete_opponent));
 	}
 
 }

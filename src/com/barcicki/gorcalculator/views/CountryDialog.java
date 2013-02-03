@@ -17,7 +17,7 @@ public class CountryDialog extends Dialog {
 	private String mCountry = "";
 	
 	public CountryDialog(Context context) {
-		super(context);
+		super(context, R.style.AppDialog);
 		setContentView(R.layout.dialog_countries);
 		
 		setTitle(context.getString(R.string.title_country));

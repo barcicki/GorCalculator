@@ -31,7 +31,8 @@
     <string name="game_handicapped">HANDICAP</string>
     <string name="game_color_black">Black</string>
     <string name="game_color_white">White</string>
-    <string name="dialog_handicap">Game details</string>
+    <string name="dialog_handicap_color">Your color</string>
+    <string name="dialog_handicap_stones">Handicap</string>
     <string name="dialog_gor">Edit GoR</string>
     <string name="no_results">No results</string>
 
@@ -45,6 +46,9 @@
     <string name="tournament_opponents_count">%1$d opponents</string>
     <string name="tournament_delete">Delete tournament</string>
     <string name="tournament_delete_message">Are you sure to delete this tournament?</string>
+    <string name="tournament_changed">Active tournament has changed</string>
+    <string name="tournament_deleted">Tournament has been deleted</string>
+    <string name="tournament_created">New tournament has been created</string>
     
     <string-array name="tournament_class">
         <item>Class A</item>
@@ -62,13 +66,18 @@
     <string name="filter_grade">Grade</string>
     <string name="filters_saved">Filter configuration saved</string>
     
-    <string name="update_downloading">Downloading players list ...</string>
+    <string name="update_downloading">Downloading players list &#8230;</string>
     <string name="update_download_cancelled">Downloading cancelled</string>
-    <string name="update_storing">Saving players ...</string>
+    <string name="update_storing">Saving players &#8230;</string>
     <string name="update_storing_cancelled">Saving players cancelled</string>
-    <string name="update_prompt">Download EGD players list</string>
-    <string name="update_reason">Do you want to download player list from EGD?</string>
+    <string name="update_reason">Do you want to download players list from European Go Database? It might take couple of minutes.</string>
     
+    <string name="dont_show">Don\'t show again</string>
+    <string name="help_tips">Hint</string>
+    <string name="help_delete_opponent">Slide opponent right or left to delete it</string>
+    <string name="help_add_tournaments">You have created new tournament. You can switch to other tournaments on Tournaments list screen.</string>
+    <string name="help_filter">You can save current filter configuration as default by clicking Save filter.</string>
+    <string name="help_find_player">Click Find button to get Go Rating of any player from Europe.</string>
     
     <string name="country_AD">Andorra</string>
     <string name="country_AG">Antigua e Barbuda</string>

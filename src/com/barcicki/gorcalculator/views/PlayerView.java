@@ -70,10 +70,6 @@ public class PlayerView extends RelativeLayout {
 	public void setPlayer(PlayerModel newPlayer) {
 		mPlayer = newPlayer;
 		updateAttributes();
-		
-		if (mPlayerListener != null) {
-			mPlayerListener.onPlayerUpdate(newPlayer);
-		}
 	}
 	
 	private void attachListeners() {
@@ -165,7 +161,6 @@ public class PlayerView extends RelativeLayout {
 	
 	public interface PlayerListener {
 		public void onPlayerGorChange(double newGor);
-		public void onPlayerUpdate(PlayerModel newPlayer);
 	}
 	
 }

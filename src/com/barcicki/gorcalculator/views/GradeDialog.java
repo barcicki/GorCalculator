@@ -22,7 +22,7 @@ public class GradeDialog extends Dialog {
 	private RangeSeekBar<Integer> mSeekBar;
 	
 	public GradeDialog(Context context) {
-		super(context);
+		super(context, R.style.AppDialog);
 		setContentView(R.layout.dialog_grade);
 		
 		setTitle(context.getString(R.string.title_grade));

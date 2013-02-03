@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:measureWithLargestChild="false"
     android:orientation="vertical" >
-    
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_dark"
         android:padding="@dimen/margin_box"
-        android:text="@string/title_gor"
+        android:text="@string/help_tips"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white" />
 
-    <EditText
-        android:id="@+id/dialog_gor"
+    <TextView
+        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:selectAllOnFocus="true"
-        android:textAppearance="?android:attr/textAppearanceLargeInverse" >
+        android:layout_margin="@dimen/margin_box"
+        android:gravity="center"
+        android:text="Hint message"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    </EditText>
+    <CheckBox
+        android:id="@+id/dontShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/dont_show" />
+
+    <Button
+        android:id="@+id/buttonOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@android:string/ok" />
 
 </LinearLayout>

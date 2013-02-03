@@ -6,8 +6,6 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -31,7 +29,8 @@ import android.widget.Toast;
 
 import com.barcicki.gorcalculator.database.DbModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
-import com.barcicki.gorcalculator.views.TournamentDeleteDialog;
+import com.barcicki.gorcalculator.views.ConfirmDialog;
+import com.barcicki.gorcalculator.views.ConfirmDialog.ConfirmDialogListener;
 
 public class TournamentsListActivity extends Activity {
 
@@ -40,7 +39,7 @@ public class TournamentsListActivity extends Activity {
 	private ListView mTournamentsList;
 	private TournamentsAdapter mTournamentsAdapter;
 	
-	private TournamentDeleteDialog mDeleteDialog;
+	private ConfirmDialog mDeleteDialog;
 	
 	private int mPage = DbModel.FIRST_PAGE;
 	
@@ -52,14 +51,7 @@ public class TournamentsListActivity extends Activity {
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		mDeleteDialog = new TournamentDeleteDialog(this);
-		mDeleteDialog.setOnDismissListener(new OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				resetResults();
-			}
-		});
-		
+		mDeleteDialog = new ConfirmDialog(this);
 		mTournamentsAdapter = new TournamentsAdapter(this);
 		
 		mTournamentsList = (ListView) findViewById(R.id.tournamentsList);
@@ -75,7 +67,9 @@ public class TournamentsListActivity extends Activity {
 				TournamentModel tournament = mTournamentsAdapter.getItem(position);
 				TournamentModel.setActive(tournament);
 				
-				resetResults();
+//				Toast.makeText(this, text, duration)
+				
+				finish();
 				
 			}
 			
@@ -189,8 +183,18 @@ public class TournamentsListActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					
-					mDeleteDialog.setTournament(tournament);
-					mDeleteDialog.show();
+					mDeleteDialog.show(getString(R.string.tournament_delete_message), new ConfirmDialogListener() {
+						@Override
+						public void onConfirm() {
+							TournamentModel.delete(TournamentModel.class, tournament.getId());
+							resetResults();
+						}
+						
+						@Override
+						public void onCancel() {
+							// do nothing
+						}
+					});
 				}
 			});
 			

@@ -67,6 +67,7 @@ public class PlayerModel extends DbModel {
 	public static List<PlayerModel> getPlayers(int page, String name, String club, String country, int minGrade, int maxGrade) {
 		return new Select().from(PlayerModel.class)
 				.where(
+						"(Pin > 0) AND " +
 						"(Name LIKE ?) AND " + 
 						"(Club LIKE ?) AND " +
 						"(Country LIKE ?) AND " +

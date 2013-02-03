@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.core.CommonFragment;
+import com.barcicki.gorcalculator.core.Tournament;
 import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 
 public class TournamentFragment extends CommonFragment implements OnClickListener {
@@ -53,9 +54,8 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		TournamentClass newTournamentClass = (TournamentClass) v.getTag();
-		getTournament().tournamentClass = newTournamentClass;
-		getTournament().save();
-		getTournament().notifyObservers(null);
+		Tournament.getTournament().tournamentClass = newTournamentClass;
+		Tournament.update();
 	}
 	
 	public void setChecked(TournamentClass tournamentClass) {
@@ -71,11 +71,7 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	}
 	
 	@Override
-	public void update(Object data) {
-		super.update(data);
-		
-		if (getTournament() != null) {
-			setChecked(getTournament().tournamentClass);
-		}
+	public void update() {
+		setChecked(Tournament.getTournament().tournamentClass);
 	}
 }
