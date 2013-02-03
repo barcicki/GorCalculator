@@ -10,8 +10,6 @@ import com.barcicki.gorcalculator.core.Go;
 @Table(name = "Players")
 public class PlayerModel extends DbModel {
 
-	public final static String ID = "playerId";
-	
 	@Column(name = "Pin")
 	public int pin;
 	

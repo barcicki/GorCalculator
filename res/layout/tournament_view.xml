@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_box"
+    android:layout_marginRight="@dimen/margin_box"
+    android:layout_marginTop="@dimen/margin_box"
+    android:background="@android:color/background_light" >
+
+    <Button
+        android:id="@+id/buttonDeleteTournament"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:focusable="false"
+        android:text="Delete" />
+
+    <TextView
+        android:id="@+id/tournamentClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/buttonDeleteTournament"
+        android:layout_marginLeft="@dimen/margin_detail"
+        android:text="Class A"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/opponentsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonDeleteTournament"
+        android:layout_marginRight="@dimen/margin_detail"
+        android:text="3 Opponents"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonDeleteTournament"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/margin_detail"
+        android:layout_toLeftOf="@+id/buttonDeleteTournament"
+        android:text="Artur Barcicki"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tournamentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/playerName"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/margin_detail"
+        android:text="Tournament Name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>

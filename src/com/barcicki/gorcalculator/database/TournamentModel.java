@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
@@ -61,11 +62,13 @@ public class TournamentModel extends DbModel {
 			.executeSingle();
 	}
 	
-	public static List<TournamentModel> getTournaments() {
+	public static List<TournamentModel> getAll(int page) {
 		return new Select()
 			.all()
 			.from(TournamentModel.class)
 			.orderBy("Name ASC")
+			.limit(LIMIT)
+			.offset(page * LIMIT)
 			.execute();
 	}
 	
@@ -88,6 +91,10 @@ public class TournamentModel extends DbModel {
 					return t;
 				}
 			}
+			
+			tournament.active = true;
+			tournament.save();
+			
 		} else {
 			
 			tournament = new TournamentModel("Default", PlayerModel.getDefaultPlayer(), TournamentClass.CLASS_A);
@@ -134,6 +141,33 @@ public class TournamentModel extends DbModel {
 			.where("Id = ?", opponent.getId())
 			.where("Tournament = ?", getId())
 			.execute();
+	}
+
+	public static void setActive(TournamentModel tournament) {
+		List<TournamentModel> previous = new Select().from(TournamentModel.class).where("Active = ?", 1).execute();
+		
+		Log.d("TournamentModel", "Count: " + previous.size());
+		
+		ActiveAndroid.beginTransaction();
+		for (TournamentModel t : previous) {
+			t.active = false;
+			t.save();
+		}
+		
+		tournament.active = true;
+		tournament.save();
+		
+		ActiveAndroid.setTransactionSuccessful();
+		ActiveAndroid.endTransaction();
+	}
+
+	public static void createNewTournament(String name) {
+		TournamentModel tournament = new TournamentModel();
+		tournament.name = name;
+		tournament.tournamentClass = TournamentClass.CLASS_A;
+		tournament.player = PlayerModel.getDefaultPlayer();
+		tournament.gor = tournament.player.gor;
+		tournament.save();
 	}
 	
 }

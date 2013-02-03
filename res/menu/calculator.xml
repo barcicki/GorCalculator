@@ -2,9 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <item
+        android:id="@+id/manage_tournaments"
+        android:icon="@android:drawable/ic_menu_set_as"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/button_tournaments"
+        />
+    
+    <item
         android:id="@+id/update_data"
         android:icon="@drawable/ic_menu_refresh"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="withText"
         android:title="@string/button_update"/>
 
 </menu>

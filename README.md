@@ -16,12 +16,16 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.6](https://www.dropbox.com/s/0370xr08re4knhr/GorCalculator_v0.9.6.apk?dl=1)
+[GorCalculator v.0.9.7](https://www.dropbox.com/s/7j7tkqgdltk9je4/GorCalculator_v0.9.7.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
+
+#### v.0.9.7 (3.02.2013) ####
+* Added possibility to store multiple tournaments
+* Changed the way the data is stored on mobile phones
 
 #### v.0.9.6 (28.01.2013) ####
 * Fixed resuming application and rotating issue
@@ -65,8 +69,8 @@ This is a simple application allowing Go players to calculate how their rating m
 * Allowing partial updates
 	
 #### More complex customization ####
-* Allowing to store few profile with different players for whom calculations are made.
-* Store custom filters
+* **DONE** Allowing to store few profile with different players for whom calculations are made.
+* Store multiple custom filters
 * **DONE** Improve filters
 	
 #### Usability improvements ####
@@ -87,12 +91,14 @@ This is a simple application allowing Go players to calculate how their rating m
 4. Add opponents.
 
 	For each opponent specify his GoR rating and game result. You can get GoR of yout opponents from EGD by clicking *Find* button. If the game involved handicap, click *Details* to provide number of handicaps and color
-	
+		
 5. After each modification, new rating is calculated. You can see the total change of your rating in the top of screen and the contribution of each game below the opponents' data.
 
-6. You can click Update button in top-right corner to update the list from EGD
+6. You can click Tournaments button in top-right corner to switch between your tournaments (e.g. to keep results of other players)
 
-7. While on the list screen, you can click Save filter button in top-right corner to save current filter as a default one.
+7. You can click Update button from menu to update the list from EGD
+
+8. While on the list screen, you can click Save filter button in top-right corner to save current filter as a default one.
  
 	
 ## Licence ##

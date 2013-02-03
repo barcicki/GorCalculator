@@ -1,5 +1,6 @@
 package com.barcicki.gorcalculator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -103,6 +104,9 @@ public class CalculatorActivity extends FragmentActivity {
 					
 				}
 			});
+			return true;
+		case R.id.manage_tournaments:
+			startActivity(new Intent(this, TournamentsListActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

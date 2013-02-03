@@ -98,6 +98,8 @@ public class OpponentView extends RelativeLayout {
 				if (mOpponentListener != null) {
 					mOpponentListener.onResultChange(mOpponent.result);
 				}
+				
+				updateAttributes();
 			}
 		});
 		
@@ -117,6 +119,8 @@ public class OpponentView extends RelativeLayout {
 				if (mOpponentListener != null) {
 					mOpponentListener.onHandicapChange(mOpponent.handicap);
 				}
+				
+				updateAttributes();
 			}
 		});
 		
@@ -134,6 +138,7 @@ public class OpponentView extends RelativeLayout {
 				if (mOpponentListener != null) {
 					mOpponentListener.onPlayerGorChange(newGor);
 				}
+				
 			}
 
 		});

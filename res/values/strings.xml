@@ -4,6 +4,7 @@
     <string name="app_name">GoR Calculator</string>
     <string name="title_player_detail">Player Detail</string>
     <string name="title_player_list">Players</string>
+    <string name="title_tournaments_list">Tournaments</string>
     <string name="title_player">Player</string>
     <string name="title_calculator">GoR Calculator</string>
     <string name="title_gor">New GoR</string>
@@ -15,11 +16,14 @@
     <string name="title_filter">Filter</string>
     <string name="button_change_player">Change</string>
     <string name="button_add_opponent">Add an Opponent</string>
+    <string name="button_add_tournament">Add tournament</string>
+    <string name="button_tournaments">Tournaments</string>
     <string name="button_find_player">Find</string>
     <string name="button_game_details">Details</string>
     <string name="button_update">Update</string>
     <string name="button_save_filter">Save Filter</string>
     <string name="button_apply">Apply</string>
+    <string name="button_delete">Delete</string>
     <string name="tournament_class">Class</string>
     <string name="gor_change">%1$s (%2$s)</string>
     <string name="hint_player_gor">Go Rating</string>
@@ -37,21 +41,35 @@
         <item quantity="many">%d stones</item>
         <item quantity="zero">Even game</item>
     </plurals>
+    
+    <string name="tournament_opponents_count">%1$d opponents</string>
+    <string name="tournament_delete">Delete tournament</string>
+    <string name="tournament_delete_message">Are you sure to delete this tournament?</string>
+    
+    <string-array name="tournament_class">
+        <item>Class A</item>
+        <item>Class B</item>
+        <item>Class C</item>
+    </string-array>
 
     <string name="handicap_none">Even game</string>
     <string name="handicap_no_komi">No Komi</string>
     <string name="handicap_stones">%1$d stones</string>
+    
     <string name="filter_name">Name</string>
     <string name="filter_club">Club</string>
     <string name="filter_country">Country</string>
     <string name="filter_grade">Grade</string>
     <string name="filters_saved">Filter configuration saved</string>
+    
     <string name="update_downloading">Downloading players list ...</string>
     <string name="update_download_cancelled">Downloading cancelled</string>
     <string name="update_storing">Saving players ...</string>
     <string name="update_storing_cancelled">Saving players cancelled</string>
     <string name="update_prompt">Download EGD players list</string>
     <string name="update_reason">Do you want to download player list from EGD?</string>
+    
+    
     <string name="country_AD">Andorra</string>
     <string name="country_AG">Antigua e Barbuda</string>
     <string name="country_AR">Argentina</string>

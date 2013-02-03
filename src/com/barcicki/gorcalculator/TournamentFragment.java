@@ -55,6 +55,7 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	public void onClick(View v) {
 		TournamentClass newTournamentClass = (TournamentClass) v.getTag();
 		getTournament().tournamentClass = newTournamentClass;
+		getTournament().save();
 		getTournament().notifyObservers(null);
 	}
 	
