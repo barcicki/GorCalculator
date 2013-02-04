@@ -29,8 +29,8 @@
             android:layout_alignParentTop="true"
             android:checked="true"
             android:text="ToggleButton"
-            android:textOff="LOSS"
-            android:textOn="WIN" />
+            android:textOff="@string/game_result_loss"
+            android:textOn="@string/game_result_win" />
 
         <TextView
             android:id="@+id/handicapStones"

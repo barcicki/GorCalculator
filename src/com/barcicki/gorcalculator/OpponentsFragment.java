@@ -6,6 +6,7 @@ import java.util.Collection;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,6 @@ public class OpponentsFragment extends CommonFragment {
 	@Override
 	public void update() {
 		
-//		mOpponentsAdapter.refresh(Tournament.getTournament());
 		
 		mOpponentsAdapter.clear();
 		mOpponentsAdapter.addAll(Tournament.getTournament().opponents());
@@ -179,9 +179,15 @@ public class OpponentsFragment extends CommonFragment {
 
 				@Override
 				public void onAnimationEnd(Animation animation) {
-					Tournament.getTournament().removeOpponent(ov.getOpponent());
 					ov.setVisibility(View.GONE);
-					Tournament.notifyObservers();
+					new Handler().post(new Runnable() {
+						@Override
+						public void run() {
+							Tournament.getTournament().removeOpponent(ov.getOpponent());
+							Tournament.notifyObservers();							
+						}
+					});
+					
 				}
 			});
 

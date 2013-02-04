@@ -305,6 +305,25 @@ public class PlayerListActivity extends Activity {
 					Toast.makeText(this, getString(R.string.filters_saved), Toast.LENGTH_SHORT).show();
 				}
 				return true;
+			case R.id.update_data:
+				new PlayersListDownloader(this)
+						.download(new PlayersUpdaterListener() {
+
+							@Override
+							public void onSaved(String total) {
+								Toast.makeText(
+									PlayerListActivity.this,
+									getString(R.string.update_completed),
+									Toast.LENGTH_SHORT).show();
+							}
+
+							@Override
+							public void onDownloaded(String result) {
+								// TODO Auto-generated method stub
+
+							}
+						});
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

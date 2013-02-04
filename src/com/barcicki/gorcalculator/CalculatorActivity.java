@@ -100,11 +100,9 @@ public class CalculatorActivity extends FragmentActivity {
 
 						@Override
 						public void onSaved(String total) {
-							Toast.makeText(
-									CalculatorActivity.this,
-									"Database updated. Saved " + total
-											+ " players", Toast.LENGTH_SHORT)
-									.show();
+							Toast.makeText(CalculatorActivity.this,
+									getString(R.string.update_completed),
+									Toast.LENGTH_SHORT).show();
 						}
 
 						@Override

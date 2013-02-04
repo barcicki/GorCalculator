@@ -16,62 +16,18 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.9](https://www.dropbox.com/s/o58z8ohrcm5vfdu/GorCalculator_v0.9.9.apk?dl=1)
+[GorCalculator v.0.9.10](https://www.dropbox.com/s/gz7hzgnt6o2ux24/GorCalculator_v0.9.10.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
 
-#### v.0.9.9 (4.02.2013) ####
-* Improved GUI
-* Imporved data flow in application
-* Added hints
-* Playing with logo
+#### v.0.9.10 (4.02.2013) RC ####
+* Fixed issue with deleting not last opponent
+* Added polish translation
 
-#### v.0.9.8 (3.02.2013) ####
-* Fixed issue with deleting opponents
-* Replaced tournament name with date of its creation
-* Issue: tests fails as Robolectric can't use database (though calculations are ok)
-
-#### v.0.9.7 (3.02.2013) ####
-* Added possibility to store multiple tournaments
-* Changed the way the data is stored on mobile phones
-* *(v.0.9.7.1)* Added marking currently active tournament
-
-#### v.0.9.6 (28.01.2013) ####
-* Fixed resuming application and rotating issue
-* Improved animation
-* Saving tournament class
-* Added landscape mode
-
-#### v.0.9.5 (19.01.2013) ####
-* Improved country filter
-* Solved issue with aborting downloading or parsing
-
-#### v.0.9.4 (18.01.2013) ####
-* Country selector in players list
-* Switch player list from EUROPE to WORLD (in future it will be customizable) 
-
-#### v.0.9.3 (16.01.2013) ####
-* Fixed issue with calculating even games
-* Added tests (thanks to Wysek)
-* Improved code readability
-	
-#### v.0.9.2 (14.01.2013) ####
-* Added range filter for grade
-* Some GUI improvements
-
-#### v.0.9.1 (7.01.2013) ####
-* Current players and opponents are automatically saved
-
-#### v.0.9 (6.01.2013) BETA ####
-* Added integration with EGD.
-* Improved usability and layout.
-	
-#### v.0.8 (2.01.2013) ####
-* Fully working calculator based on rating provided manually
-* Basic GUI
+[Previous changes](https://github.com/barcicki/GorCalculator/wiki/Changelog)
 
 ## ToDo ##
 

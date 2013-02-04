@@ -27,8 +27,10 @@
     <string name="tournament_class">Class</string>
     <string name="gor_change">%1$s (%2$s)</string>
     <string name="hint_player_gor">Go Rating</string>
-    <string name="game_even">EVEN</string>
-    <string name="game_handicapped">HANDICAP</string>
+    
+    <string name="game_result_win">Win</string>
+    <string name="game_result_loss">Loss</string>
+    
     <string name="game_color_black">Black</string>
     <string name="game_color_white">White</string>
     <string name="dialog_handicap_color">Your color</string>
@@ -68,6 +70,7 @@
     
     <string name="update_downloading">Downloading players list &#8230;</string>
     <string name="update_download_cancelled">Downloading cancelled</string>
+    <string name="update_completed">Players database updated</string>
     <string name="update_storing">Saving players &#8230;</string>
     <string name="update_storing_cancelled">Saving players cancelled</string>
     <string name="update_reason">Do you want to download players list from European Go Database? It might take couple of minutes.</string>

@@ -1,5 +1,8 @@
 package com.barcicki.gorcalculator.core;
 
+import java.text.Collator;
+import java.util.Comparator;
+
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
@@ -26,6 +29,16 @@ public class CountriesAdapter extends ArrayAdapter<Country> {
 			add(new Country(initials,	context.getString(resId)));
 		}
 
+		sort(new Comparator<Country>() {
+
+			Collator collator = Collator.getInstance();
+			
+			@Override
+			public int compare(Country lhs, Country rhs) {
+				return collator.compare(lhs.name, rhs.name);
+			}
+			
+		});
 	}
 
 	public class Country {

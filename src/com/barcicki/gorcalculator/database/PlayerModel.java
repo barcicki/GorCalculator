@@ -56,7 +56,7 @@ public class PlayerModel extends DbModel {
 		if (mDefaultPlayer == null) {
 			mDefaultPlayer = new Select().from(PlayerModel.class).where("Pin = ?", 0).executeSingle();
 			if (mDefaultPlayer == null) {
-				mDefaultPlayer = new PlayerModel(1600);
+				mDefaultPlayer = new PlayerModel(2000);
 				mDefaultPlayer.save();
 			}
 		}
