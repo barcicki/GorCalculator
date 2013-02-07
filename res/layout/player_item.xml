@@ -5,7 +5,7 @@
     android:layout_marginLeft="@dimen/margin_box"
     android:layout_marginRight="@dimen/margin_box"
     android:layout_marginTop="@dimen/margin_box"
-    android:background="@android:color/background_light"
+    android:background="@drawable/item_inactive"
     android:measureAllChildren="false">
 
 </com.barcicki.gorcalculator.views.PlayerView>

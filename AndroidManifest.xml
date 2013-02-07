@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.barcicki.gorcalculator"
-    android:versionCode="13"
-    android:versionName="0.9.10" >
+    android:versionCode="14"
+    android:versionName="0.9.11" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -30,7 +30,7 @@
                 android:value=".CalculatorAcitivity" />
         </activity>
         <meta-data android:name="AA_DB_NAME" android:value="GorCalculator.db" />
-		<meta-data android:name="AA_DB_VERSION" android:value="3" />
+		<meta-data android:name="AA_DB_VERSION" android:value="1" />
     </application>
 
 </manifest>

@@ -12,6 +12,8 @@ import com.activeandroid.query.Select;
 @Table(name = "Tournaments")
 public class TournamentModel extends DbModel {
 	
+	private PlayerModel player;
+	
 	public enum TournamentClass {
 		CLASS_A	 	(1f),
 		CLASS_B 	(0.75f),
@@ -40,8 +42,8 @@ public class TournamentModel extends DbModel {
 	@Column(name = "TournamentClass")
 	public TournamentClass tournamentClass;
 	
-	@Column(name = "Player")
-	public PlayerModel player;
+	@Column(name ="Pin")
+	public int pin;
 	
 	@Column(name = "Gor")
 	public double gor;
@@ -49,14 +51,20 @@ public class TournamentModel extends DbModel {
 	@Column(name = "Active")
 	public boolean active;
 	
-	public List<OpponentModel> opponents() {
-		List<OpponentModel> opponents = getMany(OpponentModel.class, "Tournament");
-		for (OpponentModel op : opponents) {
-			if (op.player == null) {
-				op.player = new PlayerModel(op.gor);
-			}
+	public void setPlayer(PlayerModel newPlayer) {
+		pin = newPlayer.pin;
+		player = null;
+	}
+	
+	public PlayerModel getPlayer() {
+		if (player == null) {
+			player = PlayerModel.findByPin(pin);
 		}
-		return opponents;
+		return player;
+	}
+	
+	public List<OpponentModel> opponents() {
+		return getMany(OpponentModel.class, "Tournament");
 	}
 	
 	public static TournamentModel getTournament(long id) {
@@ -77,13 +85,14 @@ public class TournamentModel extends DbModel {
 	}
 	
 	public static TournamentModel getActiveTournament() {
+		
+		// getting active tournament
 		TournamentModel activeTournament = new Select()
 			.from(TournamentModel.class)
 			.where("Active = ?", 1)
 			.executeSingle();
 		
-		
-		// getting active tournament
+		// if no active tournaments found, select first of any found
 		if (activeTournament == null) {
 			
 			activeTournament = new Select()
@@ -95,6 +104,7 @@ public class TournamentModel extends DbModel {
 				activeTournament.active = true;
 				activeTournament.save();
 				
+			// if no tournaments at all, create one
 			} else {
 				activeTournament = new TournamentModel(PlayerModel.getDefaultPlayer(), TournamentClass.CLASS_A);
 				activeTournament.gor = activeTournament.player.gor;
@@ -102,14 +112,6 @@ public class TournamentModel extends DbModel {
 				activeTournament.save();
 			}
 		}
-		
-		// validating player, e.g. database failed
-		if (activeTournament.player == null) {
-			activeTournament.player = PlayerModel.getDefaultPlayer();
-			activeTournament.player.gor = activeTournament.gor;
-			activeTournament.save();
-		}
-		
 		
 		return activeTournament;
 	}

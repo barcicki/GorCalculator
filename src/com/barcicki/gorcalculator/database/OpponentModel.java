@@ -9,6 +9,8 @@ public class OpponentModel extends DbModel {
 	final public static int NO_HANDICAP = 0;
 	final public static int NO_KOMI = 1;
 
+	private PlayerModel player;
+	
 	public enum GameResult {
 		WIN 	(1f),
 		JIGO 	(0.5f),
@@ -41,8 +43,8 @@ public class OpponentModel extends DbModel {
 		this.handicap = handicap;
 	}
 	
-	@Column(name = "Player")
-	public PlayerModel player;
+	@Column(name ="Pin")
+	public int pin;
 	
 	@Column(name = "Gor")
 	public double gor;
@@ -58,4 +60,16 @@ public class OpponentModel extends DbModel {
 	
 	@Column(name = "Tournament")
 	public TournamentModel tournament;
+	
+	public void setPlayer(PlayerModel player) {
+		this.player = player;
+		this.pin = player.pin;
+	}
+	
+	public PlayerModel getPlayer() {
+		if (player == null) {
+			player = PlayerModel.findByPin(this.pin);
+		}
+		return player;
+	}
 }

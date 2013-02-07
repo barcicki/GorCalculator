@@ -5,6 +5,7 @@ import java.util.List;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.Log;
 import com.barcicki.gorcalculator.core.Go;
 
 @Table(name = "Players")
@@ -80,6 +81,14 @@ public class PlayerModel extends DbModel {
 				.offset(LIMIT * page)
 				.limit(LIMIT)
 				.execute();
+	}
+
+	public static PlayerModel findByPin(int pin) {
+		PlayerModel player = new Select().from(PlayerModel.class).where("Pin = ?", pin).executeSingle();
+		if (player == null) {
+			player = getDefaultPlayer();
+		}
+		return player;
 	}
 
 }

@@ -155,7 +155,7 @@ public class OpponentView extends RelativeLayout {
 
 	public void updatePlayer(PlayerModel player) {
 
-		mOpponent.player = player;
+		mOpponent.setPlayer(player);
 		mOpponent.gor = player.gor;
 		mOpponent.save();
 
@@ -168,7 +168,7 @@ public class OpponentView extends RelativeLayout {
 		mOpponent = newOpponent;
 
 		mHandicapDialog.setOpponent(newOpponent);
-		mPlayerView.setPlayer(newOpponent.player);
+		mPlayerView.setPlayer(newOpponent.getPlayer());
 
 	}
 

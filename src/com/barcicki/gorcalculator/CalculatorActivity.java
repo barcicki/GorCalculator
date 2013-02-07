@@ -113,7 +113,7 @@ public class CalculatorActivity extends FragmentActivity {
 					});
 			return true;
 		case R.id.add_tournament:
-			TournamentModel.setActive(TournamentModel.createNewTournament(Tournament.getTournament().player));
+			TournamentModel.setActive(TournamentModel.createNewTournament(Tournament.getTournament().getPlayer()));
 			Tournament.refreshTournament();
 			Tournament.notifyObservers();
 			

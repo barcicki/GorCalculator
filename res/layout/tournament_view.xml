@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/margin_box"
     android:layout_marginRight="@dimen/margin_box"
-    android:layout_marginTop="@dimen/margin_box"
-    android:background="@android:color/background_light" >
+    android:layout_marginTop="@dimen/margin_box" 
+    android:background="@drawable/item_inactive">
 
     <Button
         android:id="@+id/buttonDeleteTournament"
@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="@dimen/margin_box"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="Delete" />
+        android:text="@string/button_delete" />
 
     <TextView
         android:id="@+id/tournamentClass"
@@ -25,6 +26,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/buttonDeleteTournament"
         android:layout_marginLeft="@dimen/margin_detail"
+        android:paddingLeft="@dimen/margin_box"
         android:text="Class A"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -35,6 +37,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/buttonDeleteTournament"
         android:layout_marginRight="@dimen/margin_detail"
+        android:paddingBottom="@dimen/padding_title_vertical"
+        android:paddingRight="@dimen/padding_title"
         android:text="3 Opponents"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -46,6 +50,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/margin_detail"
         android:layout_toLeftOf="@+id/buttonDeleteTournament"
+        android:paddingLeft="@dimen/margin_box"
         android:text="Artur Barcicki"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -56,6 +61,8 @@
         android:layout_above="@+id/playerName"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/margin_detail"
+        android:paddingLeft="@dimen/margin_box"
+        android:paddingTop="@dimen/margin_box"
         android:text="Tournament Name"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

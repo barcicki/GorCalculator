@@ -16,15 +16,20 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.10](https://www.dropbox.com/s/gz7hzgnt6o2ux24/GorCalculator_v0.9.10.apk?dl=1)
+[GorCalculator v.0.9.11](https://www.dropbox.com/s/d3yb2mgp1p4vgm2/GorCalculator_v0.9.11.apk?dl=1)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
 
+#### v.0.9.11 (7.02.2013) RC2 ####
+* Fixed issue with updating database
+* Improved GUI on selection items
+* Needs to reinstall (loses all data)
+
 #### v.0.9.10 (4.02.2013) RC ####
-* Fixed issue with deleting not last opponent
+* Fixed issue with deleting non-last opponent
 * Added polish translation
 
 [Previous changes](https://github.com/barcicki/GorCalculator/wiki/Changelog)

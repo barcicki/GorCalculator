@@ -67,8 +67,6 @@ public class TournamentsListActivity extends Activity {
 				TournamentModel tournament = mTournamentsAdapter.getItem(position);
 				TournamentModel.setActive(tournament);
 				
-//				Toast.makeText(this, text, duration)
-				
 				finish();
 				
 			}
@@ -172,9 +170,9 @@ public class TournamentsListActivity extends Activity {
 				convertView = mInflater.inflate(R.layout.tournament_view, parent, false);
 			}
 			
-			convertView.setBackgroundColor(mRes.getColor(tournament.active ? android.R.color.holo_orange_light : android.R.color.background_light));
+			convertView.setBackgroundResource(tournament.active ? R.drawable.item_active : R.drawable.item_inactive);
 			
-			((TextView) convertView.findViewById(R.id.playerName)).setText(tournament.player.name);
+			((TextView) convertView.findViewById(R.id.playerName)).setText(tournament.getPlayer().name);
 			((TextView) convertView.findViewById(R.id.tournamentName)).setText(mFormatter.format(tournament.created));
 			((TextView) convertView.findViewById(R.id.tournamentClass)).setText(getResources().getStringArray(R.array.tournament_class)[tournament.tournamentClass.ordinal()]);
 			((TextView) convertView.findViewById(R.id.opponentsCount)).setText(getString(R.string.tournament_opponents_count, tournament.opponents().size()));

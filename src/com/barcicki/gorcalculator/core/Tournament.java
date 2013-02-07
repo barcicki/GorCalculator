@@ -3,6 +3,8 @@ package com.barcicki.gorcalculator.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
 import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
 
@@ -32,7 +34,7 @@ public final class Tournament {
 		double change = 0;
 		
 		for (OpponentModel opponent : getTournament().opponents()) {
-			change += Calculator.calculate(getTournament().player, opponent, getTournament().tournamentClass);
+			change += Calculator.calculate(getTournament().getPlayer(), opponent, getTournament().tournamentClass);
 		}
 		
 		if (change < -100) {

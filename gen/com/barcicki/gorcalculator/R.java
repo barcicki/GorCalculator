@@ -22,13 +22,16 @@ public final class R {
         public static final int padding_title_vertical=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int ic_new_tournament=0x7f020001;
-        public static final int ic_refresh=0x7f020002;
-        public static final int ic_save=0x7f020003;
-        public static final int ic_tournaments=0x7f020004;
-        public static final int seek_thumb_normal=0x7f020005;
-        public static final int seek_thumb_pressed=0x7f020006;
+        public static final int active_tournament=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int ic_new_tournament=0x7f020002;
+        public static final int ic_refresh=0x7f020003;
+        public static final int ic_save=0x7f020004;
+        public static final int ic_tournaments=0x7f020005;
+        public static final int item_active=0x7f020006;
+        public static final int item_inactive=0x7f020007;
+        public static final int seek_thumb_normal=0x7f020008;
+        public static final int seek_thumb_pressed=0x7f020009;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0a000d;

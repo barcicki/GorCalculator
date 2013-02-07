@@ -63,7 +63,7 @@ public class OpponentsFragment extends CommonFragment {
 		for (OpponentModel op : mOpponentsAdapter) {
 
 			change = Calculator.calculate(
-					Tournament.getTournament().player, op,
+					Tournament.getTournament().getPlayer(), op,
 					Tournament.getTournament().tournamentClass);
 			gor += MathUtils.round1000(change);
 
@@ -218,7 +218,7 @@ public class OpponentsFragment extends CommonFragment {
 			mOpponentsContainer.addView(ov);
 
 			ov.getPlayerView().setShowButtonChange(true);
-			ov.getPlayerView().setShowPlayerDetails(opponent.player.pin > 0);
+			ov.getPlayerView().setShowPlayerDetails(opponent.getPlayer().pin > 0);
 			ov.updateAttributes();
 
 			return ov;

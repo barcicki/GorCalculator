@@ -73,7 +73,7 @@ public class PlayerFragment extends CommonFragment {
 				
 				if (player != null) {
 					
-					Tournament.getTournament().player = player;
+					Tournament.getTournament().setPlayer(player);
 					Tournament.getTournament().gor = player.gor;
 					Tournament.update();
 					
@@ -92,7 +92,9 @@ public class PlayerFragment extends CommonFragment {
 	
 	@Override
 	public void update() {
-		PlayerModel player = Tournament.getTournament().player;
+		PlayerModel player = Tournament.getTournament().getPlayer();
+		
+		Log.d("Player", player.name + " " + Tournament.getTournament().pin + " " + player.pin);
 		
 		mPlayerView.setPlayer(player);
 		mPlayerView.setShowButtonChange(true);
