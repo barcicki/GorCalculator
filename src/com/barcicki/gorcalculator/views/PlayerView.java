@@ -77,7 +77,7 @@ public class PlayerView extends RelativeLayout {
 		mGorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mGorDialog.show(mPlayer.gor);
+				mGorDialog.show(getGor());
 			}
 		});
 		
@@ -85,14 +85,14 @@ public class PlayerView extends RelativeLayout {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				
-				mPlayer.gor = MathUtils.constrain(mGorDialog.getResult(), Calculator.MIN_GOR, Calculator.MAX_GOR);
+//				mPlayer.gor = MathUtils.constrain(mGorDialog.getResult(), Calculator.MIN_GOR, Calculator.MAX_GOR);
 				// do not save mPlayer!
-				
-				updateAttributes();
 				
 				if (mPlayerListener != null) {
 					mPlayerListener.onPlayerGorChange(mGorDialog.getResult());
 				}
+				
+				updateAttributes();
 				
 			}
 		});
@@ -105,7 +105,7 @@ public class PlayerView extends RelativeLayout {
 			mClub.setText(mPlayer.club);
 			mCountry.setText(mPlayer.country);
 			mGrade.setText(mPlayer.getGrade());
-			mGorButton.setText( Integer.toString( (int) mPlayer.gor ));
+			mGorButton.setText( Integer.toString( (int) getGor() ));
 		} else {
 			Log.e(TAG, "No player set");
 		}
@@ -159,8 +159,17 @@ public class PlayerView extends RelativeLayout {
 		this.mPlayerListener = listener;
 	}
 	
+	private double getGor() {
+		if (mPlayerListener != null) {
+			return mPlayerListener.onGorUpdate();
+		} else {
+			return mPlayer.gor;
+		}
+	}
+	
 	public interface PlayerListener {
 		public void onPlayerGorChange(double newGor);
+		public double onGorUpdate();
 	}
 	
 }

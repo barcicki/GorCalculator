@@ -55,7 +55,7 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	public void onClick(View v) {
 		TournamentClass newTournamentClass = (TournamentClass) v.getTag();
 		Tournament.getTournament().tournamentClass = newTournamentClass;
-		Tournament.update();
+		Tournament.update(false);
 	}
 	
 	public void setChecked(TournamentClass tournamentClass) {
@@ -71,7 +71,7 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 	}
 	
 	@Override
-	public void update() {
+	public void update(boolean opponentsChanged) {
 		setChecked(Tournament.getTournament().tournamentClass);
 	}
 }

@@ -35,14 +35,6 @@
     <string name="dialog_handicap_stones">Handicap</string>
     <string name="dialog_gor">Edytuj ranking</string>
     <string name="no_results">Brak wyników</string>
-
-    <plurals name="game_handicap_stones">
-        <item quantity="one">Bez Komi</item>
-        <item quantity="few">%d kamienie</item>
-        <item quantity="many">%d kamieni</item>
-        <item quantity="zero">Równa gra</item>
-    </plurals>
-
     <string name="tournament_opponents_count">Przeciwników: %1$d </string>
     <string name="tournament_delete">Usuń turniej</string>
     <string name="tournament_delete_message">Na pewno chcesz usunąć wybrany turniej?</string>
@@ -55,10 +47,19 @@
         <item>Klasa B</item>
         <item>Klasa C</item>
     </string-array>
+    <string-array name="handicaps">
+        <item>Równa gra</item>
+        <item>Bez Komi</item>
+        <item>2 kamienie</item>
+        <item>3 kamienie</item>
+        <item>4 kamienie</item>
+        <item>5 kamieni</item>
+        <item>6 kamieni</item>
+        <item>7 kamieni</item>
+        <item>8 kamieni</item>
+        <item>9 kamieni</item>
+    </string-array>
 
-    <string name="handicap_none">Równa gra</string>
-    <string name="handicap_no_komi">Bez komi</string>
-    <string name="handicap_stones">%1$d</string>
     <string name="filter_name">Nazwisko</string>
     <string name="filter_club">Klub</string>
     <string name="filter_country">Kraj</string>
@@ -76,7 +77,6 @@
     <string name="help_add_tournaments">Utworzono nowy turniej. Możesz przejść do innego turnieju poprzez wybranie go na ekranie listy turniejów.</string>
     <string name="help_filter">Możesz zapisać aktualną konfiguracją filtrów jako domyślną klikając Zapisz filtr</string>
     <string name="help_find_player">Naciśnij przycisk Wybierz aby pobrać ranking dowolnego gracza z Europy.</string>
-    
     <string name="country_AD">Andora</string>
     <string name="country_AG">Antigua i Barbuda</string>
     <string name="country_AR">Argentyna</string>

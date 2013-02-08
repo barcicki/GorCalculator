@@ -11,7 +11,6 @@ import android.widget.ToggleButton;
 import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
-import com.barcicki.gorcalculator.libs.Utils;
 
 public class HandicapDialog extends Dialog {
 	
@@ -42,7 +41,7 @@ public class HandicapDialog extends Dialog {
 //		
 		Resources res = getContext().getResources();
 		for (int i = 0, l = mHandicaps.size(); i < l; i++) {
-			String label = Utils.getHandicapString(res, i);
+			String label = res.getStringArray(R.array.handicaps)[i];
 			mHandicaps.get(i).setText( label );
 			mHandicaps.get(i).setTextOn( label );
 			mHandicaps.get(i).setTextOff( label );

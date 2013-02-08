@@ -25,9 +25,9 @@ public final class Tournament {
 		return getTournament();
 	}
 	
-	public static void update() {
+	public static void update(boolean opponentsChanged) {
 		getTournament().save();
-		notifyObservers();
+		notifyObservers(opponentsChanged);
 	}
 	
 	public static double calculateFinalGor() {
@@ -60,14 +60,15 @@ public final class Tournament {
 		observers.clear();
 	}
 	
-	public static void notifyObservers() {
+	public static void notifyObservers(boolean opponentsChanged) {
 		for (TournamentObserver observer : observers) {
-			observer.update();
+			Log.d("Observer", "notified");
+			observer.update(opponentsChanged);
 		}
 	}
 	
 	public interface TournamentObserver {
-		public void update();
+		public void update(boolean opponentsChanged);
 	}
 	
 	

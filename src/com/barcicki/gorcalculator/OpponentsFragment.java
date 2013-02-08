@@ -72,11 +72,12 @@ public class OpponentsFragment extends CommonFragment {
 	}
 
 	@Override
-	public void update() {
+	public void update(boolean opponentsChanged) {
 		
-		
-		mOpponentsAdapter.clear();
-		mOpponentsAdapter.addAll(Tournament.getTournament().opponents());
+		if (opponentsChanged) {
+			mOpponentsAdapter.clear();
+			mOpponentsAdapter.addAll(Tournament.getTournament().opponents());
+		}
 		
 		updateGorChange();
 	}
@@ -96,7 +97,7 @@ public class OpponentsFragment extends CommonFragment {
 					mWaitingForPlayer.updatePlayer(player);
 					mWaitingForPlayer = null;
 					
-					Tournament.notifyObservers();
+					Tournament.notifyObservers(false);
 
 				} else {
 					Log.e(TAG, "Player empty or no view is waiting");
@@ -184,7 +185,7 @@ public class OpponentsFragment extends CommonFragment {
 						@Override
 						public void run() {
 							Tournament.getTournament().removeOpponent(ov.getOpponent());
-							Tournament.notifyObservers();							
+							Tournament.notifyObservers(false);							
 						}
 					});
 					
@@ -196,22 +197,24 @@ public class OpponentsFragment extends CommonFragment {
 
 				@Override
 				public void onPlayerGorChange(double newGor) {
-					Tournament.notifyObservers();
+					ov.getOpponent().gor = newGor;
+					ov.getOpponent().save();
+					Tournament.notifyObservers(false);
 				}
 
 				@Override
 				public void onResultChange(GameResult result) {
-					Tournament.notifyObservers();
+					Tournament.notifyObservers(false);
 				}
 
 				@Override
 				public void onHandicapChange(int newHandicap) {
-					Tournament.notifyObservers();
+					Tournament.notifyObservers(false);
 				}
 
 				@Override
 				public void onColorChange(GameColor newColor) {
-					Tournament.notifyObservers();
+					Tournament.notifyObservers(false);
 				}
 			});
 

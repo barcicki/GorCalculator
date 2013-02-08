@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.barcicki.gorcalculator.core.Calculator;
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.core.Tournament;
 import com.barcicki.gorcalculator.database.PlayerModel;
@@ -56,8 +57,13 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView.setPlayerListener(new PlayerListener() {
 			@Override
 			public void onPlayerGorChange(double newGor) {
-				Tournament.getTournament().gor = newGor;
-				Tournament.update();
+				Tournament.getTournament().gor = MathUtils.constrain(newGor, Calculator.MIN_GOR, Calculator.MAX_GOR);
+				Tournament.update(false);
+			}
+
+			@Override
+			public double onGorUpdate() {
+				return Tournament.getTournament().gor;
 			}
 		});
 		return rootView;
@@ -75,7 +81,7 @@ public class PlayerFragment extends CommonFragment {
 					
 					Tournament.getTournament().setPlayer(player);
 					Tournament.getTournament().gor = player.gor;
-					Tournament.update();
+					Tournament.update(false);
 					
 				} else {
 					Log.e(TAG, "Player empty");
@@ -91,7 +97,7 @@ public class PlayerFragment extends CommonFragment {
 	}
 	
 	@Override
-	public void update() {
+	public void update(boolean opponentsChanged) {
 		PlayerModel player = Tournament.getTournament().getPlayer();
 		
 		Log.d("Player", player.name + " " + Tournament.getTournament().pin + " " + player.pin);

@@ -18,7 +18,7 @@ public class CommonFragment extends Fragment implements TournamentObserver {
 	@Override
 	public void onResume() {
 		super.onResume();
-		update();
+		update(true);
 	}
 	
 	public Settings getSettings() {
@@ -26,5 +26,5 @@ public class CommonFragment extends Fragment implements TournamentObserver {
 	}
 
 	@Override
-	public void update() {}
+	public void update(boolean opponentsChanged) {}
 }

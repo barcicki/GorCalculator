@@ -22,7 +22,6 @@ import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
 import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.libs.MathUtils;
-import com.barcicki.gorcalculator.libs.Utils;
 import com.barcicki.gorcalculator.views.PlayerView.PlayerListener;
 
 public class OpponentView extends RelativeLayout {
@@ -129,11 +128,17 @@ public class OpponentView extends RelativeLayout {
 			@Override
 			public void onPlayerGorChange(double newGor) {
 				mOpponent.gor = newGor;
+				mOpponent.save();
 
 				if (mOpponentListener != null) {
 					mOpponentListener.onPlayerGorChange(newGor);
 				}
 
+			}
+
+			@Override
+			public double onGorUpdate() {
+				return mOpponent.gor;
 			}
 
 		});
@@ -148,8 +153,7 @@ public class OpponentView extends RelativeLayout {
 				.setText(mOpponent.color.equals(GameColor.BLACK) ? getContext()
 						.getString(R.string.game_color_black) : getContext()
 						.getString(R.string.game_color_white));
-		mHandicapStones.setText(Utils.getHandicapString(getContext()
-				.getResources(), mOpponent.handicap));
+		mHandicapStones.setText(getContext().getResources().getStringArray(R.array.handicaps)[mOpponent.handicap]);
 		mWin.setChecked(mOpponent.result.equals(GameResult.WIN));
 	}
 

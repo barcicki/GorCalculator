@@ -38,13 +38,6 @@
     <string name="dialog_gor">Edit GoR</string>
     <string name="no_results">No results</string>
 
-    <plurals name="game_handicap_stones">
-        <item quantity="one">No Komi</item>
-        <item quantity="few">%d stones</item>
-        <item quantity="many">%d stones</item>
-        <item quantity="zero">Even game</item>
-    </plurals>
-    
     <string name="tournament_opponents_count">%1$d opponents</string>
     <string name="tournament_delete">Delete tournament</string>
     <string name="tournament_delete_message">Are you sure to delete this tournament?</string>
@@ -57,11 +50,20 @@
         <item>Class B</item>
         <item>Class C</item>
     </string-array>
-
-    <string name="handicap_none">Even game</string>
-    <string name="handicap_no_komi">No Komi</string>
-    <string name="handicap_stones">%1$d stones</string>
     
+    <string-array name="handicaps">
+        <item>Even game</item>
+        <item>No Komi</item>
+        <item>2 stones</item>
+        <item>3 stones</item>
+        <item>4 stones</item>
+        <item>5 stones</item>
+        <item>6 stones</item>
+        <item>7 stones</item>
+        <item>8 stones</item>
+        <item>9 stones</item>
+    </string-array>
+
     <string name="filter_name">Name</string>
     <string name="filter_club">Club</string>
     <string name="filter_country">Country</string>

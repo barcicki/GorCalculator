@@ -147,8 +147,8 @@ public class TournamentModel extends DbModel {
 		TournamentModel tournament = new TournamentModel();
 		tournament.created = new Date();
 		tournament.tournamentClass = TournamentClass.CLASS_A;
-		tournament.player = player;
-		tournament.gor = tournament.player.gor;
+		tournament.pin = player.pin;
+		tournament.gor = player.gor;
 		tournament.save();
 		return tournament;
 	}

@@ -115,7 +115,7 @@ public class CalculatorActivity extends FragmentActivity {
 		case R.id.add_tournament:
 			TournamentModel.setActive(TournamentModel.createNewTournament(Tournament.getTournament().getPlayer()));
 			Tournament.refreshTournament();
-			Tournament.notifyObservers();
+			Tournament.notifyObservers(true);
 			
 			mHintDialog.show(Settings.HINT_ADD_TOURNAMENT, getString(R.string.help_add_tournaments));
 			return true;
@@ -134,7 +134,7 @@ public class CalculatorActivity extends FragmentActivity {
 				GameColor.BLACK, OpponentModel.NO_HANDICAP);
 
 		Tournament.getTournament().addOpponent(newOpponent);
-		Tournament.notifyObservers();
+		Tournament.notifyObservers(true);
 
 		mScroll.post(new Runnable() {
 
