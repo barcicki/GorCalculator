@@ -107,8 +107,7 @@ public class CalculatorActivity extends FragmentActivity {
 
 						@Override
 						public void onDownloaded(String result) {
-							// TODO Auto-generated method stub
-
+							// do nothing
 						}
 					});
 			return true;

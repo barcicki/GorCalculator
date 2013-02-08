@@ -77,6 +77,8 @@
     <string name="help_add_tournaments">Utworzono nowy turniej. Możesz przejść do innego turnieju poprzez wybranie go na ekranie listy turniejów.</string>
     <string name="help_filter">Możesz zapisać aktualną konfiguracją filtrów jako domyślną klikając Zapisz filtr</string>
     <string name="help_find_player">Naciśnij przycisk Wybierz aby pobrać ranking dowolnego gracza z Europy.</string>
+    
+    <string name="country_all">Wszystkie</string>
     <string name="country_AD">Andora</string>
     <string name="country_AG">Antigua i Barbuda</string>
     <string name="country_AR">Argentyna</string>

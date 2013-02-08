@@ -84,6 +84,7 @@
     <string name="help_filter">You can save current filter configuration as default by clicking Save filter.</string>
     <string name="help_find_player">Click Find button to get Go Rating of any player from Europe.</string>
     
+    <string name="country_all">Show all</string>
     <string name="country_AD">Andorra</string>
     <string name="country_AG">Antigua e Barbuda</string>
     <string name="country_AR">Argentina</string>

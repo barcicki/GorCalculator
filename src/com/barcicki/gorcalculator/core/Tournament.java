@@ -3,8 +3,6 @@ package com.barcicki.gorcalculator.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.util.Log;
-
 import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
 
@@ -62,7 +60,6 @@ public final class Tournament {
 	
 	public static void notifyObservers(boolean opponentsChanged) {
 		for (TournamentObserver observer : observers) {
-			Log.d("Observer", "notified");
 			observer.update(opponentsChanged);
 		}
 	}

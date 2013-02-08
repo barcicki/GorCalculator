@@ -6,6 +6,7 @@ import java.util.Comparator;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import com.barcicki.gorcalculator.R;
 import com.barcicki.gorcalculator.core.CountriesAdapter.Country;
 
 public class CountriesAdapter extends ArrayAdapter<Country> {
@@ -39,6 +40,8 @@ public class CountriesAdapter extends ArrayAdapter<Country> {
 			}
 			
 		});
+		
+		insert(new Country("", context.getString(R.string.country_all)), 0);
 	}
 
 	public class Country {
@@ -49,13 +52,18 @@ public class CountriesAdapter extends ArrayAdapter<Country> {
 			this.name = name;
 		}
 		public String toString() {
-			return 
-				new StringBuilder()
-					.append(this.name)
-					.append(" (")
-					.append(this.initials)
-					.append(")")
-					.toString();
+			
+			if (initials.equals("")) {
+				return this.name;
+			} else {
+				return 
+					new StringBuilder()
+						.append(this.name)
+						.append(" (")
+						.append(this.initials)
+						.append(")")
+						.toString();
+			}
 		}
 	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
-import com.activeandroid.util.Log;
 import com.barcicki.gorcalculator.core.Go;
 
 @Table(name = "Players")

@@ -100,8 +100,6 @@ public class PlayerFragment extends CommonFragment {
 	public void update(boolean opponentsChanged) {
 		PlayerModel player = Tournament.getTournament().getPlayer();
 		
-		Log.d("Player", player.name + " " + Tournament.getTournament().pin + " " + player.pin);
-		
 		mPlayerView.setPlayer(player);
 		mPlayerView.setShowButtonChange(true);
 		mPlayerView.setShowPlayerDetails(player.pin > 0);

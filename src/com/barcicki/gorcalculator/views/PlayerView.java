@@ -12,9 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.barcicki.gorcalculator.R;
-import com.barcicki.gorcalculator.core.Calculator;
 import com.barcicki.gorcalculator.database.PlayerModel;
-import com.barcicki.gorcalculator.libs.MathUtils;
 
 public class PlayerView extends RelativeLayout {
 	public String TAG = "PlayerView";
@@ -84,9 +82,6 @@ public class PlayerView extends RelativeLayout {
 		mGorDialog.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
-				
-//				mPlayer.gor = MathUtils.constrain(mGorDialog.getResult(), Calculator.MIN_GOR, Calculator.MAX_GOR);
-				// do not save mPlayer!
 				
 				if (mPlayerListener != null) {
 					mPlayerListener.onPlayerGorChange(mGorDialog.getResult());
