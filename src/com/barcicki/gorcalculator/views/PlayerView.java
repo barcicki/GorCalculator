@@ -75,7 +75,7 @@ public class PlayerView extends RelativeLayout {
 		mGorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mGorDialog.show(getGor());
+				mGorDialog.show(getGor(), mPlayer.gor);
 			}
 		});
 		

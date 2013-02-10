@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
 import com.barcicki.gorcalculator.core.PlayersListDownloader;
 import com.barcicki.gorcalculator.core.PlayersListDownloader.PlayersUpdaterListener;
 import com.barcicki.gorcalculator.core.Settings;
@@ -19,6 +20,7 @@ import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
 import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
+import com.barcicki.gorcalculator.views.AboutDialog;
 import com.barcicki.gorcalculator.views.HintDialog;
 
 public class CalculatorActivity extends FragmentActivity {
@@ -43,7 +45,7 @@ public class CalculatorActivity extends FragmentActivity {
 		mSettings = new Settings(this);
 		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
-
+//
 		if (savedInstanceState == null) {
 
 			mPlayerFragment = new PlayerFragment();
@@ -69,7 +71,8 @@ public class CalculatorActivity extends FragmentActivity {
 
 	@Override
 	protected void onResume() {
-		super.onResume();
+
+		ActiveAndroid.beginTransaction();
 		
 		Tournament.clearObservers();
 		
@@ -79,6 +82,11 @@ public class CalculatorActivity extends FragmentActivity {
 		
 		Tournament.refreshTournament();
 		
+		super.onResume();
+		
+		ActiveAndroid.setTransactionSuccessful();
+		ActiveAndroid.endTransaction();
+
 		mHintDialog.show(Settings.HINT_FIND_PLAYER, getString(R.string.help_find_player));
 	}
 
@@ -121,6 +129,9 @@ public class CalculatorActivity extends FragmentActivity {
 		case R.id.manage_tournaments:
 			startActivity(new Intent(this, TournamentsListActivity.class));
 			return true;
+		case R.id.about:
+			new AboutDialog(this).show();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -128,6 +139,8 @@ public class CalculatorActivity extends FragmentActivity {
 
 	public void onAddNewOpponentClicked(View v) {
 
+		ActiveAndroid.beginTransaction();
+		
 		OpponentModel newOpponent = new OpponentModel(
 				PlayerModel.getDefaultPlayer(), GameResult.WIN,
 				GameColor.BLACK, OpponentModel.NO_HANDICAP);
@@ -143,6 +156,9 @@ public class CalculatorActivity extends FragmentActivity {
 			}
 
 		});
+		
+		ActiveAndroid.setTransactionSuccessful();
+		ActiveAndroid.endTransaction();
 		
 		mHintDialog.show(Settings.HINT_DELETE_OPPONENT, getString(R.string.help_delete_opponent));
 	}

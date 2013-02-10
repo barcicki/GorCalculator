@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
 import com.barcicki.gorcalculator.database.DbModel;
 import com.barcicki.gorcalculator.database.TournamentModel;
 import com.barcicki.gorcalculator.views.ConfirmDialog;
@@ -96,6 +97,9 @@ public class TournamentsListActivity extends Activity {
 	}
 	
 	public void getNextResults() {
+		
+		ActiveAndroid.beginTransaction();
+		
 		mTournamentsAdapter.addAll(TournamentModel.getAll(mPage));
 						
 		if (mTournamentsAdapter.getCount() == 0) {
@@ -103,6 +107,9 @@ public class TournamentsListActivity extends Activity {
 		}
 		
 		mTournamentsAdapter.notifyDataSetChanged();
+		
+		ActiveAndroid.setTransactionSuccessful();
+		ActiveAndroid.endTransaction();
 		
 		mPage += 1;
 	}

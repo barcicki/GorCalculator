@@ -29,10 +29,11 @@ public final class Tournament {
 	}
 	
 	public static double calculateFinalGor() {
+		TournamentModel tournament = getTournament();
 		double change = 0;
 		
-		for (OpponentModel opponent : getTournament().opponents()) {
-			change += Calculator.calculate(getTournament().getPlayer(), opponent, getTournament().tournamentClass);
+		for (OpponentModel opponent : tournament.opponents()) {
+			change += Calculator.calculateRatingChange(tournament.gor, opponent.gor, opponent.result, opponent.color, opponent.handicap, tournament.tournamentClass);
 		}
 		
 		if (change < -100) {

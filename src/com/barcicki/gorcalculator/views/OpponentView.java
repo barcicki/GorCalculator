@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.barcicki.gorcalculator.R;
+import com.barcicki.gorcalculator.core.Calculator;
 import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
@@ -37,16 +38,16 @@ public class OpponentView extends RelativeLayout {
 
 	private HandicapDialog mHandicapDialog;
 
-	private final static int ANIMATION_DURATION = 500;
-	private final static int ANIMATION_RETURN_TRIGGER = 10;
+	private final static int ANIMATION_DURATION = 200;
+	private final static int ANIMATION_RETURN_TRIGGER = 70;
 	private final static int ANIMATION_FADE_TRIGGER = 200;
 
 	private int mGestureStartX = 0;
 	private boolean mGestureDestroying = false;
 
 	private boolean mAnimationsEnabled = true;
-	private AnimationSet mFadeAnimation = new AnimationSet(true);
-	private TranslateAnimation mReturnAnimation;
+	private boolean mAnimating = false;
+//	private AnimationSet mFadeAnimation = new AnimationSet(true);
 	private AnimationListener mAnimationListener;
 
 	private OpponentListener mOpponentListener = null;
@@ -75,11 +76,6 @@ public class OpponentView extends RelativeLayout {
 
 		// playerview
 		mPlayerView = (PlayerView) findViewById(R.id.playerView);
-
-		// user experience
-		mFadeAnimation.setDuration(ANIMATION_DURATION);
-		mFadeAnimation.addAnimation(new AlphaAnimation(1.0f, 0.0f));
-		mFadeAnimation.setFillBefore(true);
 
 		attachListeners();
 	}
@@ -127,7 +123,7 @@ public class OpponentView extends RelativeLayout {
 
 			@Override
 			public void onPlayerGorChange(double newGor) {
-				mOpponent.gor = newGor;
+				mOpponent.gor = MathUtils.constrain(newGor, Calculator.MIN_GOR, Calculator.MAX_GOR);
 				mOpponent.save();
 
 				if (mOpponentListener != null) {
@@ -216,32 +212,32 @@ public class OpponentView extends RelativeLayout {
 
 			final int x = (int) event.getRawX();
 			final int diff = x - mGestureStartX;
-
+			
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				mGestureStartX = x;
 				break;
 			case MotionEvent.ACTION_MOVE:
-				if (Math.abs(diff) > ANIMATION_RETURN_TRIGGER) {
-					mReturnAnimation = new TranslateAnimation(diff, 0, 0, 0);
-					mReturnAnimation.setFillEnabled(true);
-					mReturnAnimation.setFillBefore(true);
-					mReturnAnimation.setDuration(ANIMATION_DURATION);
-					startAnimation(mReturnAnimation);
+				if (Math.abs(diff) > ANIMATION_RETURN_TRIGGER || mAnimating) {
+					startAnimation(new ReturnAnimation(diff, 0, 1, Long.MAX_VALUE));
+					mAnimating = true;
 				}
 				break;
 
 			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_CANCEL:
+				mAnimating = false;
+				
 				if (Math.abs(diff) > ANIMATION_FADE_TRIGGER
 						&& !mGestureDestroying) {
-					TranslateAnimation slideAway = new TranslateAnimation(diff,
-							diff * 1.5f, 0, 0);
-					slideAway.setFillEnabled(true);
-					slideAway.setFillBefore(true);
-					mFadeAnimation.addAnimation(slideAway);
-					startAnimation(mFadeAnimation);
+					
+					ReturnAnimation fadeAnimation = new ReturnAnimation(diff, (int) (diff * 1.5), 0, ANIMATION_DURATION);
+					fadeAnimation.setAnimationListener(mAnimationListener);
+					startAnimation(fadeAnimation);
 					mGestureDestroying = true;
+					
+				} else {
+					startAnimation(new ReturnAnimation(diff, 0, 1, ANIMATION_DURATION));
 				}
 				break;
 			}
@@ -270,7 +266,6 @@ public class OpponentView extends RelativeLayout {
 
 	public void setAnimationListener(AnimationListener mAnimationListener) {
 		this.mAnimationListener = mAnimationListener;
-		this.mFadeAnimation.setAnimationListener(mAnimationListener);
 	}
 
 	public void setOpponentListener(OpponentListener listener) {
@@ -285,6 +280,22 @@ public class OpponentView extends RelativeLayout {
 		public void onHandicapChange(int newHandicap);
 
 		public void onColorChange(GameColor newColor);
+	}
+	
+	public static class ReturnAnimation extends AnimationSet {
+		
+		public ReturnAnimation(int start, int end, float endAlpha, long duration) {
+			super(true);
+			
+			addAnimation(new TranslateAnimation(start, end, 0, 0));
+			addAnimation(new AlphaAnimation(1f - (Math.abs(end - start) / (2f * ANIMATION_FADE_TRIGGER)), endAlpha));
+			
+			setFillEnabled(true);
+			setFillBefore(true);
+			setFillAfter(true);
+			setDuration(duration);
+		}
+
 	}
 
 }

@@ -22,6 +22,7 @@ import com.barcicki.gorcalculator.database.OpponentModel;
 import com.barcicki.gorcalculator.database.OpponentModel.GameColor;
 import com.barcicki.gorcalculator.database.OpponentModel.GameResult;
 import com.barcicki.gorcalculator.database.PlayerModel;
+import com.barcicki.gorcalculator.database.TournamentModel;
 import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.views.OpponentView;
 import com.barcicki.gorcalculator.views.OpponentView.OpponentListener;
@@ -58,13 +59,13 @@ public class OpponentsFragment extends CommonFragment {
 	}
 
 	public void updateGorChange() {
-		double gor = Tournament.getTournament().gor, change;
+		TournamentModel tournament = Tournament.getTournament();
+		double  gor = tournament.gor, 
+				change;
 
 		for (OpponentModel op : mOpponentsAdapter) {
 
-			change = Calculator.calculate(
-					Tournament.getTournament().getPlayer(), op,
-					Tournament.getTournament().tournamentClass);
+			change = Calculator.calculateRatingChange(tournament.gor, op.gor, op.result, op.color, op.handicap, tournament.tournamentClass);
 			gor += MathUtils.round1000(change);
 
 			mOpponentsAdapter.getOpponentView(op).updateGorChange(gor, change);

@@ -21,6 +21,7 @@
         android:id="@+id/dialog_gor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_box"
         android:ems="10"
         android:inputType="number"
         android:selectAllOnFocus="true"
@@ -28,4 +29,28 @@
 
     </EditText>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/buttonResetGor"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_box"
+            android:layout_weight="1"
+            android:text="@string/button_reset" />
+
+        <Button
+            android:id="@+id/buttonApply"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_box"
+            android:layout_marginRight="@dimen/margin_box"
+            android:layout_weight="1"
+            android:text="@string/button_apply" />
+
+    </LinearLayout>
 </LinearLayout>

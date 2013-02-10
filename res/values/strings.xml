@@ -14,6 +14,8 @@
     <string name="title_opponents">Opponents</string>
     <string name="title_gor_change">%1$s → %2$s</string>
     <string name="title_filter">Filter</string>
+    
+    <string name="button_reset">Reset rating</string>
     <string name="button_change_player">Change</string>
     <string name="button_add_opponent">Add an Opponent</string>
     <string name="button_add_tournament">Add tournament</string>
@@ -174,5 +176,11 @@
     <string name="country_VE">Venezuela</string>
     <string name="country_VN">Vietnam</string>
     <string name="country_YU">Yugoslavia</string>
+    
+    <string name="dialog_about">About</string>
+    <string name="about_url">file:///android_asset/about.html</string>
+    
+    <string name="version_info">Version: </string>
+    <string name="version">1.0</string>
 
 </resources>

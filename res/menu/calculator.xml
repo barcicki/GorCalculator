@@ -17,7 +17,12 @@
     <item
         android:id="@+id/update_data"
         android:icon="@drawable/ic_refresh"
-        android:showAsAction="withText"
+        android:showAsAction="collapseActionView"
         android:title="@string/button_update"/>
+    
+    <item
+        android:id="@+id/about"
+        android:showAsAction="collapseActionView"
+        android:title="@string/dialog_about"/>
 
 </menu>

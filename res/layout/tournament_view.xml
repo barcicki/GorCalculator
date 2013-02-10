@@ -62,7 +62,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/margin_detail"
         android:paddingLeft="@dimen/margin_box"
-        android:paddingTop="@dimen/margin_box"
         android:text="Tournament Name"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

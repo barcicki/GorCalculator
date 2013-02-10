@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:measureWithLargestChild="false"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:padding="@dimen/margin_box"
+                android:text="@string/dialog_handicap_color"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
+            <ToggleButton
+                android:id="@+id/colorBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="@string/game_color_black"
+                android:textOn="@string/game_color_black" />
+
+            <ToggleButton
+                android:id="@+id/colorWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ToggleButton"
+                android:textOff="@string/game_color_white"
+                android:textOn="@string/game_color_white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:padding="@dimen/margin_box"
+                android:text="@string/dialog_handicap_stones"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alignmentMode="alignBounds"
+                android:columnCount="3" >
+
+                <ToggleButton
+                    android:id="@+id/handicap0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_row="0" />
+
+                <ToggleButton
+                    android:id="@+id/handicap1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_gravity="fill"
+                    android:layout_row="1"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="fill"
+                    android:layout_row="1"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_gravity="fill"
+                    android:layout_row="1"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_gravity="fill"
+                    android:layout_row="2"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="fill"
+                    android:layout_row="2"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_gravity="fill"
+                    android:layout_row="2"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_gravity="fill"
+                    android:layout_row="3"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="fill"
+                    android:layout_row="3"
+                    android:text="Button" />
+
+                <ToggleButton
+                    android:id="@+id/handicap9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_gravity="fill"
+                    android:layout_row="3"
+                    android:text="Button" />
+            </GridLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

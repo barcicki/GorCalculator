@@ -141,4 +141,11 @@ public class Calculator {
 		);
 	}
 
+	public static double calculateRatingChange(double ratingA, double ratingB,
+			GameResult result, GameColor color, int handicap,
+			TournamentClass modifier) {
+		
+		return calculateRatingChange(ratingA, ratingB, result.value, color.equals(GameColor.BLACK) ? handicap : -handicap, modifier.value);
+	}
+
 }

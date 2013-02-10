@@ -14,6 +14,8 @@
     <string name="title_opponents">Przeciwnicy</string>
     <string name="title_gor_change">%1$s → %2$s</string>
     <string name="title_filter">Filtr</string>
+    
+    <string name="button_reset">Resetuj ranking</string>
     <string name="button_change_player">Zmień</string>
     <string name="button_add_opponent">Dodaj przeciwnika</string>
     <string name="button_add_tournament">Dodaj turniej</string>
@@ -167,6 +169,12 @@
     <string name="country_UZ">Uzbekistan</string>
     <string name="country_VE">Wenezuela</string>
     <string name="country_VN">Wietnam</string>
-    <string name="country_YU">Jugosławia</string>
+    <string name="country_YU">Jugosławia</string>
+    
+    <string name="dialog_about">Informacje</string>
+    <string name="about_url">file:///android_asset/about-pl.html</string>
+    
+    <string name="version_info">Wersja: </string>
+    <string name="version">1.0</string>
 
 </resources>
