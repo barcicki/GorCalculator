@@ -123,7 +123,7 @@ public class OpponentView extends RelativeLayout {
 
 			@Override
 			public void onPlayerGorChange(double newGor) {
-				mOpponent.gor = MathUtils.constrain(newGor, Calculator.MIN_GOR, Calculator.MAX_GOR);
+				mOpponent.gor = newGor;
 				mOpponent.save();
 
 				if (mOpponentListener != null) {

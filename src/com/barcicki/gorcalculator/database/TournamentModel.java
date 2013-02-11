@@ -128,9 +128,10 @@ public class TournamentModel extends DbModel {
 	}
 
 	public static void setActive(TournamentModel tournament) {
+		ActiveAndroid.beginTransaction();
+		
 		List<TournamentModel> previous = new Select().from(TournamentModel.class).where("Active = ?", 1).execute();
 		
-		ActiveAndroid.beginTransaction();
 		for (TournamentModel t : previous) {
 			t.active = false;
 			t.save();

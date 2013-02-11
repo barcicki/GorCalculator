@@ -57,7 +57,7 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView.setPlayerListener(new PlayerListener() {
 			@Override
 			public void onPlayerGorChange(double newGor) {
-				Tournament.getTournament().gor = MathUtils.constrain(newGor, Calculator.MIN_GOR, Calculator.MAX_GOR);
+				Tournament.getTournament().gor = newGor;
 				Tournament.update(false);
 			}
 

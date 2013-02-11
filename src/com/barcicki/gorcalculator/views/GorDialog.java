@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.barcicki.gorcalculator.R;
+import com.barcicki.gorcalculator.core.Calculator;
+import com.barcicki.gorcalculator.libs.MathUtils;
 
 public class GorDialog extends Dialog {
 	
@@ -58,7 +60,7 @@ public class GorDialog extends Dialog {
 	}
 	
 	public double getResult() {
-		return mResult;
+		return MathUtils.constrain(mResult, Calculator.MIN_GOR, Calculator.MAX_GOR);
 	}
 	
 	public void show(double gor, double resetGor) {

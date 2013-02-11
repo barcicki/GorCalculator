@@ -23,12 +23,13 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Changelog ##
 
-#### v.1.0 (10.02.2013) RELEASE ####
+#### v.1.0 (12.02.2013) RELEASE ####
 * Released to Play Store
 * Fixed gor calculation in case of custom rating
 * Added option to reset custom rating
 * Slight optimization of startup
 * Added information dialog
+* Limited custom GoR with min and max values
 
 #### v.0.9.12 (8.02.2013) RC2 ####
 * Fixed issue with customizing rating of the opponent

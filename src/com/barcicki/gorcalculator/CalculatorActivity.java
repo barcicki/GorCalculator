@@ -30,7 +30,6 @@ public class CalculatorActivity extends FragmentActivity {
 	OpponentsFragment mOpponentsFragment;
 
 	HintDialog mHintDialog;
-
 	Settings mSettings;
 	ScrollView mScroll;
 
@@ -38,13 +37,12 @@ public class CalculatorActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calculator);
-
+		
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 
-		mHintDialog = new HintDialog(this);
 		mSettings = new Settings(this);
-		
 		mScroll = ((ScrollView) findViewById(R.id.scroller));
+		mHintDialog = new HintDialog(this);
 //
 		if (savedInstanceState == null) {
 
@@ -67,11 +65,12 @@ public class CalculatorActivity extends FragmentActivity {
 					.findFragmentById(R.id.container_opponents);
 
 		}
+		
 	}
 
 	@Override
 	protected void onResume() {
-
+		
 		ActiveAndroid.beginTransaction();
 		
 		Tournament.clearObservers();
