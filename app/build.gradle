@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 16
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        applicationId "com.barcicki.gorcalculator"
+        minSdkVersion 14
+        targetSdkVersion 16
+        versionName "1.1"
+        versionCode 19
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+
+    compile 'com.android.support:support-v4:18.0.0'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.8'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
+}

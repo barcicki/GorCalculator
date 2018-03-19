@@ -23,6 +23,10 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Changelog ##
 
+#### v.1.1 (20.03.2018) RELEASE ####
+* Fixed issue with updating player list on Android 6+
+* Switched to Gradle and many other changes in project's file structure
+
 #### v.1.0 (12.02.2013) RELEASE ####
 * Released to Play Store
 * Fixed gor calculation in case of custom rating

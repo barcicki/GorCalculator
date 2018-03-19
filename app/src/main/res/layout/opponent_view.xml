@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+	<com.barcicki.gorcalculator.views.PlayerView
+	    android:id="@+id/playerView"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	/>
+    
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/playerView" >
+
+        <ToggleButton
+            android:id="@+id/toggleWin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:checked="true"
+            android:text="ToggleButton"
+            android:textOff="@string/game_result_loss"
+            android:textOn="@string/game_result_win" />
+
+        <TextView
+            android:id="@+id/handicapStones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/handicapColor"
+            android:layout_below="@+id/handicapColor"
+            android:text="No of stones"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/handicapColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/buttonHandicap"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/buttonHandicap"
+            android:text="Color"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Button
+            android:id="@+id/buttonHandicap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/button_game_details" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/playerGorChange"
+        style="@style/GorResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relativeLayout2"
+        android:background="@android:color/background_dark"
+        android:gravity="center_horizontal"
+        android:text="@string/gor_change"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
