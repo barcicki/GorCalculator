@@ -181,6 +181,4 @@
     <string name="about_url">file:///android_asset/about.html</string>
 
     <string name="version_info">Version: </string>
-    <string name="version">1.0</string>
-
 </resources>

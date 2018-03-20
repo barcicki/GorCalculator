@@ -2,14 +2,18 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 16
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
-        applicationId "com.barcicki.gorcalculator"
+        applicationId 'com.barcicki.gorcalculator'
         minSdkVersion 14
         targetSdkVersion 16
-        versionName "1.1"
-        versionCode 19
+        versionName '1.1.0'
+        versionCode 20
+    }
+
+    applicationVariants.all { variant ->
+        variant.resValue 'string', 'versionName', variant.versionName
     }
 
     buildTypes {
@@ -24,12 +28,16 @@ android {
             includeAndroidResources = true
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
     repositories {
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
 
     compile 'com.android.support:support-v4:18.0.0'

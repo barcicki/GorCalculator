@@ -59,7 +59,7 @@
                     android:layout_marginLeft="@dimen/padding_title_vertical"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text="@string/version"
+                    android:text="@string/versionName"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
             </LinearLayout>

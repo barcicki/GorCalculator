@@ -175,6 +175,4 @@
     <string name="about_url">file:///android_asset/about-pl.html</string>
 
     <string name="version_info">Wersja: </string>
-    <string name="version">1.0</string>
-
 </resources>
