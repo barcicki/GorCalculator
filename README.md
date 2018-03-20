@@ -23,7 +23,7 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Changelog ##
 
-[Go to changelog](changelog.md)
+[Go to changelog](./changelog.md)
 
 ## ToDo ##
 
