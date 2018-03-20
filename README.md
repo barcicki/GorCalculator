@@ -2,10 +2,10 @@
 
 This is a simple application allowing Go players to calculate how their rating may change during a tournament. It was created to provide a mobile alternative to [GoR calculator on EGD site](http://www.europeangodatabase.eu/EGD/gor_calculator.php).
 
-![ScreenShot](https://www.dropbox.com/s/b1n8wrmed1mycrc/home_screen.png?dl=0)
-![ScreenShot](https://www.dropbox.com/s/6ccnqe0c3jp2rc4/game_details.png?dl=0)
-![ScreenShot](https://www.dropbox.com/s/uuakow4a02g8qve/downloading.png?dl=0)
-![ScreenShot](https://www.dropbox.com/s/y361yf37gny2iv9/player_list.png?dl=0)
+![ScreenShot](https://www.dropbox.com/s/b1n8wrmed1mycrc/home_screen.png?dl=1)
+![ScreenShot](https://www.dropbox.com/s/6ccnqe0c3jp2rc4/game_details.png?dl=1)
+![ScreenShot](https://www.dropbox.com/s/uuakow4a02g8qve/downloading.png?dl=1)
+![ScreenShot](https://www.dropbox.com/s/y361yf37gny2iv9/player_list.png?dl=1)
 
 ## Features ##
 
