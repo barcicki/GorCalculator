@@ -36,6 +36,7 @@ public class TournamentFragment extends CommonFragment implements OnClickListene
 		linkButton((ToggleButton) rootView.findViewById(R.id.tournamentClassA), TournamentClass.CLASS_A);
 		linkButton((ToggleButton) rootView.findViewById(R.id.tournamentClassB), TournamentClass.CLASS_B);
 		linkButton((ToggleButton) rootView.findViewById(R.id.tournamentClassC), TournamentClass.CLASS_C);
+		linkButton((ToggleButton) rootView.findViewById(R.id.tournamentClassD), TournamentClass.CLASS_D);
 		
 		mModifier = (TextView) rootView.findViewById(R.id.tournamentModifier);
 		

@@ -16,61 +16,21 @@ This is a simple application allowing Go players to calculate how their rating m
 
 ## Download & Requirements ##
 
-[GorCalculator v.0.9.12.1](https://www.dropbox.com/s/ncm2ffjh4g9x8e4/GorCalculator_v0.9.12.1.apk?dl=1)
+[Releases](https://github.com/barcicki/GorCalculator/releases)
 
 *	Android 4.0+
 * 	Internet Connection for downloading / updating data from EGD 
 
 ## Changelog ##
 
-#### v.1.1 (20.03.2018) RELEASE ####
-* Fixed issue with updating player list on Android 6+
-* Switched to Gradle and many other changes in project's file structure
-
-#### v.1.0 (12.02.2013) RELEASE ####
-* Released to Play Store
-* Fixed gor calculation in case of custom rating
-* Added option to reset custom rating
-* Slight optimization of startup
-* Added information dialog
-* Limited custom GoR with min and max values
-
-#### v.0.9.12 (8.02.2013) RC2 ####
-* Fixed issue with customizing rating of the opponent
-* New tournament clones current player but no opponents
-* Improved displaying localized number of handicaps
-* *(0.9.12.1)* added show all countries option
-
-#### v.0.9.11 (7.02.2013) RC2 ####
-* Fixed issue with updating database
-* Improved GUI on selection items
-* Needs to reinstall (loses all data)
-
-#### v.0.9.10 (4.02.2013) RC ####
-* Fixed issue with deleting non-last opponent
-* Added polish translation
-
-[Previous changes](https://github.com/barcicki/GorCalculator/wiki/Changelog)
+[Go to changelog](changelog.md)
 
 ## ToDo ##
 
-#### More complex integration with EGD ####
-* Fetching players' photos
-* Allowing partial downloads, such as players from selected countries
-* Allowing partial updates
-	
-#### More complex customization ####
-* **DONE** Allowing to store few profile with different players for whom calculations are made.
-* Store multiple custom filters
-* **DONE** Improve filters
-	
-#### Usability improvements ####
-* Animations
-* Additional features like recently added players etc.
-	
-#### Sharing ####
-* Get social ;)
-	
+[] Fetching players' photos from EGD
+[] Multiple custom filters
+[] Player list sorting
+
 ## Usage ##
 
 1. Run the app

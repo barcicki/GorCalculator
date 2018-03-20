@@ -22,10 +22,20 @@
         android:background="@android:color/background_light" >
 
         <ToggleButton
-            android:id="@+id/tournamentClassC"
+            android:id="@+id/tournamentClassD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:hint="x0.25"
+            android:textOff="D"
+            android:textOn="D" />
+
+        <ToggleButton
+            android:id="@+id/tournamentClassC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tournamentClassD"
             android:layout_alignParentTop="true"
             android:checked="true"
             android:hint="x0.5"

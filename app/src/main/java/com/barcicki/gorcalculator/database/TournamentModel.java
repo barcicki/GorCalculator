@@ -17,7 +17,8 @@ public class TournamentModel extends DbModel {
 	public enum TournamentClass {
 		CLASS_A	 	(1f),
 		CLASS_B 	(0.75f),
-		CLASS_C		(0.5f);
+		CLASS_C		(0.5f),
+		CLASS_D		(0.25f);
 		
 		public final float value;
 		private TournamentClass(float value) {
