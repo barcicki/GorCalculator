@@ -67,7 +67,7 @@ public class TournamentModel extends DbModel {
 	public List<OpponentModel> opponents() {
 		return getMany(OpponentModel.class, "Tournament");
 	}
-	
+
 	public static TournamentModel getTournament(long id) {
 		return new Select()
 			.from(TournamentModel.class)
@@ -125,6 +125,13 @@ public class TournamentModel extends DbModel {
 	public void removeOpponent(OpponentModel opponent) {
 		new Delete().from(OpponentModel.class)
 			.where("Id = ?", opponent.getId())
+			.execute();
+	}
+
+	public void removeOpponents() {
+		new Delete()
+			.from(OpponentModel.class)
+			.where("Tournament = ?", this.getId())
 			.execute();
 	}
 

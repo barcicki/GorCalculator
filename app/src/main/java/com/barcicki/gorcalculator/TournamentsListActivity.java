@@ -191,7 +191,14 @@ public class TournamentsListActivity extends Activity {
 					mDeleteDialog.show(getString(R.string.tournament_delete_message), new ConfirmDialogListener() {
 						@Override
 						public void onConfirm() {
-							TournamentModel.delete(TournamentModel.class, tournament.getId());
+							ActiveAndroid.beginTransaction();
+
+							tournament.removeOpponents();
+							tournament.delete();
+
+							ActiveAndroid.setTransactionSuccessful();
+							ActiveAndroid.endTransaction();;
+
 							resetResults();
 						}
 						
