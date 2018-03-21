@@ -227,11 +227,8 @@ public class PlayerListActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				mFilters.putString(key, mDialog.getResult());
-				mPage = DbModel.FIRST_PAGE;
-				mPlayersAdapter.clear();
-				
-				scrollToTop();
-				getNextResults();
+
+				resetList();
 				
 				mHintDialog.show(Settings.HINT_FILTER, getString(R.string.help_filter));
 			}
@@ -254,11 +251,7 @@ public class PlayerListActivity extends Activity {
 				// TODO Auto-generated method stub
 				mFilters.putString(Settings.FILTER_COUNTRY, mCountryDialog.getCountry());
 				
-				mPage = DbModel.FIRST_PAGE;
-				mPlayersAdapter.clear();
-				
-				scrollToTop();
-				getNextResults();
+				resetList();
 				
 				mHintDialog.show(Settings.HINT_FILTER, getString(R.string.help_filter));	
 			}
@@ -273,16 +266,20 @@ public class PlayerListActivity extends Activity {
 				mFilters.putInt(Settings.FILTER_GRADE_MIN, mGradeDialog.getGradeMin());
 				mFilters.putInt(Settings.FILTER_GRADE_MAX, mGradeDialog.getGradeMax());
 				
-				mPage = DbModel.FIRST_PAGE;
-				mPlayersAdapter.clear();
-				
-				scrollToTop();
-				getNextResults();
+				resetList();
 				
 				mHintDialog.show(Settings.HINT_FILTER, getString(R.string.help_filter));
 			}
 		});
 		mGradeDialog.show(mFilters.getInt(Settings.FILTER_GRADE_MIN), mFilters.getInt(Settings.FILTER_GRADE_MAX));
+	}
+
+	public void resetList() {
+		mPage = DbModel.FIRST_PAGE;
+		mPlayersAdapter.clear();
+
+		scrollToTop();
+		getNextResults();
 	}
 	
 	@Override
@@ -311,6 +308,7 @@ public class PlayerListActivity extends Activity {
 
 							@Override
 							public void onSaved(String total) {
+								resetList();
 								Toast.makeText(
 									PlayerListActivity.this,
 									getString(R.string.update_completed),
