@@ -1,3 +1,7 @@
+#### v.1.1.1 (22.03.2018) ####
+* Fixed problem with no effect when selecting player just after redownload
+* Fixed crash on deleting tournament with existing set of opponents
+
 #### v.1.1 (20.03.2018) RELEASE ####
 * Fixed issue with updating player list on Android 6+
 * Added class D tournament support
