@@ -20,8 +20,7 @@ import com.barcicki.gorcalculator.R;
 
 public class PlayersListDownloader extends AsyncTask<String, Integer, String>{
 
-	public final static String EGD_EUROPE_ZIP_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/alleuro_lp.zip";
-	public final static String EGD_WORLD_ZIP_URL = "http://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/allworld_lp.zip";
+	public final static String EGD_WORLD_ZIP_URL = "https://www.europeangodatabase.eu/EGD/EGD_2_0/downloads/allworld_lp.zip";
 	
 	public interface PlayersUpdaterListener {
 		public void onSaved(String total);
