@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
     buildToolsVersion '30.0.2'
 
     defaultConfig {
         applicationId 'com.barcicki.gorcalculator'
         minSdkVersion 14
-        targetSdkVersion 28
-        versionName '1.1.1'
-        versionCode 21
+        targetSdkVersion 31
+        versionName '1.2.0'
+        versionCode 22
     }
 
     applicationVariants.all { variant ->
