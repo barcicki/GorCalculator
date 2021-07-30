@@ -1,3 +1,7 @@
+#### v.1.2.0 (31.07.2021) ####
+* Switched to new rating algorithm
+* Fixed crash on downloading list of players on newer Android devices
+
 #### v.1.1.1 (22.03.2018) ####
 * Fixed problem with no effect when selecting player just after redownload
 * Fixed crash on deleting tournament with existing set of opponents

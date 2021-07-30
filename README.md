@@ -1,6 +1,6 @@
 # GoR Calculator #
 
-This is a simple application allowing Go players to calculate how their rating may change during a tournament. It was created to provide a mobile alternative to [GoR calculator on EGD site](http://www.europeangodatabase.eu/EGD/gor_calculator.php).
+This is a simple application allowing Go players to calculate how their rating may change during a tournament. It was created to provide a mobile alternative to [GoR calculator on EGD site](https://www.europeangodatabase.eu/EGD/gor_calculator.php).
 
 ![ScreenShot](https://www.dropbox.com/s/b1n8wrmed1mycrc/home_screen.png?raw=1)
 ![ScreenShot](https://www.dropbox.com/s/6ccnqe0c3jp2rc4/game_details.png?raw=1)
@@ -37,11 +37,11 @@ This is a simple application allowing Go players to calculate how their rating m
 
 2. Find yourself in the database of EGD players. It needs to download the list for the first time (~800 KB of data). You can change / set your GoR rating by clicking the button 
 
-3. Select tournament class ([reference](http://www.europeangodatabase.eu/EGD/EGF_rating_system.php#CLASS))
+3. Select tournament class ([reference](https://www.europeangodatabase.eu/EGD/EGF_rating_system.php#CLASS))
 
 4. Add opponents.
 
-	For each opponent specify his GoR rating and game result. You can get GoR of yout opponents from EGD by clicking *Find* button. If the game involved handicap, click *Details* to provide number of handicaps and color
+	For each opponent specify his GoR rating and game result. You can get GoR of your opponents from EGD by clicking *Find* button. If the game involved handicap, click *Details* to provide number of handicaps and color
 		
 5. After each modification, new rating is calculated. You can see the total change of your rating in the top of screen and the contribution of each game below the opponents' data.
 
@@ -54,4 +54,4 @@ This is a simple application allowing Go players to calculate how their rating m
 	
 ## Licence ##
 	
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.pl"><img alt="Licencja Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.pl"><img alt="Licencja Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
