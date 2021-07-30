@@ -10,47 +10,11 @@ import com.barcicki.gorcalculator.database.PlayerModel;
 import com.barcicki.gorcalculator.database.TournamentModel.TournamentClass;
 import com.barcicki.gorcalculator.libs.MathUtils;
 
+// https://www.europeangodatabase.eu/EGD/EGF_rating_system.php
 public class Calculator {
-
-	public static double EPSILON = 0.016;
-
-	public static Map<Double, Integer> CON_MAP = new HashMap<Double, Integer>();
-
-	public static double MAX_GOR = 3000;
-	public static double MAX_RANK_GOR = 2700;
-	public static double MIN_GOR = 100;
-
-	private static double RANK_STEP = 100;
-
-	static {
-		CON_MAP.put(100.0, 116);
-		CON_MAP.put(200.0, 110);
-		CON_MAP.put(300.0, 105);
-		CON_MAP.put(400.0, 100);
-		CON_MAP.put(500.0, 95);
-		CON_MAP.put(600.0, 90);
-		CON_MAP.put(700.0, 85);
-		CON_MAP.put(800.0, 80);
-		CON_MAP.put(900.0, 75);
-		CON_MAP.put(1000.0, 70);
-		CON_MAP.put(1100.0, 65);
-		CON_MAP.put(1200.0, 60);
-		CON_MAP.put(1300.0, 55);
-		CON_MAP.put(1400.0, 51);
-		CON_MAP.put(1500.0, 47);
-		CON_MAP.put(1600.0, 43);
-		CON_MAP.put(1700.0, 39);
-		CON_MAP.put(1800.0, 35);
-		CON_MAP.put(1900.0, 31);
-		CON_MAP.put(2000.0, 27);
-		CON_MAP.put(2100.0, 24);
-		CON_MAP.put(2200.0, 21);
-		CON_MAP.put(2300.0, 18);
-		CON_MAP.put(2400.0, 15);
-		CON_MAP.put(2500.0, 13);
-		CON_MAP.put(2600.0, 11);
-		CON_MAP.put(2700.0, 10);
-	}
+	public static double MAX_GOR = 3300; // way above 9p
+	public static double MIN_GOR = -900; // 30 kyu
+	public static double BONUS_GOR = 2300; // 3 dan, arbitrary
 
 	private static double ratingBase(double rating) {
 		return (float) Math.floor(rating / 100.0) * 100f;
@@ -60,61 +24,44 @@ public class Calculator {
 		return (rating - ratingBase(rating)) / 100;
 	}
 
-	static public double calculateRatingChange(double ratingA, double ratingB,
-			double result, double handicap, double modifier) {
-		return (formulaCon(ratingA) * (result - formulaSe(ratingA, ratingB,
-				handicap))) * modifier;
+	static public double calculateRatingChange(
+		double ratingA,
+		double ratingB,
+		double result,
+		double handicap,
+		double modifier
+	) {
+		double con = formulaCon(ratingA);
+		double bonus = formulaBonus(ratingA);
+		double se = formulaSe(ratingA, ratingB, handicap);
+
+		// since 04.2021
+		return ((con * (result - se)) + bonus) * modifier;
 	}
 
-	static public double formulaSe(double ratingA, double ratingB,
-			double handicap) {
-		double formulaA;
+	static public double formulaSe(double ratingA, double ratingB, double handicap) {
 
+		// apply handicap on ratings - not described on official page
 		if (handicap > 0) {
-			ratingA += 100 * (handicap - 0.5);
-			formulaA = formulaA(ratingA);
-
-		} else if (handicap < 0) {
+			ratingA += (100 * (handicap - 0.5));
+		} else if (handicap < 0){
 			ratingB += 100 * (-handicap - 0.5);
-			formulaA = formulaA(ratingB);
-
-		} else {
-			formulaA = formulaA(ratingA, ratingB);
 		}
 
-		double diff = ratingB - ratingA;
-		return Math.max(1 / ((float) Math.exp(diff / formulaA) + 1) - EPSILON
-				/ 2, 0);
+		return 1 / (1 + Math.exp(formulaBeta(ratingB) - formulaBeta(ratingA)));
 	}
 
-	static public double formulaA(double ratingA, double ratingB) {
-		double aA = formulaA(ratingA), aB = formulaA(ratingB), result = Math
-				.max(aA, aB);
-
-		return result;
-	}
-
-	static public double formulaA(double rating) {
-		return MathUtils.constrain(-0.05 * rating + 205, 70, 200);
+	static public double formulaBeta(double rating) {
+		// apply constrain to avoid NaN when unreal handicap is used (e.g. 9p plays with 9p on 9 stones of handicap)
+		return -7 * Math.log(MAX_GOR - MathUtils.constrain(rating, MIN_GOR, MAX_GOR));
 	}
 
 	static public double formulaCon(double rating) {
-		double con;
+		return Math.pow((MAX_GOR - rating) / 200, 1.6);
+	}
 
-		if (rating <= MIN_GOR) {
-			con = 116;
-		} else if (rating >= MAX_RANK_GOR) {
-			con = 10;
-		} else {
-
-			double base = ratingBase(rating), baseCon = CON_MAP.get(base), nextCon = CON_MAP
-					.get(Math.min(base + RANK_STEP, MAX_RANK_GOR));
-
-			con = baseCon + (nextCon - baseCon) * ratingProgress(rating);
-
-		}
-
-		return con;
+	static public double formulaBonus(double rating) {
+		return Math.log(1 + Math.exp((BONUS_GOR - rating) / 80)) / 5;
 	}
 
 	public static double calculate(PlayerModel player, OpponentModel opponent,
