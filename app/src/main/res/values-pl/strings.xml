@@ -26,7 +26,6 @@
     <string name="button_apply">Zastosuj</string>
     <string name="button_delete">Usuń</string>
     <string name="tournament_class">Klasa</string>
-    <string name="gor_change">%1$s (%2$s)</string>
     <string name="hint_player_gor">Ranking</string>
     <string name="game_result_win">Wygrana</string>
     <string name="game_result_loss">Przegrana</string>

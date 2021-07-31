@@ -27,7 +27,7 @@
     <string name="button_apply">Apply</string>
     <string name="button_delete">Delete</string>
     <string name="tournament_class">Class</string>
-    <string name="gor_change">%2$s</string>
+    <string name="gor_change" translatable="false">%2$s</string>
     <string name="hint_player_gor">Go Rating</string>
     
     <string name="game_result_win">Win</string>
