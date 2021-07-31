@@ -12,7 +12,6 @@
     <string name="title_country">Wybierz kraj</string>
     <string name="title_tournament">Klasa turnieju</string>
     <string name="title_opponents">Przeciwnicy</string>
-    <string name="title_gor_change">%1$s → %2$s</string>
     <string name="title_filter">Filtr</string>
 
     <string name="button_reset">Resetuj ranking</string>

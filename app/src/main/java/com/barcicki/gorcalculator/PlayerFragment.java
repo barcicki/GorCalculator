@@ -10,11 +10,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.barcicki.gorcalculator.core.Calculator;
 import com.barcicki.gorcalculator.core.CommonFragment;
 import com.barcicki.gorcalculator.core.Tournament;
 import com.barcicki.gorcalculator.database.PlayerModel;
-import com.barcicki.gorcalculator.libs.MathUtils;
 import com.barcicki.gorcalculator.views.PlayerView;
 import com.barcicki.gorcalculator.views.PlayerView.PlayerListener;
 
@@ -104,10 +102,12 @@ public class PlayerFragment extends CommonFragment {
 		mPlayerView.setShowButtonChange(true);
 		mPlayerView.setShowPlayerDetails(player.pin > 0);
 		
-		double 	previousGor = Tournament.getTournament().gor,
-				newGor = Tournament.calculateFinalGor();
+		double previousGor = Tournament.getTournament().gor;
+		double newGor = Tournament.calculateFinalGor();
+		int color = newGor >= previousGor ? android.R.color.holo_green_dark : android.R.color.holo_red_dark;
 		
-		mPlayerGorChange.setText( getString(R.string.title_gor_change, previousGor, MathUtils.round1000(newGor)));
+		mPlayerGorChange.setText(getString(R.string.title_gor_change, previousGor, newGor));
+		mPlayerGorChange.setBackgroundColor(getResources().getColor(color));
 	}
 	
 }

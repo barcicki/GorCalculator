@@ -12,7 +12,7 @@
     <string name="title_country">Select country</string>
     <string name="title_tournament">Tournament class</string>
     <string name="title_opponents">Opponents</string>
-    <string name="title_gor_change">%1$s → %2$s</string>
+    <string name="title_gor_change" translatable="false">%1$.0f → %2$.3f</string>
     <string name="title_filter">Filter</string>
 
     <string name="button_reset">Reset rating</string>
@@ -27,7 +27,7 @@
     <string name="button_apply">Apply</string>
     <string name="button_delete">Delete</string>
     <string name="tournament_class">Class</string>
-    <string name="gor_change">%1$s (%2$s)</string>
+    <string name="gor_change">%2$s</string>
     <string name="hint_player_gor">Go Rating</string>
     
     <string name="game_result_win">Win</string>

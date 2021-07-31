@@ -7,15 +7,15 @@
 
     <TextView
         android:id="@+id/TextView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@android:color/holo_green_dark"
-        android:paddingBottom="@dimen/padding_title_vertical"
         android:paddingLeft="@dimen/padding_title"
-        android:paddingRight="@dimen/padding_title"
         android:paddingTop="@dimen/padding_title_vertical"
+        android:paddingRight="@dimen/padding_title"
+        android:paddingBottom="@dimen/padding_title_vertical"
         android:text="@string/title_player"
         android:textAppearance="?android:attr/textAppearanceMediumInverse" />
 
@@ -23,30 +23,26 @@
         android:id="@+id/player_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/TextView1"
-        android:layout_margin="@dimen/margin_box"
         android:background="@android:color/background_light"
         android:inAnimation="@android:anim/fade_in"
         android:measureAllChildren="false"
         android:outAnimation="@android:anim/fade_out" >
 
 	</com.barcicki.gorcalculator.views.PlayerView>
-        
+
 
     <TextView
         android:id="@+id/playerGorChangePreview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/TextView1"
+        android:layout_below="@+id/player_details"
         android:background="@android:color/holo_green_dark"
-        android:gravity="right"
-        android:paddingBottom="@dimen/padding_title_vertical"
+        android:gravity="center_horizontal"
         android:paddingLeft="@dimen/padding_title"
-        android:paddingRight="@dimen/padding_title"
         android:paddingTop="@dimen/padding_title_vertical"
+        android:paddingRight="@dimen/padding_title"
+        android:paddingBottom="@dimen/padding_title_vertical"
         android:text="@string/title_gor_change"
         android:textAppearance="?android:attr/textAppearanceMediumInverse" />
 
