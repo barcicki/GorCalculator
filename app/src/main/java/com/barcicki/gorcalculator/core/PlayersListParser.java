@@ -21,7 +21,7 @@ public class PlayersListParser extends AsyncTask<String, Integer, String> {
 	Activity mActivity; 
 	ProgressDialog mProgressDialog;
 	Pattern mPattern = Pattern
-			.compile("([0-9]{8}) +([a-zA-Z,`._ -]+) +([A-Z]+) +([-a-zA-Z=?0-9]{1,4}) +([0-9]{1,2}k|[0-9]d|[0-9]p) +(--|[0-9]{1,2}k|[0-9]d|[0-9]p) +([0-9]{3,4})");
+			.compile("(\\d{8}) +([a-zA-Z,`._ \\-)(]+) +([A-Z]+) +([-a-zA-Z=?0-9]{1,4}) +(\\d{1,2}k|\\dd|\\dp) +(--|\\d{1,2}k|\\dd|\\dp) +(-?\\d+)");
 	Integer mTotal;
 	PlayersUpdaterListener mListener;
 
