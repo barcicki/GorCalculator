@@ -203,7 +203,7 @@ public class PlayerListActivity extends Activity {
 				int min = mFilters.getInt(Settings.FILTER_GRADE_MIN),
 					max = mFilters.getInt(Settings.FILTER_GRADE_MAX);
 				
-				if (min > 0 || max < Go.STRENGTHS.size() - 1) {
+				if (min > Go.LOWEST_GRADE || max < Go.HIGHEST_GRADE) {
 					label = Go.STRENGTHS.get(min) + " - " + Go.STRENGTHS.get(max);	
 				} else {
 					label = mFiltersLabels.get(Settings.FILTER_GRADE); 

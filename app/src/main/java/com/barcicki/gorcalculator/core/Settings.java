@@ -40,9 +40,8 @@ public class Settings {
 
 		filters.putString(FILTER_NAME, mPrefs.getString(FILTER_NAME, ""));
 		filters.putString(FILTER_CLUB, mPrefs.getString(FILTER_CLUB, ""));
-		filters.putInt(FILTER_GRADE_MIN, mPrefs.getInt(FILTER_GRADE_MIN, 0));
-		filters.putInt(FILTER_GRADE_MAX,
-				mPrefs.getInt(FILTER_GRADE_MAX, Go.STRENGTHS.size() - 1));
+		filters.putInt(FILTER_GRADE_MIN, mPrefs.getInt(FILTER_GRADE_MIN, Go.LOWEST_GRADE));
+		filters.putInt(FILTER_GRADE_MAX, mPrefs.getInt(FILTER_GRADE_MAX, Go.HIGHEST_GRADE));
 		filters.putString(FILTER_COUNTRY, mPrefs.getString(FILTER_COUNTRY, ""));
 
 		return filters;

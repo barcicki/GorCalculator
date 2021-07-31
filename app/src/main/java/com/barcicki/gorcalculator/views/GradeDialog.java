@@ -31,7 +31,7 @@ public class GradeDialog extends Dialog {
 		mGradeMinLabel = (TextView) findViewById(R.id.gradeMin);
 		mGradeMaxLabel = (TextView) findViewById(R.id.gradeMax);
 		
-		mSeekBar = new RangeSeekBar<Integer>(0, Go.STRENGTHS.size() - 1, context);
+		mSeekBar = new RangeSeekBar<Integer>(Go.LOWEST_GRADE, Go.HIGHEST_GRADE, context);
 		mSeekBar.setOnRangeSeekBarChangeListener(new OnRangeSeekBarChangeListener<Integer>() {
 
 			@Override
