@@ -35,11 +35,7 @@ public final class Tournament {
 		for (OpponentModel opponent : tournament.opponents()) {
 			change += Calculator.calculateRatingChange(tournament.gor, opponent.gor, opponent.result, opponent.color, opponent.handicap, tournament.tournamentClass);
 		}
-		
-		if (change < -100) {
-			change = -100;
-		}
-		
+
 		return Math.round((getTournament().gor + change) * 1000) / 1000f;
 	}
 	
