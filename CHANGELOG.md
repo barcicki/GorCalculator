@@ -3,6 +3,7 @@
 * Added support for 30 kyu rating
 * Slightly reorganized the way how rating change is displayed
 * Fixed crash on downloading list of players on newer Android devices
+* Fixed crash on opening tournament list which has at least one tournament of class D
 
 #### v.1.1.1 (22.03.2018) ####
 * Fixed problem with no effect when selecting player just after redownload

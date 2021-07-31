@@ -51,6 +51,7 @@
         <item>Class A</item>
         <item>Class B</item>
         <item>Class C</item>
+        <item>Class D</item>
     </string-array>
     
     <string-array name="handicaps">

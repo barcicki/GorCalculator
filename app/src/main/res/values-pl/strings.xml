@@ -47,6 +47,7 @@
         <item>Klasa A</item>
         <item>Klasa B</item>
         <item>Klasa C</item>
+        <item>Klasa D</item>
     </string-array>
     <string-array name="handicaps">
         <item>Równa gra</item>
